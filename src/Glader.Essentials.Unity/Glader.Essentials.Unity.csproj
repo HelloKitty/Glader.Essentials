@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Common.Logging" Version="3.4.1" />
+    <PackageReference Include="SceneJect.Metadata" Version="3.0.31" />
     <PackageReference Include="Unitysync.Async" Version="1.0.15" />
   </ItemGroup>
 
