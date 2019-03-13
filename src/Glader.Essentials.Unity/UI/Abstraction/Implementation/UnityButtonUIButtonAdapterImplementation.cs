@@ -57,7 +57,7 @@ namespace Glader.Essentials
 			//This will call the async Method, get the task and create a coroutine that awaits it (for exception handling purposes)
 
 			//We can't use the Button MonoBehaviour because it might be deactivated, we have to use a global behaviour
-			UnityExtended.UnityUIAsyncContinuationBehaviour.StartCoroutine(AsyncCallbackHandler(action()));
+			UnityAsyncHelper.UnityUIAsyncContinuationBehaviour.StartCoroutine(AsyncCallbackHandler(action()));
 		}
 	}
 }
