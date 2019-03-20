@@ -4,6 +4,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Glader.Essentials.Common</AssemblyName>
     <RootNamespace>Glader.Essentials</RootNamespace>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.2" />
+    <PackageReference Include="Common.Logging" Version="3.4.1" />
+  </ItemGroup>
 
 </Project>

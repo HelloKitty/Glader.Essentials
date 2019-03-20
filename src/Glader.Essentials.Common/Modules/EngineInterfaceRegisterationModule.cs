@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Text;
 using Autofac;
 using Autofac.Features.AttributeFilters;
-using UnityEngine;
 using Module = Autofac.Module;
 
 namespace Glader.Essentials
@@ -23,7 +22,7 @@ namespace Glader.Essentials
 		private Assembly AssemblyToParse { get; }
 
 		/// <inheritdoc />
-		public EngineInterfaceRegisterationModule(int sceneType, [JetBrains.Annotations.NotNull] Assembly assemblyToParse)
+		public EngineInterfaceRegisterationModule(int sceneType, [NotNull] Assembly assemblyToParse)
 		{
 			SceneType = sceneType;
 			AssemblyToParse = assemblyToParse ?? throw new ArgumentNullException(nameof(assemblyToParse));

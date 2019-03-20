@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Common.Logging;
-using JetBrains.Annotations;
 
 namespace Glader.Essentials
 {

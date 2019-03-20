@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using Autofac;
-using UnityEngine;
 using Module = Autofac.Module;
 
 namespace Glader.Essentials
@@ -34,7 +34,7 @@ namespace Glader.Essentials
 		private Assembly AssemblyForHandlerTypes { get; }
 
 		/// <inheritdoc />
-		public BaseHandlerRegisterationModule(int sceneType, [JetBrains.Annotations.NotNull] Assembly assemblyForHandlerTypes, params Type[] additionalTypesToRegisterHandlersAs)
+		public BaseHandlerRegisterationModule(int sceneType, [NotNull] Assembly assemblyForHandlerTypes, params Type[] additionalTypesToRegisterHandlersAs)
 		{
 			if(additionalTypesToRegisterHandlersAs == null)
 				AdditionalTypesToRegisterHandlersAs = new Type[0];
@@ -63,8 +63,6 @@ namespace Glader.Essentials
 		{
 			IEnumerable<Type> handlerTypes = LoadHandlerTypes().ToArray();
 
-			StringBuilder handlerResultString = new StringBuilder(200);
-
 			//Registers each type.
 			foreach(Type handlerType in handlerTypes)
 			{
@@ -81,8 +79,6 @@ namespace Glader.Essentials
 				if(!isForSceneType)
 					continue;
 
-				handlerResultString.AppendLine($"Register Handler: {handlerType.Name}");
-
 				var handlerRegisterationBuilder = builder.RegisterType(handlerType)
 					.AsSelf()
 					.As<THandlerType>();
@@ -97,19 +93,13 @@ namespace Glader.Essentials
 				//Now we need to register it as the additional specified types
 				foreach(var additionalServiceTypeAttri in handlerType.GetCustomAttributes<AdditionalRegisterationAsAttribute>(true))
 				{
-					handlerResultString.AppendLine($"\t As Also: Register Handler: {additionalServiceTypeAttri.ServiceType}");
-
 					handlerRegisterationBuilder = handlerRegisterationBuilder
 						.As(additionalServiceTypeAttri.ServiceType);
 				}
 
 				//Only ever want one handler, otherwise... things get werid with AdditionalRegisterationAsAttributes.
 				handlerRegisterationBuilder = handlerRegisterationBuilder.SingleInstance();
-
-				handlerResultString.AppendLine("\n\n");
 			}
-
-			Debug.Log(handlerResultString.ToString());
 		}
 
 		private IReadOnlyCollection<Type> LoadHandlerTypes()
