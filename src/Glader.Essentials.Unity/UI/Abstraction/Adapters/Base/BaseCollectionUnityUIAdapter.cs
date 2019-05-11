@@ -14,9 +14,7 @@ namespace Glader.Essentials
 	/// </summary>
 	public abstract class BaseCollectionUnityUIAdapter<TAdaptedToType> : BaseUnityUI<IReadOnlyCollection<TAdaptedToType>>, IReadOnlyCollection<TAdaptedToType>
 	{
-		[SerializeField]
-		[Tooltip("Order matters. This is the collection of elements to be exposed.")]
-		private TAdaptedToType[] Elements;
+		protected abstract TAdaptedToType[] Elements { get; set; }
 
 		public void ValidateComponent()
 		{
