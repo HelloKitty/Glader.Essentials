@@ -9,7 +9,7 @@ using Unitysync.Async;
 
 namespace Glader.Essentials
 {
-	public abstract class BaseUnityUI<TAdaptedToType> : MonoBehaviour, IUIAdapterRegisterable
+	public abstract class BaseUnityUI : MonoBehaviour, IUIAdapterRegisterable
 	{
 		[Tooltip("Used to determine wiring for UI dependencies.")]
 		[SerializeField]
@@ -20,8 +20,13 @@ namespace Glader.Essentials
 		/// </summary>
 		public int RegisterationKey => _RegisterationKey;
 
+		public abstract Type UIServiceType { get; }
+	}
+
+	public abstract class BaseUnityUI<TAdaptedToType> : BaseUnityUI
+	{
 		/// <inheritdoc />
-		public Type UISerivdeType => typeof(TAdaptedToType);
+		public override Type UIServiceType => typeof(TAdaptedToType);
 
 		//TODO: Eventually we need to refactor this away.
 		/// <summary>
