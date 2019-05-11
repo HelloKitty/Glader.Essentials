@@ -12,6 +12,6 @@ namespace Glader.Essentials
 		/// <summary>
 		/// The actual type to register this UI adapter as.
 		/// </summary>
-		Type UISerivdeType { get; }
+		Type UIServiceType { get; }
 	}
 }

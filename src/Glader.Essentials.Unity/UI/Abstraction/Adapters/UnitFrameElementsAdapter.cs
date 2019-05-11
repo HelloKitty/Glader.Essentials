@@ -17,7 +17,7 @@ namespace Glader.Essentials
 		public int RegisterationKey => _RegisterationKey;
 
 		/// <inheritdoc />
-		public Type UISerivdeType => typeof(IUIUnitFrame);
+		public Type UIServiceType => typeof(IUIUnitFrame);
 
 		/// <inheritdoc />
 		public UILabeledBar HealthBar { get; private set; }
