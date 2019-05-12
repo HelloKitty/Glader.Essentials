@@ -14,15 +14,7 @@ namespace Glader.Essentials
 	/// </summary>
 	public abstract class BaseCollectionUnityUIAdapter<TAdaptedToType> : BaseUnityUI<IReadOnlyCollection<TAdaptedToType>>, IReadOnlyCollection<TAdaptedToType>
 	{
-		protected abstract TAdaptedToType[] Elements { get; set; }
-
-		public void ValidateComponent()
-		{
-			if(Elements == null)
-				Elements = new TAdaptedToType[0];
-
-			Elements = Elements.Where(e => e != null).ToArray();
-		}
+		protected abstract IEnumerable<TAdaptedToType> Elements { get; }
 
 		/// <inheritdoc />
 		public IEnumerator<TAdaptedToType> GetEnumerator()
@@ -37,6 +29,6 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		public int Count => Elements.Length;
+		public int Count => Elements.Count();
 	}
 }
