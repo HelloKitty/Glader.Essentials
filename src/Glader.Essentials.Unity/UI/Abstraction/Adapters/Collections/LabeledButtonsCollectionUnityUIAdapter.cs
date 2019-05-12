@@ -14,13 +14,9 @@ namespace Glader.Essentials
 	{
 		[SerializeField]
 		[Tooltip("The collection of labeled buttons to aggregate.")]
-		private IUILabeledButton[] _elements;
+		private UnityLabeledButtonAdapter[] _elements;
 
 		/// <inheritdoc />
-		protected override IUILabeledButton[] Elements
-		{
-			get => _elements;
-			set => _elements = value;
-		}
+		protected override IEnumerable<IUILabeledButton> Elements => _elements;
 	}
 }
