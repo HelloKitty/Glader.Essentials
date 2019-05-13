@@ -18,8 +18,20 @@ namespace Glader.Essentials
 
 		}
 
+		public EntityGuidDictionary(IEqualityComparer<TKey> keyComparer)
+			: base(keyComparer)
+		{
+
+		}
+
 		public EntityGuidDictionary(int capacity)
 			: base(4, capacity)
+		{
+
+		}
+
+		public EntityGuidDictionary(int capacity, IEqualityComparer<TKey> keyComparer)
+			: base(4, capacity, keyComparer)
 		{
 
 		}
