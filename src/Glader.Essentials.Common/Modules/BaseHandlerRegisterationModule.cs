@@ -98,7 +98,7 @@ namespace Glader.Essentials
 				}
 
 				//Only ever want one handler, otherwise... things get werid with AdditionalRegisterationAsAttributes.
-				handlerRegisterationBuilder = handlerRegisterationBuilder.SingleInstance();
+				handlerRegisterationBuilder = handlerRegisterationBuilder.InstancePerLifetimeScope();
 			}
 		}
 
