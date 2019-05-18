@@ -63,7 +63,7 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public void SetElementActive(bool state)
 		{
-			enabled = state;
+			gameObject.SetActive(state);
 		}
 	}
 }
