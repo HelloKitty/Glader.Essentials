@@ -59,5 +59,11 @@ namespace Glader.Essentials
 			UnitName = new UnityTextUITextAdapterImplementation(PlayerNameText);
 			UnitLevel = new UnityTextUITextAdapterImplementation(UnitLevelText);
 		}
+
+		/// <inheritdoc />
+		public void SetElementActive(bool state)
+		{
+			enabled = state;
+		}
 	}
 }
