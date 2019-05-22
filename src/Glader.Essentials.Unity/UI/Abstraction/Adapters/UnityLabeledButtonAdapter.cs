@@ -68,5 +68,11 @@ namespace Glader.Essentials
 				ButtonAdapter.IsInteractable = value;
 			}
 		}
+
+		/// <inheritdoc />
+		public void SetElementActive(bool state)
+		{
+			gameObject.SetActive(state);
+		}
 	}
 }
