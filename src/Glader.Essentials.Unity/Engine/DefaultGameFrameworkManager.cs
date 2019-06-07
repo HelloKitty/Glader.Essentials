@@ -26,6 +26,9 @@ namespace Glader.Essentials.Unity
 		private IEnumerable<IGameTickable> Tickables { get; set; }
 
 		[Inject]
+		private IEnumerable<IGameStartable> Startables { get; set; }
+
+		[Inject]
 		private ILog Logger { get; set; }
 
 		private bool isInitializationFinished = false;
@@ -45,6 +48,20 @@ namespace Glader.Essentials.Unity
 				{
 					if(Logger.IsErrorEnabled)
 						Logger.Error($"Encountered Exception in {nameof(IGameInitializable.OnGameInitialized)} for Type: {init.GetType().Name}. Reason: {e.Message}\n\nStack: {e.StackTrace}");
+					throw;
+				}
+
+			//After Init has been called we should call all starts
+			foreach(var startable in Startables)
+				try
+				{
+					await startable.Start()
+						.ConfigureAwait(true);
+				}
+				catch(Exception e)
+				{
+					if(Logger.IsErrorEnabled)
+						Logger.Error($"Encountered Exception in {nameof(IGameStartable.Start)} for Type: {startable.GetType().Name}. Reason: {e.Message}\n\nStack: {e.StackTrace}");
 					throw;
 				}
 
