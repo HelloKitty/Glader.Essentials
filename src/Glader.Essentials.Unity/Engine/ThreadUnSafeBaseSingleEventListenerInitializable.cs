@@ -29,7 +29,7 @@ namespace Glader.Essentials
 		{
 			try
 			{
-				UnityAsyncHelper.UnityMainThreadContext.Send(state =>
+				UnityAsyncHelper.UnityMainThreadContext.Post(state =>
 				{
 					OnThreadUnSafeEventFired(source, args);
 				}, null);
@@ -71,7 +71,7 @@ namespace Glader.Essentials
 		{
 			try
 			{
-				UnityAsyncHelper.UnityMainThreadContext.Send(state =>
+				UnityAsyncHelper.UnityMainThreadContext.Post(state =>
 				{
 					OnThreadUnSafeEventFired(source, args);
 				}, null);
