@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Glader
+namespace Glader.Essentials
 {
 	/// <summary>
 	/// Contracts for types that require being informed when
