@@ -49,7 +49,7 @@ namespace Glader.Essentials
 
 				//We should also iterate all RegisterationAs attributes and register
 				//the types under those too
-				foreach(var regAttri in creatable.GetCustomAttributes(typeof(AdditionalRegisterationAsAttribute), true))
+				foreach(var regAttri in creatable.GetCustomAttributes<AdditionalRegisterationAsAttribute>(true))
 				{
 					registrationBuilder = registrationBuilder.As(((AdditionalRegisterationAsAttribute)regAttri).ServiceType);
 				}
