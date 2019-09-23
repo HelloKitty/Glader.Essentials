@@ -15,6 +15,6 @@ namespace Glader.Essentials
 		/// Called when the game starts.
 		/// Should not be used for initialization.
 		/// </summary>
-		Task Start();
+		Task OnGameStart();
 	}
 }
