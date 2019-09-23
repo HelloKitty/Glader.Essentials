@@ -22,5 +22,16 @@ namespace Glader.Essentials
 		/// <returns>true if the read-only dictionary contains an element that has the specified key; otherwise, false.</returns>
 		/// <exception cref="ArgumentNullException">key is null.</exception>
 		bool ContainsKey(TKeyType key);
+
+		/*/// <summary>
+		/// Retrieves the entry similar to the indexer but
+		/// as the <see cref="KeyValuePair{TKey,TValue}"/>.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <exception cref="ArgumentNullException">key is null.</exception>
+		/// <exception cref="KeyNotFoundException">The property is retrieved and key is not found.</exception>
+		/// <returns>The <see cref="KeyValuePair{TKey,TValue}"/> that has the specified key in the read-only dictionary.</returns>
+		KeyValuePair<TKeyType, TValueType> GetAsKeyValuePair(TKeyType key);*/
 	}
 }
+ 
