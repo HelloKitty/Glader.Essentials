@@ -11,7 +11,7 @@ namespace Glader.Essentials
 {
 	public sealed class EngineInterfaceRegisterationModule : Module
 	{
-		private static Type[] EngineTypes = new Type[] { typeof(IGameTickable), typeof(IGameInitializable), typeof(IGameStartable) };
+		private static Type[] EngineTypes = new Type[] { typeof(IGameTickable), typeof(IGameInitializable), typeof(IGameStartable), typeof(IGameFixedTickable) };
 
 		//TODO: When we have specific floors or special scenes that don't fit type we may want to supply zone id or additional metadata.
 		/// <summary>
