@@ -16,20 +16,18 @@ namespace Glader.Essentials
 		//Create an adapter property that will actually handle the adaptor
 		//the responsibility of this class is to expose registeration and to
 		//handle the internal complicated parts of exposing it to the editor.
-		private UnityTextUITextAdapterImplementation Adapter { get; set; }
+		private Lazy<UnityTextUITextAdapterImplementation> Adapter { get; set; }
 
-		//On awake we should just create the adapter for
-		//adaptation forwarding.
-		void Awake()
+		public UnityTextUITextAdapter()
 		{
-			Adapter = new UnityTextUITextAdapterImplementation(UnityUIObject);
+			Adapter = new Lazy<UnityTextUITextAdapterImplementation>(() => new UnityTextUITextAdapterImplementation(UnityUIObject));
 		}
 
 		/// <inheritdoc />
 		public string Text
 		{
-			get => Adapter.Text;
-			set => Adapter.Text = value;
+			get => Adapter.Value.Text;
+			set => Adapter.Value.Text = value;
 		}
 	}
 }
