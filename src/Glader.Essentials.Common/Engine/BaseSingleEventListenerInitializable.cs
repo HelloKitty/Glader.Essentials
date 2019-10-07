@@ -50,8 +50,25 @@ namespace Glader.Essentials
 				.Where(e => IsCorrectEventSignature(e))
 				.ToArray();
 
+			//This supports the case of base interface: https://social.msdn.microsoft.com/Forums/vstudio/en-US/8ebd55e5-d89a-452b-b2db-deebb7a97b4d/how-can-i-get-methods-defined-in-base-interface-via-typegetmethods-while-the-type-is-a-derived?forum=csharpgeneral
+			//If none are found, there may be the case of base events.
+			if(events.Length == 0)
+				foreach (var baseInterfaceType in typeof(TSubscribableType).GetInterfaces())
+				{
+					events = baseInterfaceType
+						.GetEvents(BindingFlags.Public | BindingFlags.Instance);
+
+					events = events
+						.Where(e => IsCorrectEventSignature(e))
+						.ToArray();
+
+					//Go through each interface until we find one.
+					if (events.Length > 0)
+						break;
+				}
+
 			if(events.Length != 1)
-				throw new InvalidOperationException($"Cannot specify: {typeof(TSubscribableType).Name} as SingleEvent with Args: {typeof(EventArgs)} because: {ComputeErrorMessage(events)}");
+				throw new InvalidOperationException($"Events Found: {events.Length} Cannot specify: {typeof(TSubscribableType).Name} as SingleEvent with Args: {typeof(EventArgs)} because: {ComputeErrorMessage(events)}");
 
 			//If we've made it here, there is ONE event in the collection
 			//and it fits the requirements
