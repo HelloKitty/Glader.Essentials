@@ -13,7 +13,7 @@ namespace Glader
 		{
 			if (go == null) throw new ArgumentNullException(nameof(go));
 
-			go.transform.parent = this.UnityUIObject;
+			go.transform.SetParent(this.UnityUIObject, false);
 		}
 	}
 }
