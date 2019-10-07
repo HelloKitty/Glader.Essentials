@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Glader.Essentials
@@ -47,6 +48,14 @@ namespace Glader.Essentials
 		{
 			get => UnityButton.interactable;
 			set => UnityButton.interactable = value;
+		}
+
+		public void SimulateClick(bool eventsOnly)
+		{
+			if(eventsOnly)
+				UnityButton.onClick?.Invoke();
+			else
+				ExecuteEvents.Execute(UnityButton.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
 		}
 
 		private void AsyncUnityEngineButtonCallbackHandler(Func<Task> action)

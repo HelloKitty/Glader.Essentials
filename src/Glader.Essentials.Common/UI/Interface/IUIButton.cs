@@ -26,5 +26,11 @@ namespace Glader.Essentials
 		/// Indicates if the button is interactable.
 		/// </summary>
 		bool IsInteractable { get; set; }
+
+		/// <summary>
+		/// Simulates a UI click on the button.
+		/// </summary>
+		/// <param name="eventsOnly">Indicates if ONLY the events on a click should occur and not any animations for the UI element.</param>
+		void SimulateClick(bool eventsOnly);
 	}
 }
