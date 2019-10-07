@@ -55,13 +55,13 @@ namespace Glader.Essentials.Unity
 			foreach(var startable in Startables)
 				try
 				{
-					await startable.Start()
+					await startable.OnGameStart()
 						.ConfigureAwait(true);
 				}
 				catch(Exception e)
 				{
 					if(Logger.IsErrorEnabled)
-						Logger.Error($"Encountered Exception in {nameof(IGameStartable.Start)} for Type: {startable.GetType().Name}. Reason: {e.Message}\n\nStack: {e.StackTrace}");
+						Logger.Error($"Encountered Exception in {nameof(IGameStartable.OnGameStart)} for Type: {startable.GetType().Name}. Reason: {e.Message}\n\nStack: {e.StackTrace}");
 					throw;
 				}
 
