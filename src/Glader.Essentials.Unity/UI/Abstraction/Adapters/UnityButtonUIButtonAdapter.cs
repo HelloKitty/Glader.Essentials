@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Unitysync.Async;
 
@@ -41,6 +42,14 @@ namespace Glader.Essentials
 		{
 			get => Adapter.IsInteractable;
 			set => Adapter.IsInteractable = value;
+		}
+
+		public void SimulateClick(bool eventsOnly)
+		{
+			if (eventsOnly)
+				UnityUIObject.onClick?.Invoke();
+			else
+				ExecuteEvents.Execute(this.UnityUIObject.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
 		}
 	}
 }
