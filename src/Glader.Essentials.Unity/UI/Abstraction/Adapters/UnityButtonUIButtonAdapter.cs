@@ -16,32 +16,32 @@ namespace Glader.Essentials
 		//Create an adapter property that will actually handle the adaptor
 		//the responsibility of this class is to expose registeration and to
 		//handle the internal complicated parts of exposing it to the editor.
-		private UnityButtonUIButtonAdapterImplementation Adapter { get; set; }
+		private Lazy<UnityButtonUIButtonAdapterImplementation> Adapter { get; set; }
 
 		//On awake we should just create the adapter for
 		//adaptation forwarding.
-		void Awake()
+		public UnityButtonUIButtonAdapter()
 		{
-			Adapter = new UnityButtonUIButtonAdapterImplementation(UnityUIObject);
+			Adapter = new Lazy<UnityButtonUIButtonAdapterImplementation>(() => new UnityButtonUIButtonAdapterImplementation(UnityUIObject));
 		}
 
 		/// <inheritdoc />
 		public void AddOnClickListener(Action action)
 		{
-			Adapter.AddOnClickListener(action);
+			Adapter.Value.AddOnClickListener(action);
 		}
 
 		/// <inheritdoc />
 		public void AddOnClickListenerAsync(Func<Task> action)
 		{
-			Adapter.AddOnClickListenerAsync(action);
+			Adapter.Value.AddOnClickListenerAsync(action);
 		}
 
 		/// <inheritdoc />
 		public bool IsInteractable
 		{
-			get => Adapter.IsInteractable;
-			set => Adapter.IsInteractable = value;
+			get => Adapter.Value.IsInteractable;
+			set => Adapter.Value.IsInteractable = value;
 		}
 
 		public void SimulateClick(bool eventsOnly)
