@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Glader.Essentials
 {
-	public sealed class UnitFrameElementsAdapter: MonoBehaviour, IUIAdapterRegisterable, IUIUnitFrame
+	public sealed class UnitFrameElementsAdapter : MonoBehaviour, IUIAdapterRegisterable, IUIUnitFrame
 	{
 		[Tooltip("Used to determine wiring for UI dependencies.")]
 		[SerializeField]
@@ -20,16 +20,16 @@ namespace Glader.Essentials
 		public Type UIServiceType => typeof(IUIUnitFrame);
 
 		/// <inheritdoc />
-		public UILabeledBar HealthBar { get; private set; }
+		public UILabeledBar HealthBar => _healthBar.Value;
 
 		/// <inheritdoc />
-		public UILabeledBar TechniquePointsBar { get; private set; }
+		public UILabeledBar TechniquePointsBar => _techniquePointsBar.Value;
 
 		/// <inheritdoc />
-		public IUIText UnitName { get; private set; }
+		public IUIText UnitName => _unitName.Value;
 
 		/// <inheritdoc />
-		public IUIText UnitLevel { get; private set; }
+		public IUIText UnitLevel => _unitLevel.Value;
 
 		//These are the actual serialzied fields.
 
@@ -51,13 +51,20 @@ namespace Glader.Essentials
 		[SerializeField]
 		private UnityEngine.UI.Text UnitLevelText;
 
-		void Awake()
-		{
-			HealthBar = new UILabeledBar(new UnityTextUITextAdapterImplementation(HealthText), new UnityImageUIFillableImageAdapterImplementation(HealthBarImage));
-			TechniquePointsBar = new UILabeledBar(new UnityTextUITextAdapterImplementation(TechniquePointsText), new UnityImageUIFillableImageAdapterImplementation(TechniquePointsBarImage));
+		private readonly Lazy<UILabeledBar> _healthBar;
+		private readonly Lazy<UILabeledBar> _techniquePointsBar;
+		private readonly Lazy<IUIText> _unitName;
+		private readonly Lazy<IUIText> _unitLevel;
 
-			UnitName = new UnityTextUITextAdapterImplementation(PlayerNameText);
-			UnitLevel = new UnityTextUITextAdapterImplementation(UnitLevelText);
+		//Do it in CTOR even though Unity says not to.
+		//Because sometimes we can't wait for Awake to happen.
+		public UnitFrameElementsAdapter()
+		{
+			_healthBar = new Lazy<UILabeledBar>(() => new UILabeledBar(new UnityTextUITextAdapterImplementation(HealthText), new UnityImageUIFillableImageAdapterImplementation(HealthBarImage)));
+			_techniquePointsBar = new Lazy<UILabeledBar>(() => new UILabeledBar(new UnityTextUITextAdapterImplementation(TechniquePointsText), new UnityImageUIFillableImageAdapterImplementation(TechniquePointsBarImage)));
+
+			_unitName = new Lazy<IUIText>(() => new UnityTextUITextAdapterImplementation(PlayerNameText));
+			_unitLevel = new Lazy<IUIText>(() => new UnityTextUITextAdapterImplementation(UnitLevelText));
 		}
 
 		/// <inheritdoc />
@@ -65,5 +72,7 @@ namespace Glader.Essentials
 		{
 			gameObject.SetActive(state);
 		}
+
+		public bool isActive => gameObject.activeSelf;
 	}
 }
