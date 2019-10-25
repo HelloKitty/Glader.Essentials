@@ -12,5 +12,10 @@ namespace Glader.Essentials
 		/// </summary>
 		/// <param name="state">The state to set the UI element to.</param>
 		void SetElementActive(bool state);
+
+		/// <summary>
+		/// Indicates if the element is active.
+		/// </summary>
+		bool isActive { get; }
 	}
 }
