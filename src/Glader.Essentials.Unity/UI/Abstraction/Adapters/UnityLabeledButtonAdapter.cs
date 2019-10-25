@@ -83,5 +83,7 @@ namespace Glader.Essentials
 		{
 			gameObject.SetActive(state);
 		}
+
+		public bool isActive => UnityUIObject.gameObject.activeSelf;
 	}
 }
