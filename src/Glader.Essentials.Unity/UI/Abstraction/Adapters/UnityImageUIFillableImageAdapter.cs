@@ -14,13 +14,11 @@ namespace Glader.Essentials
 		//Create an adapter property that will actually handle the adaptor
 		//the responsibility of this class is to expose registeration and to
 		//handle the internal complicated parts of exposing it to the editor.
-		private UnityImageUIFillableImageAdapterImplementation Adapter { get; set; }
+		private Lazy<UnityImageUIFillableImageAdapterImplementation> Adapter { get; set; }
 
-		//On awake we should just create the adapter for
-		//adaptation forwarding.
-		void Awake()
+		public UnityImageUIFillableImageAdapter()
 		{
-			Adapter = new UnityImageUIFillableImageAdapterImplementation(this.UnityUIObject);
+			Adapter = new Lazy<UnityImageUIFillableImageAdapterImplementation>(() => new UnityImageUIFillableImageAdapterImplementation(this.UnityUIObject));
 		}
 
 		//TODO: This won't hold up if the Type changes.
@@ -46,14 +44,14 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public float FillAmount
 		{
-			get => Adapter.FillAmount;
-			set => Adapter.FillAmount = value;
+			get => Adapter.Value.FillAmount;
+			set => Adapter.Value.FillAmount = value;
 		}
 
 		/// <inheritdoc />
 		public override void SetSpriteTexture(Texture2D texture)
 		{
-			Adapter.SetSpriteTexture(texture);
+			Adapter.Value.SetSpriteTexture(texture);
 		}
 	}
 }
