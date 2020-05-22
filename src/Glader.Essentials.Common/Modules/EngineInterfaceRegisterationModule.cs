@@ -57,6 +57,9 @@ namespace Glader.Essentials
 				foreach(Type engineType in EngineTypes)
 					if(engineType.IsAssignableFrom(creatable))
 						registrationBuilder = registrationBuilder.As(engineType);
+
+				registrationBuilder = registrationBuilder
+					.InstancePerLifetimeScope();
 			}
 		}
 	}
