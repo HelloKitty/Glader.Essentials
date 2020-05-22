@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Glader.Essentials
 {
+	//TODO: Convert to BaseSerializableCollection adapter if it works.
 	/// <summary>
 	/// Exposed designers the ability to register collections of <see cref="IUILabeledButton"/>s.
 	/// </summary>
