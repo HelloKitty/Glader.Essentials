@@ -107,6 +107,7 @@ namespace Glader.Essentials
 			return AssemblyForHandlerTypes
 				.GetTypes()
 				.Where(t => t.GetInterfaces().Any(i => i.GetTypeInfo().IsGenericType && i.GetGenericTypeDefinition() == typeof(THandlerType).GetGenericTypeDefinition()) && !t.IsAbstract)
+				.Where(t => typeof(THandlerType).IsAssignableFrom(t))
 				.ToArray();
 		}
 	}
