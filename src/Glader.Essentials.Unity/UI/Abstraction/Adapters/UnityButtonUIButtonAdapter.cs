@@ -51,5 +51,10 @@ namespace Glader.Essentials
 			else
 				ExecuteEvents.Execute(this.UnityUIObject.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
 		}
+
+		public void RemoveOnClickListener(Action action)
+		{
+			Adapter.Value.RemoveOnClickListener(action);
+		}
 	}
 }

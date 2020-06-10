@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -31,7 +32,7 @@ namespace Glader.Essentials
 		{
 			if(action == null) throw new ArgumentNullException(nameof(action));
 
-			UnityButton.onClick.AddListener(() => action());
+			UnityButton.onClick.AddListener(new UnityAction(action));
 		}
 
 		/// <inheritdoc />
@@ -67,6 +68,11 @@ namespace Glader.Essentials
 
 			//We can't use the Button MonoBehaviour because it might be deactivated, we have to use a global behaviour
 			UnityAsyncHelper.UnityUIAsyncContinuationBehaviour.StartCoroutine(AsyncCallbackHandler(action()));
+		}
+
+		public void RemoveOnClickListener(Action action)
+		{
+			UnityButton.onClick.RemoveListener(new UnityAction(action));
 		}
 	}
 }

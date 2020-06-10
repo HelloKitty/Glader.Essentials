@@ -84,6 +84,11 @@ namespace Glader.Essentials
 			gameObject.SetActive(state);
 		}
 
+		public void RemoveOnClickListener(Action action)
+		{
+			ButtonAdapter.RemoveOnClickListener(action);
+		}
+
 		public bool isActive => UnityUIObject.gameObject.activeSelf;
 	}
 }
