@@ -23,6 +23,12 @@ namespace Glader.Essentials
 		void AddOnClickListenerAsync(Func<Task> action);
 
 		/// <summary>
+		/// Unregisters a callback for the button OnClick.
+		/// </summary>
+		/// <param name="action">The callback to register.</param>
+		void RemoveOnClickListener(Action action);
+
+		/// <summary>
 		/// Indicates if the button is interactable.
 		/// </summary>
 		bool IsInteractable { get; set; }
