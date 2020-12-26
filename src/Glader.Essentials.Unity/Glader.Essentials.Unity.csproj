@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Glader.Essentials.Common\Glader.Essentials.Common.csproj" />
+    <ProjectReference Include="..\Glader.Essentials.GameFramework\Glader.Essentials.GameFramework.csproj" />
   </ItemGroup>
 
   <ItemGroup>

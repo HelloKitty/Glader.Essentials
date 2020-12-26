@@ -2,13 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>Glader.Essentials.Common</AssemblyName>
+    <AssemblyName>Glader.Essentials.GameFramework</AssemblyName>
     <RootNamespace>Glader.Essentials</RootNamespace>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Memory" Version="4.5.4" />
+    <PackageReference Include="Autofac" Version="4.6.2" />
+    <PackageReference Include="Common.Logging" Version="3.4.1" />
   </ItemGroup>
 
 </Project>
