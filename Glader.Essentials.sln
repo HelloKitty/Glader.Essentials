@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B7640947-0573-4F62-8B41-DB4740B149CC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E4641070-6CC1-4D57-B5E6-203F249BCFB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.Common", "src\Glader.Essentials.Common\Glader.Essentials.Common.csproj", "{5F28749F-98DE-4098-9DC3-9E1CAE27B755}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.Common", "src\Glader.Essentials.Common\Glader.Essentials.Common.csproj", "{5F28749F-98DE-4098-9DC3-9E1CAE27B755}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.Unity", "src\Glader.Essentials.Unity\Glader.Essentials.Unity.csproj", "{0C6B9A63-A44F-45BE-9DC6-86E75545B388}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.Unity", "src\Glader.Essentials.Unity\Glader.Essentials.Unity.csproj", "{0C6B9A63-A44F-45BE-9DC6-86E75545B388}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.GameFramework", "src\Glader.Essentials.GameFramework\Glader.Essentials.GameFramework.csproj", "{CC2D96C7-4D73-494A-8B16-3DBB5EB0751F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,10 @@ Global
 		{0C6B9A63-A44F-45BE-9DC6-86E75545B388}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C6B9A63-A44F-45BE-9DC6-86E75545B388}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C6B9A63-A44F-45BE-9DC6-86E75545B388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC2D96C7-4D73-494A-8B16-3DBB5EB0751F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC2D96C7-4D73-494A-8B16-3DBB5EB0751F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC2D96C7-4D73-494A-8B16-3DBB5EB0751F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC2D96C7-4D73-494A-8B16-3DBB5EB0751F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5F28749F-98DE-4098-9DC3-9E1CAE27B755} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 		{0C6B9A63-A44F-45BE-9DC6-86E75545B388} = {B7640947-0573-4F62-8B41-DB4740B149CC}
+		{CC2D96C7-4D73-494A-8B16-3DBB5EB0751F} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BB23C32-5849-40C0-BB63-705FA3AC4FFB}
