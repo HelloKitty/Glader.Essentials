@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.GameFrame
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.Models", "src\Glader.Essentials.Models\Glader.Essentials.Models.csproj", "{20AEF8A5-D015-490B-B52E-46539F1194C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.Database", "src\Glader.Essentials.Database\Glader.Essentials.Database.csproj", "{CB11D4FA-5DA4-4A8D-9C17-E33248D3FF88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{20AEF8A5-D015-490B-B52E-46539F1194C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20AEF8A5-D015-490B-B52E-46539F1194C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20AEF8A5-D015-490B-B52E-46539F1194C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB11D4FA-5DA4-4A8D-9C17-E33248D3FF88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB11D4FA-5DA4-4A8D-9C17-E33248D3FF88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB11D4FA-5DA4-4A8D-9C17-E33248D3FF88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB11D4FA-5DA4-4A8D-9C17-E33248D3FF88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{0C6B9A63-A44F-45BE-9DC6-86E75545B388} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 		{CC2D96C7-4D73-494A-8B16-3DBB5EB0751F} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 		{20AEF8A5-D015-490B-B52E-46539F1194C6} = {B7640947-0573-4F62-8B41-DB4740B149CC}
+		{CB11D4FA-5DA4-4A8D-9C17-E33248D3FF88} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BB23C32-5849-40C0-BB63-705FA3AC4FFB}
