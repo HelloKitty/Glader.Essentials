@@ -21,13 +21,14 @@ namespace Glader.Essentials
 		/// <param name="key"></param>
 		/// <param name="token">Cancel token.</param>
 		/// <returns>True if the Repository contains the model.</returns>
-		Task<bool> ContainsAsync(TKey key, CancellationToken token = default); 
+		Task<bool> ContainsAsync(TKey key, CancellationToken token = default);
 
 		/// <summary>
 		/// Tries to crate a new entry of the provided <see cref="model"/>
 		/// in the repository.
 		/// </summary>
 		/// <param name="model"></param>
+		/// <param name="token">Cancel token.</param>
 		/// <returns></returns>
 		Task<bool> TryCreateAsync(TModel model, CancellationToken token = default);
 
@@ -36,6 +37,7 @@ namespace Glader.Essentials
 		/// repository.
 		/// </summary>
 		/// <param name="key"></param>
+		/// <param name="token">Cancel token.</param>
 		/// <returns></returns>
 		Task<TModel> RetrieveAsync(TKey key, CancellationToken token = default, bool includeNavigationProperties = false);
 
@@ -46,6 +48,7 @@ namespace Glader.Essentials
 		/// if it exists.
 		/// </summary>
 		/// <param name="key"></param>
+		/// <param name="token">Cancel token.</param>
 		/// <returns></returns>
 		Task<bool> TryDeleteAsync(TKey key, CancellationToken token = default);
 
@@ -56,6 +59,7 @@ namespace Glader.Essentials
 		/// </summary>
 		/// <param name="key">The key for the entity.</param>
 		/// <param name="model">The model to replace the current model.</param>
+		/// <param name="token">Cancel token.</param>
 		/// <returns>Awaitable.</returns>
 		Task UpdateAsync(TKey key, TModel model, CancellationToken token = default);
 	}
