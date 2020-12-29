@@ -7,7 +7,7 @@ using Common.Logging;
 
 namespace Glader.Essentials
 {
-	public abstract class EventQueueBasedTickable<TEventInterface, TEventArgs> : BaseSingleEventListenerInitializable<TEventInterface, TEventArgs>, IGameTickable
+	public abstract class EventQueueBasedTickable<TEventInterface, TEventArgs> : EventListener<TEventInterface, TEventArgs>, IGameTickable
 		where TEventInterface : class 
 		where TEventArgs : EventArgs
 	{
