@@ -31,7 +31,7 @@ namespace Glader.Essentials
 		/// <param name="subscriptionService">The subscription service.</param>
 		/// <param name="serviceAllQueue">Indicates if all events should be serviced from the event queue each tick.</param>
 		/// <param name="logger"></param>
-		protected EventQueueBasedTickable(TEventInterface subscriptionService, bool serviceAllQueue, [NotNull] ILog logger) 
+		protected EventQueueBasedTickable(TEventInterface subscriptionService, bool serviceAllQueue, ILog logger) 
 			: base(subscriptionService)
 		{
 			ServiceAllQueue = serviceAllQueue;
@@ -105,7 +105,7 @@ namespace Glader.Essentials
 		/// This is costly, and should rarely be called.
 		/// </summary>
 		/// <param name="predicate"></param>
-		protected void RemoveEventMatchingPredicate([NotNull] Func<TEventArgs, bool> predicate)
+		protected void RemoveEventMatchingPredicate(Func<TEventArgs, bool> predicate)
 		{
 			if(predicate == null) throw new ArgumentNullException(nameof(predicate));
 
