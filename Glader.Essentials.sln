@@ -13,11 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.Unity", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.GameFramework", "src\Glader.Essentials.GameFramework\Glader.Essentials.GameFramework.csproj", "{CC2D96C7-4D73-494A-8B16-3DBB5EB0751F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.Models", "src\Glader.Essentials.Models\Glader.Essentials.Models.csproj", "{20AEF8A5-D015-490B-B52E-46539F1194C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.Models", "src\Glader.Essentials.Models\Glader.Essentials.Models.csproj", "{20AEF8A5-D015-490B-B52E-46539F1194C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.Database", "src\Glader.Essentials.Database\Glader.Essentials.Database.csproj", "{CB11D4FA-5DA4-4A8D-9C17-E33248D3FF88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.Database", "src\Glader.Essentials.Database\Glader.Essentials.Database.csproj", "{CB11D4FA-5DA4-4A8D-9C17-E33248D3FF88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.Events", "src\Glader.Essentials.Events\Glader.Essentials.Events.csproj", "{A85E4F67-789B-4460-B7AE-93F66A3721CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.Events", "src\Glader.Essentials.Events\Glader.Essentials.Events.csproj", "{A85E4F67-789B-4460-B7AE-93F66A3721CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.Refit", "src\Glader.Essentials.Refit\Glader.Essentials.Refit.csproj", "{AFC95322-28BE-4F5B-9C2E-AFAF22EB8BEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{A85E4F67-789B-4460-B7AE-93F66A3721CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A85E4F67-789B-4460-B7AE-93F66A3721CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A85E4F67-789B-4460-B7AE-93F66A3721CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFC95322-28BE-4F5B-9C2E-AFAF22EB8BEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC95322-28BE-4F5B-9C2E-AFAF22EB8BEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFC95322-28BE-4F5B-9C2E-AFAF22EB8BEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFC95322-28BE-4F5B-9C2E-AFAF22EB8BEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{20AEF8A5-D015-490B-B52E-46539F1194C6} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 		{CB11D4FA-5DA4-4A8D-9C17-E33248D3FF88} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 		{A85E4F67-789B-4460-B7AE-93F66A3721CD} = {B7640947-0573-4F62-8B41-DB4740B149CC}
+		{AFC95322-28BE-4F5B-9C2E-AFAF22EB8BEE} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BB23C32-5849-40C0-BB63-705FA3AC4FFB}
