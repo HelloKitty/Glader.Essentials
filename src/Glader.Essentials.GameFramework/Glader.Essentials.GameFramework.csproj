@@ -1,10 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Glader.Essentials.GameFramework</AssemblyName>
     <RootNamespace>Glader.Essentials</RootNamespace>
     <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>2.2.46</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <RootNamespace>Glader.Essentials</RootNamespace>
+    <Authors>Andrew Blakely, Glader</Authors>
+    <Product>Glader.Essentials</Product>
+    <Description>Glader.Essentials provide basic essential .NET/C# development libraries for day-to-day development needs. The GameFramework contains a simplistic mini-Game Engine API.</Description>
+    <Copyright>Andrew Blakely</Copyright>
+    <PackageProjectUrl>http://github.com/helloKitty/glader.Essentials</PackageProjectUrl>
+    <RepositoryUrl>http://github.com/helloKitty/glader.Essentials</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Glader Essentials GameFramework Framework Game</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
