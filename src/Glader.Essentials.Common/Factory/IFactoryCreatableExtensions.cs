@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Glader.Essentials;
 
-namespace Glader
+namespace Glader.Essentials
 {
 	/// <summary>
 	/// Extension methods for <see cref="IFactoryCreatable{TCreateType,TContextType}"/>.
