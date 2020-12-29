@@ -22,7 +22,7 @@ namespace Glader.Essentials
 		private Assembly AssemblyToParse { get; }
 
 		/// <inheritdoc />
-		public EngineInterfaceRegistrationModule(int sceneType, [NotNull] Assembly assemblyToParse)
+		public EngineInterfaceRegistrationModule(int sceneType, Assembly assemblyToParse)
 		{
 			SceneType = sceneType;
 			AssemblyToParse = assemblyToParse ?? throw new ArgumentNullException(nameof(assemblyToParse));
