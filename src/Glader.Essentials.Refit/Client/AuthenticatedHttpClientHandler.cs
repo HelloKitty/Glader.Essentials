@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Refit;
 
 namespace Glader.Essentials
 {
@@ -12,7 +13,7 @@ namespace Glader.Essentials
 	/// <see cref="HttpClientHandler"/> that will replace Authentication headers
 	/// with the contents of the provided <see cref="IReadonlyAuthTokenRepository"/>.
 	/// </summary>
-	public sealed class AuthenticatedHttpClientHandler : HttpClientHandler
+	public sealed class AuthenticatedHttpClientHandler : DelegatingHandler
 	{
 		/// <summary>
 		/// Token provider.
@@ -21,7 +22,16 @@ namespace Glader.Essentials
 
 		/// <inheritdoc />
 		public AuthenticatedHttpClientHandler(IReadonlyAuthTokenRepository authTokenProvider)
+			: base(new HttpClientHandler())
 		{
+			AuthTokenProvider = authTokenProvider ?? throw new ArgumentNullException(nameof(authTokenProvider));
+		}
+
+		/// <inheritdoc />
+		public AuthenticatedHttpClientHandler(IReadonlyAuthTokenRepository authTokenProvider, HttpClientHandler innerHandler)
+			: base(innerHandler)
+		{
+			if (innerHandler == null) throw new ArgumentNullException(nameof(innerHandler));
 			AuthTokenProvider = authTokenProvider ?? throw new ArgumentNullException(nameof(authTokenProvider));
 		}
 

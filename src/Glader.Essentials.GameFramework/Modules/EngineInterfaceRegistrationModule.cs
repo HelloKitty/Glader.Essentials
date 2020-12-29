@@ -9,7 +9,7 @@ using Module = Autofac.Module;
 
 namespace Glader.Essentials
 {
-	public sealed class EngineInterfaceRegisterationModule : Module
+	public sealed class EngineInterfaceRegistrationModule : Module
 	{
 		private static Type[] EngineTypes = new Type[] { typeof(IGameTickable), typeof(IGameInitializable), typeof(IGameStartable), typeof(IGameFixedTickable) };
 
@@ -22,13 +22,13 @@ namespace Glader.Essentials
 		private Assembly AssemblyToParse { get; }
 
 		/// <inheritdoc />
-		public EngineInterfaceRegisterationModule(int sceneType, [NotNull] Assembly assemblyToParse)
+		public EngineInterfaceRegistrationModule(int sceneType, [NotNull] Assembly assemblyToParse)
 		{
 			SceneType = sceneType;
 			AssemblyToParse = assemblyToParse ?? throw new ArgumentNullException(nameof(assemblyToParse));
 		}
 
-		private EngineInterfaceRegisterationModule()
+		private EngineInterfaceRegistrationModule()
 		{
 
 		}
@@ -49,9 +49,9 @@ namespace Glader.Essentials
 
 				//We should also iterate all RegisterationAs attributes and register
 				//the types under those too
-				foreach(var regAttri in creatable.GetCustomAttributes<AdditionalRegisterationAsAttribute>(true))
+				foreach(var regAttri in creatable.GetCustomAttributes<AdditionalRegistrationAsAttribute>(true))
 				{
-					registrationBuilder = registrationBuilder.As(((AdditionalRegisterationAsAttribute)regAttri).ServiceType);
+					registrationBuilder = registrationBuilder.As(((AdditionalRegistrationAsAttribute)regAttri).ServiceType);
 				}
 
 				foreach(Type engineType in EngineTypes)

@@ -12,4 +12,10 @@
     <PackageReference Include="Common.Logging" Version="3.4.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Glader.Essentials.Common\Glader.Essentials.Common.csproj" />
+    <ProjectReference Include="..\Glader.Essentials.ECS\Glader.Essentials.ECS.csproj" />
+    <ProjectReference Include="..\Glader.Essentials.Events\Glader.Essentials.Events.csproj" />
+  </ItemGroup>
+
 </Project>
