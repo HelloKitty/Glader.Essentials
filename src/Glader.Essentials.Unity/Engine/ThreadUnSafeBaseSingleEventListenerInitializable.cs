@@ -13,7 +13,7 @@ namespace Glader.Essentials
 	/// </summary>
 	/// <typeparam name="TSubscribableType"></typeparam>
 	/// <typeparam name="TEventArgsType"></typeparam>
-	public abstract class ThreadUnSafeBaseSingleEventListenerInitializable<TSubscribableType, TEventArgsType> : BaseSingleEventListenerInitializable<TSubscribableType, TEventArgsType>
+	public abstract class ThreadUnSafeBaseSingleEventListenerInitializable<TSubscribableType, TEventArgsType> : EventListener<TSubscribableType, TEventArgsType>
 		where TSubscribableType : class 
 		where TEventArgsType : EventArgs
 	{
@@ -57,7 +57,7 @@ namespace Glader.Essentials
 	/// that complexity away from the consumers.
 	/// </summary>
 	/// <typeparam name="TSubscribableType"></typeparam>
-	public abstract class ThreadUnSafeBaseSingleEventListenerInitializable<TSubscribableType> : BaseSingleEventListenerInitializable<TSubscribableType> 
+	public abstract class ThreadUnSafeBaseSingleEventListenerInitializable<TSubscribableType> : EventListener<TSubscribableType> 
 		where TSubscribableType : class
 	{
 		/// <inheritdoc />
