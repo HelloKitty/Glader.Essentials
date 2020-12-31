@@ -31,7 +31,7 @@ namespace Glader.Essentials
 		/// <typeparam name="TModelType">The model type.</typeparam>
 		/// <param name="result">The result.</param>
 		/// <returns></returns>
-		protected JsonResult BuildSuccessfulResponseModel<TModelType>(TModelType result)
+		protected JsonResult JsonSuccess<TModelType>(TModelType result)
 			where TModelType : class
 		{
 			if (result == null) throw new ArgumentNullException(nameof(result));
@@ -44,7 +44,7 @@ namespace Glader.Essentials
 		/// <typeparam name="TResponseCodeType">The response code type.</typeparam>
 		/// <param name="failedResponseCode">The failure code.</param>
 		/// <returns></returns>
-		protected JsonResult BuildFailedResponseModel<TResponseCodeType>(TResponseCodeType failedResponseCode)
+		protected JsonResult JsonFailure<TResponseCodeType>(TResponseCodeType failedResponseCode)
 			where TResponseCodeType : Enum
 		{
 			//TODO: add enum check.
