@@ -123,12 +123,21 @@ namespace Glader.Essentials
 		}
 
 		/// <summary>
-		/// Sets the <see cref="Entry"/> value.
+		/// Sets the <see cref="Identifier"/> value.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		protected void SetIdentifier(int id)
 		{
 			RawValue |= (ulong)id & 0x0000000000FFFFFF;
+		}
+
+		/// <summary>
+		/// Sets the <see cref="ShardIdentifier"/> value.
+		/// </summary>
+		protected void SetShard(int shardId)
+		{
+			//ShardIdentifier => (byte) ((RawValue >> 63) & 0xF);
+			RawValue |= (ulong)(shardId & 0xF) << 63;
 		}
 
 		/// <summary>
