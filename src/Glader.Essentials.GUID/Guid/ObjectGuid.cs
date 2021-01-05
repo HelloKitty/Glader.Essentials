@@ -34,7 +34,7 @@ namespace Glader.Essentials
 		private TEntityType CalculateObjectType()
 		{
 			//WoW would be 0x0000FFFF but we trim this down abit.
-			ulong value = (RawGuidValue >> 48) & 0x00000FFF;
+			ulong value = (RawValue >> 48) & 0x00000FFF;
 			return Unsafe.As<ulong, TEntityType>(ref value);
 		}
 
@@ -55,13 +55,28 @@ namespace Glader.Essentials
 		/// <param name="guidValue">Raw GUID value.</param>
 		public ObjectGuid(ulong guidValue)
 		{
-			RawGuidValue = guidValue;
+			RawValue = guidValue;
 		}
 
+		/// <summary>
+		/// Serializer ctor.
+		/// </summary>
 		public ObjectGuid()
 			: this(0)
 		{
 
+		}
+
+		/// <summary>
+		/// Sets the <see cref="ObjectType"/> value.
+		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		protected void SetObjectType(TEntityType type)
+		{
+			ulong value = Unsafe.As<TEntityType, ulong>(ref type);
+
+			//ulong value = (RawValue >> 48) & 0x00000FFF;
+			RawValue |= (value & 0x00000FFF) << 48;
 		}
 
 		/// <summary>
@@ -70,7 +85,7 @@ namespace Glader.Essentials
 		/// <param name="guid"></param>
 		public static implicit operator ulong(ObjectGuid<TEntityType> guid)
 		{
-			return guid.RawGuidValue;
+			return guid.RawValue;
 		}
 
 		/// <summary>
@@ -89,7 +104,7 @@ namespace Glader.Essentials
 		{
 			if(ReferenceEquals(null, other)) return false;
 			if(ReferenceEquals(this, other)) return true;
-			return base.Equals(other) && RawGuidValue == other.RawGuidValue;
+			return base.Equals(other) && RawValue == other.RawValue;
 		}
 
 		public static bool operator ==(ObjectGuid<TEntityType> lhs, ObjectGuid<TEntityType> rhs)
