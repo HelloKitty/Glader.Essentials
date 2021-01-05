@@ -38,7 +38,7 @@ namespace Glader.Essentials
 		/// to another except for these top-most bits.
 		/// </summary>
 		[IgnoreDataMember]
-		public byte ShardIdentifier => (byte) ((RawValue >> 63) & 0xF);
+		public byte ShardIdentifier => (byte) ((RawValue >> 60) & 0xF);
 
 		/// <summary>
 		/// Indicates if the entity has an entry.
@@ -116,7 +116,7 @@ namespace Glader.Essentials
 		/// Sets the <see cref="Entry"/> value.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected void SetEntry(int entry)
+		protected internal void SetEntry(int entry)
 		{
 			//(RawGuidValue >> 24) & 0x0000000000FFFFFF
 			RawValue |= ((ulong)(entry & 0x0000000000FFFFFF) << 24);
@@ -126,7 +126,7 @@ namespace Glader.Essentials
 		/// Sets the <see cref="Identifier"/> value.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected void SetIdentifier(int id)
+		protected internal void SetIdentifier(int id)
 		{
 			RawValue |= (ulong)id & 0x0000000000FFFFFF;
 		}
@@ -134,10 +134,10 @@ namespace Glader.Essentials
 		/// <summary>
 		/// Sets the <see cref="ShardIdentifier"/> value.
 		/// </summary>
-		protected void SetShard(int shardId)
+		protected internal void SetShard(int shardId)
 		{
 			//ShardIdentifier => (byte) ((RawValue >> 63) & 0xF);
-			RawValue |= (ulong)(shardId & 0xF) << 63;
+			RawValue |= (ulong)(shardId & 0xF) << 60;
 		}
 
 		/// <summary>
