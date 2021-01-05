@@ -19,13 +19,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.Database"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.Events", "src\Glader.Essentials.Events\Glader.Essentials.Events.csproj", "{A85E4F67-789B-4460-B7AE-93F66A3721CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.Refit", "src\Glader.Essentials.Refit\Glader.Essentials.Refit.csproj", "{AFC95322-28BE-4F5B-9C2E-AFAF22EB8BEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.Refit", "src\Glader.Essentials.Refit\Glader.Essentials.Refit.csproj", "{AFC95322-28BE-4F5B-9C2E-AFAF22EB8BEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.ASP", "src\Glader.Essentials.ASP\Glader.Essentials.ASP.csproj", "{82624E3B-23A8-4B8F-8537-691E9B99772B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.ASP", "src\Glader.Essentials.ASP\Glader.Essentials.ASP.csproj", "{82624E3B-23A8-4B8F-8537-691E9B99772B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.ECS", "src\Glader.Essentials.ECS\Glader.Essentials.ECS.csproj", "{8141CC98-CAAE-42EC-8F68-E9630FDB78C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.ECS", "src\Glader.Essentials.ECS\Glader.Essentials.ECS.csproj", "{8141CC98-CAAE-42EC-8F68-E9630FDB78C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.UI", "src\Glader.Essentials.UI\Glader.Essentials.UI.csproj", "{4C3DF7D4-A083-43B5-B093-EDD825AE5178}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.UI", "src\Glader.Essentials.UI\Glader.Essentials.UI.csproj", "{4C3DF7D4-A083-43B5-B093-EDD825AE5178}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.GUID", "src\Glader.Essentials.GUID\Glader.Essentials.GUID.csproj", "{144A5C00-C6BC-4E7C-97DC-B256C566A055}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,10 @@ Global
 		{4C3DF7D4-A083-43B5-B093-EDD825AE5178}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C3DF7D4-A083-43B5-B093-EDD825AE5178}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C3DF7D4-A083-43B5-B093-EDD825AE5178}.Release|Any CPU.Build.0 = Release|Any CPU
+		{144A5C00-C6BC-4E7C-97DC-B256C566A055}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{144A5C00-C6BC-4E7C-97DC-B256C566A055}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{144A5C00-C6BC-4E7C-97DC-B256C566A055}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{144A5C00-C6BC-4E7C-97DC-B256C566A055}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{82624E3B-23A8-4B8F-8537-691E9B99772B} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 		{8141CC98-CAAE-42EC-8F68-E9630FDB78C7} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 		{4C3DF7D4-A083-43B5-B093-EDD825AE5178} = {B7640947-0573-4F62-8B41-DB4740B149CC}
+		{144A5C00-C6BC-4E7C-97DC-B256C566A055} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BB23C32-5849-40C0-BB63-705FA3AC4FFB}
