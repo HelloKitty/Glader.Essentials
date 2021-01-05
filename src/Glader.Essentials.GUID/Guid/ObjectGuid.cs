@@ -71,7 +71,7 @@ namespace Glader.Essentials
 		/// Sets the <see cref="ObjectType"/> value.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected void SetObjectType(TEntityType type)
+		protected internal void SetObjectType(TEntityType type)
 		{
 			ulong value = Unsafe.As<TEntityType, ulong>(ref type);
 
