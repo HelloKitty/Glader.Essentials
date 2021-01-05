@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
-namespace FreecraftCore
+namespace Glader.Essentials
 {
 	/// <summary>
 	/// <see cref="BaseGuid"/> implementation that defines a specific <typeparamref name="TEntityType"/>.
