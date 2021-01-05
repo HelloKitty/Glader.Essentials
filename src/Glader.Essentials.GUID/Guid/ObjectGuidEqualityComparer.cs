@@ -37,7 +37,7 @@ namespace Glader.Essentials
 			else if(y == null)
 				return false;
 
-			return x.RawGuidValue == y.RawGuidValue;
+			return x.RawValue == y.RawValue;
 		}
 
 		public override int GetHashCode(TType obj)
@@ -45,7 +45,7 @@ namespace Glader.Essentials
 			if(obj == null) throw new ArgumentNullException(nameof(obj));
 
 			//Just return the ulong hash code.
-			return obj.RawGuidValue.GetHashCode();
+			return obj.RawValue.GetHashCode();
 		}
 	}
 }

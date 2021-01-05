@@ -16,20 +16,20 @@ namespace Glader.Essentials
 		/// </summary>
 		[DataMember(Order = 1, IsRequired = true)]
 		[IgnoreDataMember]
-		public ulong RawGuidValue { get; internal set; } //setter only for serialization
+		public ulong RawValue { get; internal set; } //setter only for serialization
 
 		/// <summary>
 		/// Indicates the current GUID of the object. This is the last chunk represents the id that the world server assigned to the object. (The rest is just maskable flags about the object)
 		/// </summary>
 		[IgnoreDataMember]
-		public int CurrentObjectGuid => (int)(RawGuidValue & 0x0000000000FFFFFF);
+		public int Identifier => (int)(RawValue & 0x0000000000FFFFFF);
 
 		/// <summary>
 		/// Indicates the templated reference identifier (entry)
 		/// for the Entity.
 		/// </summary>
 		[IgnoreDataMember]
-		public int Entry => (int) (RawGuidValue >> 24) & 0x0000000000FFFFFF;
+		public int Entry => (int) (RawValue >> 24) & 0x0000000000FFFFFF;
 
 		//TODO: This only support 15 shards.
 		/// <summary>
@@ -38,7 +38,7 @@ namespace Glader.Essentials
 		/// to another except for these top-most bits.
 		/// </summary>
 		[IgnoreDataMember]
-		public byte ShardIdentifier => (byte) ((RawGuidValue >> 63) & 0xF);
+		public byte ShardIdentifier => (byte) ((RawValue >> 63) & 0xF);
 
 		/// <summary>
 		/// Indicates if the entity has an entry.
@@ -52,7 +52,7 @@ namespace Glader.Essentials
 		/// <returns></returns>
 		public bool IsEmpty()
 		{
-			return RawGuidValue == 0;
+			return RawValue == 0;
 		}
 
 		/// <inheritdoc />
@@ -61,7 +61,7 @@ namespace Glader.Essentials
 			if (other == null)
 				return false;
 			else
-				return other.RawGuidValue == this.RawGuidValue;
+				return other.RawValue == this.RawValue;
 		}
 
 		/// <inheritdoc />
@@ -103,13 +103,32 @@ namespace Glader.Essentials
 		{
 			//We actually ONLY mutate it during deserialization.
 			// ReSharper disable once NonReadonlyMemberInGetHashCode
-			return RawGuidValue.GetHashCode();
+			return RawValue.GetHashCode();
 		}
 
 		/// <inheritdoc />
 		public override string ToString()
 		{
-			return $"{RawGuidValue} 0x{RawGuidValue:X} Entry: {Entry} Id: {CurrentObjectGuid}";
+			return $"{RawValue} 0x{RawValue:X} Entry: {Entry} Id: {Identifier}";
+		}
+
+		/// <summary>
+		/// Sets the <see cref="Entry"/> value.
+		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		protected void SetEntry(int entry)
+		{
+			//(RawGuidValue >> 24) & 0x0000000000FFFFFF
+			RawValue |= ((ulong)(entry & 0x0000000000FFFFFF) << 24);
+		}
+
+		/// <summary>
+		/// Sets the <see cref="Entry"/> value.
+		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		protected void SetIdentifier(int id)
+		{
+			RawValue |= (ulong)id & 0x0000000000FFFFFF;
 		}
 
 		/// <summary>
