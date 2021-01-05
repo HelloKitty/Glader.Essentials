@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
-namespace FreecraftCore
+namespace Glader.Essentials
 {
 	/// <summary>
 	/// Base non-generic guid type.
