@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>2.2.48</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <RootNamespace>Glader.Essentials</RootNamespace>
+    <Authors>Andrew Blakely, Glader</Authors>
+    <Product>Glader.Essentials</Product>
+    <Description>Glader.Essentials provide basic essential .NET/C# development libraries for day-to-day development needs. The Message Handler library provides an API for handling messages with a context.</Description>
+    <Copyright>Andrew Blakely</Copyright>
+    <PackageProjectUrl>http://github.com/helloKitty/glader.Essentials</PackageProjectUrl>
+    <RepositoryUrl>http://github.com/helloKitty/glader.Essentials</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Glader Essentials Message MessageHandler Handler</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nito.AsyncEx" Version="5.1.0" />
+  </ItemGroup>
+
+</Project>
