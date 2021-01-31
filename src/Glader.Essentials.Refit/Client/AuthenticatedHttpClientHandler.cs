@@ -35,6 +35,7 @@ namespace Glader.Essentials
 			AuthTokenProvider = authTokenProvider ?? throw new ArgumentNullException(nameof(authTokenProvider));
 		}
 
+		/// <inheritdoc />
 		protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 		{
 			//This will set the authentication token if it's required.
