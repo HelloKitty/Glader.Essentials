@@ -39,7 +39,6 @@ namespace Glader.Essentials
 		/// </summary>
 		protected bool isSubscribed { get; private set; }
 
-		/// <inheritdoc />
 		internal SharedBaseEventListener(TSubscribableType subscriptionService)
 		{
 			SubscriptionService = subscriptionService ?? throw new ArgumentNullException(nameof(subscriptionService));

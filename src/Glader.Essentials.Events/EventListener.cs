@@ -10,7 +10,7 @@ namespace Glader.Essentials
 {
 	/// <summary>
 	/// Base type for an event listener that listens to a single event.
-	/// Will register a callback <see cref="OnEventFired"/> to the event on <see cref="TSubscribableType"/>
+	/// Will register a callback <see cref="HandleOnEventFiredCast"/> to the event on <see cref="TSubscribableType"/>
 	/// that has an event signature with either EventArgs or <see cref="EventHandler"/>.
 	/// </summary>
 	/// <typeparam name="TSubscribableType">The subscription interface.</typeparam>
@@ -34,7 +34,7 @@ namespace Glader.Essentials
 
 	/// <summary>
 	/// Base type for an event listener that listens to a single event.
-	/// Will register a callback <see cref="OnEventFired"/> to the event on <see cref="TSubscribableType"/>
+	/// Will register a callback <see cref="HandleOnEventFiredCast"/> to the event on <see cref="TSubscribableType"/>
 	/// that has an event signature with args <see cref="TEventHandlerArgsType"/>.
 	/// </summary>
 	/// <typeparam name="TSubscribableType">The subscription interface.</typeparam>
