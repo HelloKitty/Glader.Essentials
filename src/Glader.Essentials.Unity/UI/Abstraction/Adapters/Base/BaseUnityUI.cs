@@ -10,9 +10,9 @@ using Unitysync.Async;
 namespace Glader.Essentials
 {
 	/// <summary>
-	/// <see cref="MonoBehaviour"/> implementation of <see cref="IUIAdapterRegisterable"/>
+	/// <see cref="GladerBehaviour"/> implementation of <see cref="IUIAdapterRegisterable"/>
 	/// </summary>
-	public abstract class BaseUnityUI : MonoBehaviour, IUIAdapterRegisterable
+	public abstract class BaseUnityUI : GladerBehaviour, IUIAdapterRegisterable
 	{
 		//Assigned by Unity3D.
 		/// <summary>
