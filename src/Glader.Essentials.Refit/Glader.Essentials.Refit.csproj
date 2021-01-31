@@ -16,6 +16,11 @@
     <PackageTags>Glader Essentials Refit</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Refit" Version="5.2.4" />
   </ItemGroup>
