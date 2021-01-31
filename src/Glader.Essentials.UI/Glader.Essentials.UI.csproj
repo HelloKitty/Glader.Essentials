@@ -21,4 +21,8 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Glader.Essentials.GameFramework\Glader.Essentials.GameFramework.csproj" />
+  </ItemGroup>
+
 </Project>
