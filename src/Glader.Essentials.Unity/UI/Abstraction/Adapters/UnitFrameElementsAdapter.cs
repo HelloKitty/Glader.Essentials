@@ -9,12 +9,12 @@ namespace Glader.Essentials
 	{
 		[Tooltip("Used to determine wiring for UI dependencies.")]
 		[SerializeField]
-		private int _RegisterationKey;
+		private string _RegistrationKey;
 
 		/// <summary>
-		/// The registeration key for the adapted UI element.
+		/// The registration key for the adapted UI element.
 		/// </summary>
-		public int RegisterationKey => _RegisterationKey;
+		public string RegistrationKey => _RegistrationKey;
 
 		/// <inheritdoc />
 		public Type UIServiceType => typeof(IUIUnitFrame);
