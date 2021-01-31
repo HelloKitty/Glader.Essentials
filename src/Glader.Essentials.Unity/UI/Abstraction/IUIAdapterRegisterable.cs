@@ -4,10 +4,15 @@ using System.Text;
 
 namespace Glader.Essentials
 {
-	//TODO: Doc
+	/// <summary>
+	/// Contract for registerable UI adapters.
+	/// </summary>
 	public interface IUIAdapterRegisterable
 	{
-		int RegisterationKey { get; }
+		/// <summary>
+		/// The  key value.
+		/// </summary>
+		string RegistrationKey { get; }
 
 		/// <summary>
 		/// The actual type to register this UI adapter as.

@@ -9,20 +9,32 @@ using Unitysync.Async;
 
 namespace Glader.Essentials
 {
+	/// <summary>
+	/// <see cref="MonoBehaviour"/> implementation of <see cref="IUIAdapterRegisterable"/>
+	/// </summary>
 	public abstract class BaseUnityUI : MonoBehaviour, IUIAdapterRegisterable
 	{
+		//Assigned by Unity3D.
+		/// <summary>
+		/// Internally Unity3D serialized key.
+		/// </summary>
 		[Tooltip("Used to determine wiring for UI dependencies.")]
 		[SerializeField]
-		private int _RegisterationKey;
+#pragma warning disable 649
+		private string _RegistrationKey;
+#pragma warning restore 649
 
-		/// <summary>
-		/// The registeration key for the adapted UI element.
-		/// </summary>
-		public int RegisterationKey => _RegisterationKey;
+		/// <inheritdoc />
+		public string RegistrationKey => _RegistrationKey;
 
+		/// <inheritdoc />
 		public abstract Type UIServiceType { get; }
 	}
 
+	/// <summary>
+	/// <see cref="BaseUnityUI"/> that adapts the specified type <typeparamref name="TAdaptedToType"/>.
+	/// </summary>
+	/// <typeparam name="TAdaptedToType"></typeparam>
 	public abstract class BaseUnityUI<TAdaptedToType> : BaseUnityUI
 	{
 		/// <inheritdoc />
@@ -48,11 +60,9 @@ namespace Glader.Essentials
 
 				if(task.Exception != null && task.Exception.InnerExceptions != null)
 					foreach(Exception inner in task.Exception?.InnerExceptions)
-					{
 						builder.Append($"\nMessage: {inner.Message}\nStack: {inner.StackTrace}");
-					}
 
-				UnityEngine.Debug.LogError($"Encounter exception from Button: {name} OnClickAsync: {builder.ToString()}");
+				UnityEngine.Debug.LogError($"Encounter exception from Button: {name} OnClickAsync: {builder}");
 			}
 
 			//We don't need to do anything, task succeeded and is finished.
