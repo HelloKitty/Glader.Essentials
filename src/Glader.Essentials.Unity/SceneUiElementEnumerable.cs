@@ -19,7 +19,7 @@ namespace Glader.Essentials
 			for(int i = 0; i < SceneManager.sceneCount; i++)
 				foreach(var go in SceneManager.GetSceneAt(i).GetRootGameObjects())
 				{
-					foreach(var registerable in go.GetComponentsInChildren<MonoBehaviour>(true)
+					foreach(var registerable in go.GetComponentsInChildren<GladerBehaviour>(true)
 						.Select(m => m as IUIAdapterRegisterable)
 						.Where(m => m != null))
 					{

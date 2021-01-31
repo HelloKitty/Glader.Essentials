@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Glader.Essentials
 {
-	public sealed class UnitFrameElementsAdapter : MonoBehaviour, IUIAdapterRegisterable, IUIUnitFrame
+	public sealed class UnitFrameElementsAdapter : GladerBehaviour, IUIAdapterRegisterable, IUIUnitFrame
 	{
 		[Tooltip("Used to determine wiring for UI dependencies.")]
 		[SerializeField]

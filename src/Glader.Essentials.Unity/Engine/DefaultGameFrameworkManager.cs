@@ -14,7 +14,7 @@ namespace Glader.Essentials.Unity
 	/// and ticks tickables.
 	/// </summary>
 	[Injectee]
-	public class DefaultGameFrameworkManager : MonoBehaviour
+	public class DefaultGameFrameworkManager : GladerBehaviour
 	{
 		/// <summary>
 		/// Collection of all game initializables.
