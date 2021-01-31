@@ -2,6 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>2.2.50</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <RootNamespace>Glader.Essentials</RootNamespace>
+    <Authors>Andrew Blakely, Glader</Authors>
+    <Product>Glader.Essentials</Product>
+    <Description>Glader.Essentials provide basic essential .NET/C# development libraries for day-to-day development needs. The models library has Refit library related Attributes and HTTP Types.</Description>
+    <Copyright>Andrew Blakely</Copyright>
+    <PackageProjectUrl>http://github.com/helloKitty/glader.Essentials</PackageProjectUrl>
+    <RepositoryUrl>http://github.com/helloKitty/glader.Essentials</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Glader Essentials Unity Editor</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
