@@ -26,19 +26,6 @@ namespace Glader.Essentials
 		/// </summary>
 		protected TAdaptedUnityEngineType UnityUIObject => _UnityUIObject;
 
-		public void TryInitializeAdaptedObject()
-		{
-			TAdaptedUnityEngineType obj = GetComponent<TAdaptedUnityEngineType>();
-
-			if(obj == null)
-				throw new InvalidOperationException($"Failed to find {typeof(TAdaptedUnityEngineType).Name} on GameObject: {name}.");
-
-			if(!ValidateInitializedObject(obj))
-				return;
-
-			_UnityUIObject = obj;
-		}
-
 		/// <summary>
 		/// Validates that the provided <see cref="obj"/>
 		/// is valid to be initialized as the adapted engine object.
@@ -48,6 +35,21 @@ namespace Glader.Essentials
 		protected virtual bool ValidateInitializedObject(TAdaptedUnityEngineType obj)
 		{
 			return obj != null;
+		}
+
+		/// <summary>
+		/// Attempts to locate the <typeparamref name="TAdaptedUnityEngineType"/> component
+		/// and assign it.
+		/// </summary>
+		[Button]
+		public void LocateComponent()
+		{
+			TAdaptedUnityEngineType obj = GetComponent<TAdaptedUnityEngineType>();
+
+			if (ValidateInitializedObject(obj))
+				_UnityUIObject = obj;
+			else
+				Debug.LogError($"Failed to find Component Type: {typeof(TAdaptedUnityEngineType).Name}");
 		}
 	}
 }
