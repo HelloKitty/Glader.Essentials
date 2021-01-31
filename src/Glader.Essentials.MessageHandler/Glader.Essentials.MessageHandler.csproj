@@ -19,6 +19,11 @@
     <PackageTags>Glader Essentials Message MessageHandler Handler</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Nito.AsyncEx" Version="5.1.0" />
   </ItemGroup>
