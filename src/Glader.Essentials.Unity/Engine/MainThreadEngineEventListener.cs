@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 
 namespace Glader.Essentials
 {
@@ -13,12 +14,12 @@ namespace Glader.Essentials
 	/// </summary>
 	/// <typeparam name="TSubscribableType"></typeparam>
 	/// <typeparam name="TEventArgsType"></typeparam>
-	public abstract class ThreadUnSafeBaseSingleEventListenerInitializable<TSubscribableType, TEventArgsType> : EventListener<TSubscribableType, TEventArgsType>
+	public abstract class MainThreadEngineEventListener<TSubscribableType, TEventArgsType> : EventListener<TSubscribableType, TEventArgsType>
 		where TSubscribableType : class 
 		where TEventArgsType : EventArgs
 	{
 		/// <inheritdoc />
-		protected ThreadUnSafeBaseSingleEventListenerInitializable(TSubscribableType subscriptionService) 
+		protected MainThreadEngineEventListener(TSubscribableType subscriptionService) 
 			: base(subscriptionService)
 		{
 
@@ -29,10 +30,19 @@ namespace Glader.Essentials
 		{
 			try
 			{
-				UnityAsyncHelper.UnityMainThreadContext.Post(state =>
+				//If we're not on the sync context we should post to it
+				//otherwise we can handle right away.
+				if(UnityAsyncHelper.UnityMainThreadContext != SynchronizationContext.Current)
+				{
+					UnityAsyncHelper.UnityMainThreadContext.Post(state =>
+					{
+						OnThreadUnSafeEventFired(source, args);
+					}, null);
+				}
+				else
 				{
 					OnThreadUnSafeEventFired(source, args);
-				}, null);
+				}
 			}
 			catch(NullReferenceException)
 			{
@@ -57,11 +67,11 @@ namespace Glader.Essentials
 	/// that complexity away from the consumers.
 	/// </summary>
 	/// <typeparam name="TSubscribableType"></typeparam>
-	public abstract class ThreadUnSafeBaseSingleEventListenerInitializable<TSubscribableType> : EventListener<TSubscribableType> 
+	public abstract class MainThreadEngineEventListener<TSubscribableType> : EventListener<TSubscribableType> 
 		where TSubscribableType : class
 	{
 		/// <inheritdoc />
-		protected ThreadUnSafeBaseSingleEventListenerInitializable(TSubscribableType subscriptionService)
+		protected MainThreadEngineEventListener(TSubscribableType subscriptionService)
 			: base(subscriptionService)
 		{
 		}
@@ -71,10 +81,19 @@ namespace Glader.Essentials
 		{
 			try
 			{
-				UnityAsyncHelper.UnityMainThreadContext.Post(state =>
+				//If we're not on the sync context we should post to it
+				//otherwise we can handle right away.
+				if (UnityAsyncHelper.UnityMainThreadContext != SynchronizationContext.Current)
+				{
+					UnityAsyncHelper.UnityMainThreadContext.Post(state =>
+					{
+						OnThreadUnSafeEventFired(source, args);
+					}, null);
+				}
+				else
 				{
 					OnThreadUnSafeEventFired(source, args);
-				}, null);
+				}
 			}
 			catch(NullReferenceException)
 			{
