@@ -22,7 +22,7 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		protected sealed override void OnEventFired(object source, EventArgs args)
+		protected override void OnEventFired(object source, EventArgs args)
 		{
 			//Dispatches the event to the threadpool and then handles it async.
 			Task.Run(async () => await OnEventFiredAsync(source, args));
@@ -55,7 +55,7 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		protected sealed override void OnEventFired(object source, TEventHandlerArgsType args)
+		protected override void OnEventFired(object source, TEventHandlerArgsType args)
 		{
 			//Dispatches the event to the threadpool and then handles it async.
 			Task.Run(async () => await OnEventFiredAsync(source, args));
