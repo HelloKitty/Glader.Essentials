@@ -48,10 +48,29 @@ namespace Glader.Essentials
 		protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 		{
 			//We build {base}{relative} async (completes immediately if already complete.
-			string endpoint = await EndpointFuture;
+			string endpoint = await GetEndpointAsync(cancellationToken);
 			request.RequestUri = new Uri(new Uri(endpoint), TemporaryBaseUri.MakeRelativeUri(request.RequestUri));
 
 			return await base.SendAsync(request, cancellationToken);
+		}
+
+		private async Task<string> GetEndpointAsync(CancellationToken token = default)
+		{
+			if (EndpointFuture.IsCompleted)
+				return await EndpointFuture;
+			else
+			{
+				if (token == default)
+					return await EndpointFuture;
+				else
+				{
+					if(await Task.WhenAny(EndpointFuture, Task.Run(() => token.WaitHandle.WaitOne(), token)) == EndpointFuture)
+						return await EndpointFuture;
+				}
+			}
+
+			token.ThrowIfCancellationRequested();
+			return null;
 		}
 	}
 }
