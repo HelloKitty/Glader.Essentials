@@ -19,6 +19,16 @@ namespace Glader.Essentials
 		/// </summary>
 		private Task<string> EndpointFuture { get; }
 
+		/// <summary>
+		/// The temporary base URL that can be used.
+		/// </summary>
+		public const string TEMP_BASE_URL = @"http://REPLACE";
+
+		/// <summary>
+		/// The temporary URI based on <see cref="TEMP_BASE_URL"/>.
+		/// </summary>
+		public static Uri TemporaryBaseUri { get; } = new Uri(TEMP_BASE_URL);
+
 		/// <inheritdoc />
 		public AsyncEndpointHttpClientHandler(Task<string> endpointFuture)
 			: this(endpointFuture, new HttpClientHandler())
@@ -39,7 +49,7 @@ namespace Glader.Essentials
 		{
 			//We build {base}{relative} async (completes immediately if already complete.
 			string endpoint = await EndpointFuture;
-			request.RequestUri = new Uri(new Uri(endpoint), request.RequestUri);
+			request.RequestUri = new Uri(new Uri(endpoint), TemporaryBaseUri.MakeRelativeUri(request.RequestUri));
 
 			return await base.SendAsync(request, cancellationToken);
 		}
