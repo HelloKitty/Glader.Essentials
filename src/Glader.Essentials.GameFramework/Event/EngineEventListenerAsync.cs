@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Glader.Essentials;
 
 namespace Glader.Essentials
 {
@@ -11,11 +10,11 @@ namespace Glader.Essentials
 	/// on the thread pool.
 	/// </summary>
 	/// <typeparam name="TSubscribableType">The subscribable type.</typeparam>
-	public abstract class EventListenerAsync<TSubscribableType> : EventListener<TSubscribableType> 
+	public abstract class EngineEventListenerAsync<TSubscribableType> : EngineEventListener<TSubscribableType>
 		where TSubscribableType : class
 	{
 		/// <inheritdoc />
-		protected EventListenerAsync(TSubscribableType subscriptionService) 
+		protected EngineEventListenerAsync(TSubscribableType subscriptionService)
 			: base(subscriptionService)
 		{
 
@@ -43,12 +42,12 @@ namespace Glader.Essentials
 	/// </summary>
 	/// <typeparam name="TSubscribableType">The subscribable type.</typeparam>
 	/// <typeparam name="TEventHandlerArgsType">The args type.</typeparam>
-	public abstract class EventListenerAsync<TSubscribableType, TEventHandlerArgsType> : EventListener<TSubscribableType, TEventHandlerArgsType>
-		where TSubscribableType : class 
+	public abstract class EngineEventListenerAsync<TSubscribableType, TEventHandlerArgsType> : EngineEventListener<TSubscribableType, TEventHandlerArgsType>
+		where TSubscribableType : class
 		where TEventHandlerArgsType : EventArgs
 	{
 		/// <inheritdoc />
-		protected EventListenerAsync(TSubscribableType subscriptionService)
+		protected EngineEventListenerAsync(TSubscribableType subscriptionService)
 			: base(subscriptionService)
 		{
 
