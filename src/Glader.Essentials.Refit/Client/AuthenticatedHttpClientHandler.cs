@@ -28,7 +28,7 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		public AuthenticatedHttpClientHandler(IReadonlyAuthTokenRepository authTokenProvider, HttpClientHandler innerHandler)
+		public AuthenticatedHttpClientHandler(IReadonlyAuthTokenRepository authTokenProvider, HttpMessageHandler innerHandler)
 			: base(innerHandler)
 		{
 			if (innerHandler == null) throw new ArgumentNullException(nameof(innerHandler));

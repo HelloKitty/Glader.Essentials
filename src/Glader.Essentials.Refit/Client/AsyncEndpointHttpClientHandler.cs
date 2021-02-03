@@ -37,7 +37,7 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		public AsyncEndpointHttpClientHandler(Task<string> endpointFuture, HttpClientHandler innerHandler)
+		public AsyncEndpointHttpClientHandler(Task<string> endpointFuture, HttpMessageHandler innerHandler)
 			: base(innerHandler)
 		{
 			if (innerHandler == null) throw new ArgumentNullException(nameof(innerHandler));
