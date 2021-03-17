@@ -13,7 +13,7 @@ namespace Glader.Essentials
 	/// <typeparam name="TModelType">The response model type.</typeparam>
 	/// <typeparam name="TResponseCodeType">The response code type.</typeparam>
 	[JsonObject]
-	public sealed class ResponseModel<TModelType, TResponseCodeType> : IResponseModel<TResponseCodeType>, ISucceedable
+	public class ResponseModel<TModelType, TResponseCodeType> : IResponseModel<TResponseCodeType>, ISucceedable
 		where TResponseCodeType : Enum
 		where TModelType : class
 	{
