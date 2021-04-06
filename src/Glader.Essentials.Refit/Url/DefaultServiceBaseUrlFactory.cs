@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Glader.Essentials;
 
-namespace Booma
+namespace Glader.Essentials
 {
 	/// <summary>
 	/// Default simple implementation of <see cref="IServiceBaseUrlFactory"/>.
