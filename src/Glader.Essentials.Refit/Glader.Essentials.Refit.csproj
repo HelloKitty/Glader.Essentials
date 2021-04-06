@@ -25,4 +25,8 @@
     <PackageReference Include="Refit" Version="5.2.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Glader.Essentials.Common\Glader.Essentials.Common.csproj" />
+  </ItemGroup>
+
 </Project>
