@@ -28,19 +28,25 @@ namespace Glader.Essentials
 		public string GetAccountId(ClaimsPrincipal principal)
 		{
 			if(principal == null)
-			{
 				throw new ArgumentNullException(nameof(principal));
-			}
+
 			return principal.FindFirstValue(Options.ClaimsIdentity.UserIdClaimType);
+		}
+
+		/// <inheritdoc />
+		public string GetSubAccountId(ClaimsPrincipal principal)
+		{
+			if (principal == null) throw new ArgumentNullException(nameof(principal));
+
+			return principal.FindFirstValue(GladerEssentialsASPSecurityConstants.SUB_ACCOUNT_CLAIM);
 		}
 
 		/// <inheritdoc />
 		public string GetAccountName(ClaimsPrincipal principal)
 		{
 			if(principal == null)
-			{
 				throw new ArgumentNullException(nameof(principal));
-			}
+
 			return principal.FindFirstValue(Options.ClaimsIdentity.UserNameClaimType);
 		}
 
