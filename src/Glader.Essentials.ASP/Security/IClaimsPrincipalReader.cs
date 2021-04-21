@@ -21,6 +21,14 @@ namespace Glader.Essentials
 		string GetAccountId(ClaimsPrincipal principal);
 
 		/// <summary>
+		/// Returns the User's Sub-Account ID claim value if present otherwise returns null.
+		/// </summary>
+		/// <param name="principal">The <see cref="ClaimsPrincipal"/> instance.</param>
+		/// <returns>The User's Sub-Account ID claim value, or null if the claim is not present.</returns>
+		/// <remarks>The User's Sub-Account ID claim is identified by <see cref="GladerEssentialsASPSecurityConstants.SUB_ACCOUNT_CLAIM"/>.</remarks>
+		string GetSubAccountId(ClaimsPrincipal principal);
+
+		/// <summary>
 		/// Returns the Name claim value if present otherwise returns null.
 		/// </summary>
 		/// <param name="principal">The <see cref="ClaimsPrincipal"/> instance.</param>
