@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Glader.Essentials
@@ -13,10 +14,9 @@ namespace Glader.Essentials
 		/// <typeparam name="T">The parameter type to check.</typeparam>
 		/// <param name="type"></param>
 		/// <returns></returns>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool Is<T>(this Type type)
 		{
-			if (type == null) throw new ArgumentNullException(nameof(type));
-
 			return type == typeof(T);
 		}
 	}
