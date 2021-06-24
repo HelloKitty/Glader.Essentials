@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Glader.Essentials
 {
+	[Serializable]
 	[DataContract]
 	public sealed class Vector4<T> : Vector3<T>
 	{
