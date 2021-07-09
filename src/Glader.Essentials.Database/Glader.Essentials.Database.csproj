@@ -31,4 +31,8 @@
     <PackageReference Include="System.ComponentModel.Annotations" Version="*" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Glader.Essentials.Common\Glader.Essentials.Common.csproj" />
+  </ItemGroup>
+
 </Project>
