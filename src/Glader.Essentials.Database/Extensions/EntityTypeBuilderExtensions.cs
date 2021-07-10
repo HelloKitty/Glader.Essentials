@@ -49,7 +49,10 @@ namespace Glader.Essentials
 			if (!typeof(TRelatedEntity).IsPrimitive)
 			{
 				typeof(EntityTypeBuilder<TEntity>)
-					.GetMethod(nameof(EntityTypeBuilder<TEntity>.OwnsOne), new Type[] {typeof(Expression<Func<TEntity, TRelatedEntity>>)})
+					.GetMethods()
+					.Where(m => m.Name == nameof(EntityTypeBuilder<TEntity>.OwnsOne) && m.GetParameters().Length == 1)
+					.First(m => m.GetParameters().First().ParameterType != typeof(string))
+					.MakeGenericMethod(typeof(TRelatedEntity))
 					.Invoke(builder, new object[1] { buildAction });
 			}
 		}
