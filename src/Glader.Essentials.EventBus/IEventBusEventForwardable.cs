@@ -4,6 +4,10 @@ using System.Text;
 
 namespace Glader.Essentials
 {
+	/// <summary>
+	/// Contract for types that represent forwardable event bus events.
+	/// (Ex. You may want to use this if you need to persist a forwardable message that might not be able to use IEventBus's Forwarding feature right away. Maybe on another thread)
+	/// </summary>
 	public interface IEventBusEventForwardable
 	{
 		/// <summary>
