@@ -7,7 +7,7 @@ namespace Glader.Essentials
 	/// <summary>
 	/// A Token representing a Subscription.
 	/// </summary>
-	public abstract class SubscriptionToken : IDisposable
+	public abstract class EventBusSubscriptionToken : IDisposable
 	{
 		/// <summary>
 		/// The event type of the subscription.
@@ -22,7 +22,7 @@ namespace Glader.Essentials
 		// To detect redundant calls
 		public bool Disposed { get; protected set; } = false;
 
-		protected SubscriptionToken(Type eventType, IEventBus bus)
+		protected EventBusSubscriptionToken(Type eventType, IEventBus bus)
 		{
 			EventType = eventType ?? throw new ArgumentNullException(nameof(eventType));
 			Bus = bus ?? throw new ArgumentNullException(nameof(bus));
@@ -38,7 +38,7 @@ namespace Glader.Essentials
 		public abstract void Dispose();
 	}
 
-	internal class GenericSubscriptionToken<TEventType> : SubscriptionToken 
+	internal class GenericSubscriptionToken<TEventType> : EventBusSubscriptionToken 
 		where TEventType : IEventBusEventArgs
 	{
 		public GenericSubscriptionToken(IEventBus bus) 

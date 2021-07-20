@@ -9,7 +9,7 @@ namespace Glader.Essentials
 		/// <summary>
 		/// Unique token that 
 		/// </summary>
-		SubscriptionToken Token { get; }
+		EventBusSubscriptionToken Token { get; }
 
 		/// <summary>
 		/// Publishes the provided event data.

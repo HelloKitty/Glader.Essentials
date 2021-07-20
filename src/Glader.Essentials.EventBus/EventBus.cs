@@ -33,7 +33,7 @@ namespace Glader.Essentials
 		private bool UsedForwardedEvents { get; set; } = false;
 
 		/// <inheritdoc />
-		public SubscriptionToken Subscribe<TEventType>(EventHandler<TEventType> action, EventBusSubscriptionMode mode = EventBusSubscriptionMode.Default) 
+		public EventBusSubscriptionToken Subscribe<TEventType>(EventHandler<TEventType> action, EventBusSubscriptionMode mode = EventBusSubscriptionMode.Default) 
 			where TEventType : IEventBusEventArgs
 		{
 			//Assume enum is valid for perf reasons
@@ -50,7 +50,7 @@ namespace Glader.Essentials
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private SubscriptionToken Subscribe<TEventType>(EventHandler<TEventType> action, IDictionary<Type, IEventBusSubscription[]> subscriptionMap) 
+		private EventBusSubscriptionToken Subscribe<TEventType>(EventHandler<TEventType> action, IDictionary<Type, IEventBusSubscription[]> subscriptionMap) 
 			where TEventType : IEventBusEventArgs
 		{
 			if (action == null) throw new ArgumentNullException(nameof(action));
@@ -142,7 +142,7 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		public bool Unsubscribe<TEventType>(SubscriptionToken token) 
+		public bool Unsubscribe<TEventType>(EventBusSubscriptionToken token) 
 			where TEventType : IEventBusEventArgs
 		{
 			//TODO: Optimized forwarded subscription unsubscribe
@@ -154,7 +154,7 @@ namespace Glader.Essentials
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private bool Unsubscribe<TEventType>(SubscriptionToken token, IDictionary<Type, IEventBusSubscription[]> subscriptionMap) 
+		private bool Unsubscribe<TEventType>(EventBusSubscriptionToken token, IDictionary<Type, IEventBusSubscription[]> subscriptionMap) 
 			where TEventType : IEventBusEventArgs
 		{
 			if (token == null) throw new ArgumentNullException(nameof(token));
