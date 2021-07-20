@@ -94,8 +94,6 @@ namespace Glader.Essentials
 					//If there is no null open slot then we need to reallocation just
 					//like a List would
 					var newArray = new IEventBusSubscription[array.Length + 1];
-					array.AsSpan().CopyTo(newArray);
-
 					//Simply the last element can now become the new subscription
 					newArray[newArray.Length - 1] = newSubscription;
 
@@ -103,6 +101,10 @@ namespace Glader.Essentials
 					EventBusLock<TEventType>.Lock.EnterWriteLock();
 					try
 					{
+						//Because in Unsub we only do a read lock to set null we cannot safely copy
+						//until we're in the write block sadly
+						array.AsSpan().CopyTo(newArray);
+
 						//Just replace the array, won't interrupt iterating Publishers
 						//in a thread-unsafe way.
 						subscriptionMap[typeof(TEventType)] = newArray;
