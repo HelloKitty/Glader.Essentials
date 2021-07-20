@@ -29,6 +29,9 @@ namespace Glader.Essentials
 		/// </summary>
 		private IDictionary<Type, IEventBusSubscription[]> ForwardedSubscriptionMap { get; } = new ConcurrentDictionary<Type, IEventBusSubscription[]>();
 
+		//TODO: This is a total hack for perf when consumer of the library never uses ForwardedSubscriptionMap
+		private bool UsedForwardedEvents { get; set; } = false;
+
 		/// <inheritdoc />
 		public SubscriptionToken Subscribe<TEventType>(EventHandler<TEventType> action, EventBusSubscriptionMode mode = EventBusSubscriptionMode.Default) 
 			where TEventType : IEventBusEventArgs
@@ -39,6 +42,7 @@ namespace Glader.Essentials
 				case EventBusSubscriptionMode.Default:
 					return Subscribe(action, DefaultSubscriptionMap);
 				case EventBusSubscriptionMode.Forwarded:
+					UsedForwardedEvents = true;
 					return Subscribe(action, ForwardedSubscriptionMap);
 				default:
 					throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
@@ -190,7 +194,7 @@ namespace Glader.Essentials
 
 			//TODO: This is not optimal but better than Count because it's lockless.
 			//TODO: We can only do this because we ASSUME it's ConcurrentDictionary. May not be in the future!!
-			if (ForwardedSubscriptionMap.ContainsKey(typeof(TEventType)))
+			if (UsedForwardedEvents && ForwardedSubscriptionMap.ContainsKey(typeof(TEventType)))
 				Publish(sender, eventData, ForwardedSubscriptionMap);
 		}
 
