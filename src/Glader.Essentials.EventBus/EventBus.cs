@@ -108,7 +108,7 @@ namespace Glader.Essentials
 						//Just replace the array, won't interrupt iterating Publishers
 						//in a thread-unsafe way.
 						subscriptionMap[typeof(TEventType)] = newArray;
-						return newArray[newArray.Length - 1].Token; //if users somehow unsubs before we return the token (impossible currently) then we get exception if we don't return in the write block
+						return newSubscription.Token; //if users somehow unsubs before we return the token (impossible currently) then we get exception if we don't return in the write block
 					}
 					finally
 					{
