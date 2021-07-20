@@ -34,6 +34,22 @@ namespace Glader.Essentials
 
 			bus.Publish(sender, new TEventType());
 		}
+
+		/// <summary>
+		/// Subscribes to the specified event type to forward the event to the provided <see cref="IEventBus"/> <see cref="bus"/>.
+		/// </summary>
+		/// <typeparam name="TEventType">The type of event</typeparam>
+		/// <param name="bus">The event bus to subscribe to.</param>
+		/// <param name="forwardTarget">The event bus that the events should be forwarded to.</param>
+		/// <returns>A <see cref="SubscriptionToken"/> to be used when calling <see cref="IEventBus.Unsubscribe{TEventType}"/></returns>
+		public static SubscriptionToken SubscribeForwarded<TEventType>(this IEventBus bus, IEventBus forwardTarget)
+			where TEventType : IEventBusEventArgs
+		{
+			if (bus == null) throw new ArgumentNullException(nameof(bus));
+			if (forwardTarget == null) throw new ArgumentNullException(nameof(forwardTarget));
+
+			return bus.Subscribe<TEventType>(forwardTarget.Publish, EventBusSubscriptionMode.Forwarded);
+		}
 	}
 
 	/// <summary>
@@ -47,8 +63,9 @@ namespace Glader.Essentials
 		/// </summary>
 		/// <typeparam name="TEventType">The type of event</typeparam>
 		/// <param name="action">The Action to invoke when an event of this type is published</param>
-		/// <returns>A <see cref="SubscriptionToken"/> to be used when calling <see cref="Unsubscribe"/></returns>
-		SubscriptionToken Subscribe<TEventType>(EventHandler<TEventType> action) 
+		/// <param name="mode">The subscription mode to use.</param>
+		/// <returns>A <see cref="SubscriptionToken"/> to be used when calling <see cref="Unsubscribe{TEventType}"/></returns>
+		SubscriptionToken Subscribe<TEventType>(EventHandler<TEventType> action, EventBusSubscriptionMode mode = EventBusSubscriptionMode.Default) 
 			where TEventType : IEventBusEventArgs;
 
 		/// <summary>
