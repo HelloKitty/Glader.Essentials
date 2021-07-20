@@ -19,6 +19,9 @@ namespace Glader.Essentials
 		/// </summary>
 		protected IEventBus Bus { get; }
 
+		// To detect redundant calls
+		public bool Disposed { get; protected set; } = false;
+
 		protected SubscriptionToken(Type eventType, IEventBus bus)
 		{
 			EventType = eventType ?? throw new ArgumentNullException(nameof(eventType));
@@ -38,9 +41,6 @@ namespace Glader.Essentials
 	internal class GenericSubscriptionToken<TEventType> : SubscriptionToken 
 		where TEventType : IEventBusEventArgs
 	{
-		// To detect redundant calls
-		private bool Disposed { get; set; } = false;
-
 		public GenericSubscriptionToken(IEventBus bus) 
 			: base(typeof(TEventType), bus)
 		{

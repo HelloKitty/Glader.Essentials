@@ -159,6 +159,10 @@ namespace Glader.Essentials
 		{
 			if (token == null) throw new ArgumentNullException(nameof(token));
 
+			//Case where users might try to remove subscription multiple times from the save token.
+			if (token.Disposed)
+				return false;
+
 			//WARNING: We cannot remove read lock like we did with Publish here. See below warning above the loop.
 			//Even though we may write (set an index null) 
 			EventBusLock<TEventType>.Lock.EnterReadLock();
