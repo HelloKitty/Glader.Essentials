@@ -58,10 +58,10 @@ namespace Glader.Essentials
 			EventBusLock<TEventType>.Lock.EnterUpgradeableReadLock();
 			try
 			{
-				if (subscriptionMap.ContainsKey(typeof(TEventType)))
+				//Using TryGetValue instead of ContainsKey because ConcurrentDictionary won't lock as seen here: https://github.com/microsoft/referencesource/blob/master/mscorlib/system/collections/Concurrent/ConcurrentDictionary.cs#L498
+				//And TryGetValue can get us the value directly without having to x2 call TryGetValue since it's called internally by indexer
+				if(subscriptionMap.TryGetValue(typeof(TEventType), out var array))
 				{
-					var array = subscriptionMap[typeof(TEventType)];
-
 					//Let us try to find an opening in the existing array
 					for (int i = 0; i < array.Length; i++)
 						if (array[i].IsNull())
@@ -151,10 +151,10 @@ namespace Glader.Essentials
 			EventBusLock<TEventType>.Lock.EnterReadLock();
 			try
 			{
-				if (!subscriptionMap.ContainsKey(typeof(TEventType)))
+				//Using TryGetValue instead of ContainsKey because ConcurrentDictionary won't lock as seen here: https://github.com/microsoft/referencesource/blob/master/mscorlib/system/collections/Concurrent/ConcurrentDictionary.cs#L498
+				//And TryGetValue can get us the value directly without having to x2 call TryGetValue since it's called internally by indexer
+				if(!subscriptionMap.TryGetValue(typeof(TEventType), out var array))
 					return false;
-
-				IEventBusSubscription[] array = subscriptionMap[typeof(TEventType)];
 
 				//WARNING: Don't try to read outside of this and set null in a write lock afterwards because Subscribe may create an Array copy and the null set won't carry over due to race conditions
 				//Theortically we could read this array initially outside
@@ -209,7 +209,8 @@ namespace Glader.Essentials
 			{
 				//Already checked that it contains the key but this could have changed since it wasn't locked
 				//in the calling function. Checking it avoided doing a lock or waiting for a contended lock potentially.
-				//TryGetValue for ConcurrentDictionary won't lock as seen here: https://github.com/microsoft/referencesource/blob/master/mscorlib/system/collections/Concurrent/ConcurrentDictionary.cs#L498
+				//Using TryGetValue instead of ContainsKey because ConcurrentDictionary won't lock as seen here: https://github.com/microsoft/referencesource/blob/master/mscorlib/system/collections/Concurrent/ConcurrentDictionary.cs#L498
+				//And TryGetValue can get us the value directly without having to x2 call TryGetValue since it's called internally by indexer
 				if(!subscriptionMap.TryGetValue(typeof(TEventType), out array))
 					return;
 			}
