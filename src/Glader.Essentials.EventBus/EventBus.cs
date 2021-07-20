@@ -68,7 +68,7 @@ namespace Glader.Essentials
 				{
 					//Let us try to find an opening in the existing array
 					for (int i = 0; i < array.Length; i++)
-						if (array[i].IsNull())
+						if (array[i] == null)
 						{
 							//At this point we know there is a null entry *and* we know that we must write
 							//so we enter the write lock and don't need to double check locking because only write locks should be able
@@ -77,19 +77,18 @@ namespace Glader.Essentials
 							try
 							{
 								array[i] = CreateNewSubscription(action);
+								return array[i].Token; //if users somehow unsubs before we return the token (impossible currently) then we get exception if we don't return in the write block
 							}
 							finally
 							{
 								EventBusLock<TEventType>.Lock.ExitWriteLock();
 							}
-
-							return array[i].Token;
 						}
 
 					//If there is no null open slot then we need to reallocation just
 					//like a List would
 					var newArray = new IEventBusSubscription[array.Length + 1];
-					Array.Copy(array, newArray, array.Length);
+					array.AsSpan().CopyTo(newArray);
 
 					//Simply the last element can now become the new subscription
 					newArray[newArray.Length - 1] = CreateNewSubscription(action);
@@ -101,30 +100,31 @@ namespace Glader.Essentials
 						//Just replace the array, won't interrupt iterating Publishers
 						//in a thread-unsafe way.
 						subscriptionMap[typeof(TEventType)] = newArray;
+						return newArray[newArray.Length - 1].Token; //if users somehow unsubs before we return the token (impossible currently) then we get exception if we don't return in the write block
 					}
 					finally
 					{
 						EventBusLock<TEventType>.Lock.ExitWriteLock();
 					}
-
-					return newArray[newArray.Length - 1].Token;
 				}
 				else
 				{
+					//We can allocate outside the write block for perf gain
+					array = new IEventBusSubscription[] { CreateNewSubscription(action) };
+
 					//Case where there wasn't even an initial entry
 					//We don't have to write lock here but we do anyway just incase I'm
 					//not as smart in modeling the concurrency and thread safety in my head as I think I am
 					EventBusLock<TEventType>.Lock.EnterWriteLock();
 					try
 					{
-						subscriptionMap[typeof(TEventType)] = new IEventBusSubscription[] {CreateNewSubscription(action)};
+						subscriptionMap[typeof(TEventType)] = array;
+						return array[0].Token; //if users somehow unsubs before we return the token (impossible currently) then we get exception if we don't return in the write block
 					}
 					finally
 					{
 						EventBusLock<TEventType>.Lock.ExitWriteLock();
 					}
-
-					return subscriptionMap[typeof(TEventType)].First().Token;
 				}
 			}
 			finally
