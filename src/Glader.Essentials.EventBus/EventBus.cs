@@ -151,6 +151,7 @@ namespace Glader.Essentials
 		{
 			if (token == null) throw new ArgumentNullException(nameof(token));
 
+			//WARNING: We cannot remove read lock like we did with Publish here. See below warning above the loop.
 			//Even though we may write (set an index null) 
 			EventBusLock<TEventType>.Lock.EnterReadLock();
 			try
