@@ -77,6 +77,10 @@ namespace Glader.Essentials
 							EventBusLock<TEventType>.Lock.EnterWriteLock();
 							try
 							{
+								//Because we only readlock for unsub we need to actually double-check lock here
+								if (array[i] != null)
+									continue;
+
 								array[i] = newSubscription;
 								return array[i].Token; //if users somehow unsubs before we return the token (impossible currently) then we get exception if we don't return in the write block
 							}
