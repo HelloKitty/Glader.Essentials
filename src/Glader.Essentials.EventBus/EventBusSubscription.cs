@@ -8,7 +8,7 @@ namespace Glader.Essentials
 	/// Default implementation of <see cref="IEventBusSubscription"/>.
 	/// </summary>
 	/// <typeparam name="TEventType">The event type to publish.</typeparam>
-	internal sealed class EventBusSubscription<TEventType> : IEventBusSubscription 
+	internal sealed class EventBusSubscription<TEventType> : IEventBusSubscription
 		where TEventType : IEventBusEventArgs
 	{
 		/// <inheritdoc />
