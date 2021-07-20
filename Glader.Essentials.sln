@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.SourceGen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.EventBus", "src\Glader.Essentials.EventBus\Glader.Essentials.EventBus.csproj", "{7A8B2C89-8D8A-40C2-8A00-1C1624FD694A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.EventBus.Tests", "tests\Glader.Essentials.EventBus.Tests\Glader.Essentials.EventBus.Tests.csproj", "{64641414-1CB6-4E46-AF08-5436B461FF6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +111,10 @@ Global
 		{7A8B2C89-8D8A-40C2-8A00-1C1624FD694A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A8B2C89-8D8A-40C2-8A00-1C1624FD694A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A8B2C89-8D8A-40C2-8A00-1C1624FD694A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64641414-1CB6-4E46-AF08-5436B461FF6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64641414-1CB6-4E46-AF08-5436B461FF6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64641414-1CB6-4E46-AF08-5436B461FF6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64641414-1CB6-4E46-AF08-5436B461FF6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,6 +136,7 @@ Global
 		{6D8C70DE-6730-4939-BF72-5CD63142930F} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 		{BD22C2A4-BDCD-4645-A4D1-500D54236214} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 		{7A8B2C89-8D8A-40C2-8A00-1C1624FD694A} = {B7640947-0573-4F62-8B41-DB4740B149CC}
+		{64641414-1CB6-4E46-AF08-5436B461FF6F} = {E4641070-6CC1-4D57-B5E6-203F249BCFB4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BB23C32-5849-40C0-BB63-705FA3AC4FFB}
