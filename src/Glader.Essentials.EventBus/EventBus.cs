@@ -56,6 +56,8 @@ namespace Glader.Essentials
 			if (action == null) throw new ArgumentNullException(nameof(action));
 			if (subscriptionMap == null) throw new ArgumentNullException(nameof(subscriptionMap));
 
+			var newSubscription = CreateNewSubscription(action);
+
 			//TODO: Figure out how we might be able to do some array pooling.
 			//Only one thread can be in upgradeable mode at any time.
 			//However this will allow Read/Publish threads to publish until we absolutely MUST write to the array
@@ -70,7 +72,6 @@ namespace Glader.Essentials
 					for (int i = 0; i < array.Length; i++)
 						if (array[i] == null)
 						{
-							var newSubscription = CreateNewSubscription(action);
 							//At this point we know there is a null entry *and* we know that we must write
 							//so we enter the write lock and don't need to double check locking because only write locks should be able
 							//to set NULL and we're within an upgradeable lock at the moment.
@@ -96,7 +97,7 @@ namespace Glader.Essentials
 					array.AsSpan().CopyTo(newArray);
 
 					//Simply the last element can now become the new subscription
-					newArray[newArray.Length - 1] = CreateNewSubscription(action);
+					newArray[newArray.Length - 1] = newSubscription;
 
 					//now we write lock in the secondary case where we need to replace the existing subscription array
 					EventBusLock<TEventType>.Lock.EnterWriteLock();
@@ -115,7 +116,7 @@ namespace Glader.Essentials
 				else
 				{
 					//We can allocate outside the write block for perf gain
-					array = new IEventBusSubscription[] { CreateNewSubscription(action) };
+					array = new IEventBusSubscription[] { newSubscription };
 
 					//Case where there wasn't even an initial entry
 					//We don't have to write lock here but we do anyway just incase I'm
