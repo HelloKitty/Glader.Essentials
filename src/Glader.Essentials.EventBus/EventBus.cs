@@ -201,25 +201,14 @@ namespace Glader.Essentials
 		private void Publish<TEventType>(object sender, TEventType eventData, IDictionary<Type, IEventBusSubscription[]> subscriptionMap) 
 			where TEventType : IEventBusEventArgs
 		{
-			IEventBusSubscription[] array;
 
-			//We only read lock to retrieve the current array of subscriptions
-			//We don't have to worry about the array changing because we check null on publishing
-			//through the subscription
-			EventBusLock<TEventType>.Lock.EnterReadLock();
-			try
-			{
-				//Already checked that it contains the key but this could have changed since it wasn't locked
-				//in the calling function. Checking it avoided doing a lock or waiting for a contended lock potentially.
-				//Using TryGetValue instead of ContainsKey because ConcurrentDictionary won't lock as seen here: https://github.com/microsoft/referencesource/blob/master/mscorlib/system/collections/Concurrent/ConcurrentDictionary.cs#L498
-				//And TryGetValue can get us the value directly without having to x2 call TryGetValue since it's called internally by indexer
-				if(!subscriptionMap.TryGetValue(typeof(TEventType), out array))
-					return;
-			}
-			finally
-			{
-				EventBusLock<TEventType>.Lock.ExitReadLock();
-			}
+			//We can avoid read lots by just reading the current value directly, if there is any, this is actually threadsafe still!
+			//Already checked that it contains the key but this could have changed since it wasn't locked
+			//in the calling function. Checking it avoided doing a lock or waiting for a contended lock potentially.
+			//Using TryGetValue instead of ContainsKey because ConcurrentDictionary won't lock as seen here: https://github.com/microsoft/referencesource/blob/master/mscorlib/system/collections/Concurrent/ConcurrentDictionary.cs#L498
+			//And TryGetValue can get us the value directly without having to x2 call TryGetValue since it's called internally by indexer
+			if(!subscriptionMap.TryGetValue(typeof(TEventType), out var array))
+				return;
 
 			foreach (IEventBusSubscription sub in array) //this will enumerate the returned reference, so it won't change
 			{
