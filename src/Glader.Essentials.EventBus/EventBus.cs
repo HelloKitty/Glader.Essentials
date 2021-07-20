@@ -70,13 +70,14 @@ namespace Glader.Essentials
 					for (int i = 0; i < array.Length; i++)
 						if (array[i] == null)
 						{
+							var newSubscription = CreateNewSubscription(action);
 							//At this point we know there is a null entry *and* we know that we must write
 							//so we enter the write lock and don't need to double check locking because only write locks should be able
 							//to set NULL and we're within an upgradeable lock at the moment.
 							EventBusLock<TEventType>.Lock.EnterWriteLock();
 							try
 							{
-								array[i] = CreateNewSubscription(action);
+								array[i] = newSubscription;
 								return array[i].Token; //if users somehow unsubs before we return the token (impossible currently) then we get exception if we don't return in the write block
 							}
 							finally
