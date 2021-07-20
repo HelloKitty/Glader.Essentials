@@ -198,6 +198,7 @@ namespace Glader.Essentials
 				Publish(sender, eventData, ForwardedSubscriptionMap);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private void Publish<TEventType>(object sender, TEventType eventData, IDictionary<Type, IEventBusSubscription[]> subscriptionMap) 
 			where TEventType : IEventBusEventArgs
 		{
