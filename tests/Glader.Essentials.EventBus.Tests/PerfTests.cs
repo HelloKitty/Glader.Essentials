@@ -38,12 +38,12 @@ namespace Redbus.Tests
 
             var mainSw = Stopwatch.StartNew();
             var threads = new List<Thread>();
-            for(int i = 0; i < 10; i++)
+            for(int i = 0; i < 64; i++)
             {
                 var thread = new Thread(() =>
                 {
                     var sw = Stopwatch.StartNew();
-                    for(int j = 0; j < 100; j++)
+                    for(int j = 0; j < 1000000; j++)
                     {
                         eventBus.Publish(this, new CustomTestEvent { Name = "Custom Event", Identifier = 1 });
                     }
@@ -64,7 +64,10 @@ namespace Redbus.Tests
                 thread.Join();
             }
             mainSw.Stop();
+
+            Debug.WriteLine($"Finished in {mainSw.ElapsedMilliseconds}ms");
             Assert.IsTrue(mainSw.Elapsed < TimeSpan.FromSeconds(2), $"NaivePublishPerformanceTest took {mainSw.ElapsedMilliseconds}ms");
+            Console.WriteLine($"[DEBUG] NaivePublishPerformanceTest took {mainSw.ElapsedMilliseconds}ms");
         }
 
         [MethodImpl(MethodImplOptions.NoOptimization)]
