@@ -195,7 +195,7 @@ namespace Glader.Essentials
 
 			//TODO: This is not optimal but better than Count because it's lockless.
 			//TODO: We can only do this because we ASSUME it's ConcurrentDictionary. May not be in the future!!
-			if (UsedForwardedEvents && ForwardedSubscriptionMap.ContainsKey(typeof(TEventType)))
+			if (UsedForwardedEvents)
 				Publish(sender, eventData, ForwardedSubscriptionMap);
 		}
 
