@@ -185,10 +185,8 @@ namespace Glader.Essentials
 		public void Publish<TEventType>(object sender, TEventType eventData) 
 			where TEventType : IEventBusEventArgs
 		{
-			//TODO: This is not optimal but better than Count because it's lockless.
-			//TODO: We can only do this because we ASSUME it's ConcurrentDictionary. May not be in the future!!
-			if (DefaultSubscriptionMap.ContainsKey(typeof(TEventType)))
-				Publish(sender, eventData, DefaultSubscriptionMap);
+			//Don't bother checking, just assume default exists some
+			Publish(sender, eventData, DefaultSubscriptionMap);
 
 			//TODO: This is not optimal but better than Count because it's lockless.
 			//TODO: We can only do this because we ASSUME it's ConcurrentDictionary. May not be in the future!!
