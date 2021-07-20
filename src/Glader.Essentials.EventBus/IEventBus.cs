@@ -27,7 +27,7 @@ namespace Glader.Essentials
 		/// <typeparam name="TEventType">The type of event</typeparam>
 		/// <param name="bus">The event bus to publish from.</param>
 		/// <param name="sender">The sender of the event.</param>
-		public static void Publish<TEventType>(this IEventBus bus, object sender)
+		public static void PublishSimple<TEventType>(this IEventBus bus, object sender)
 			where TEventType : IEventBusEventArgs, new()
 		{
 			if (bus == null) throw new ArgumentNullException(nameof(bus));
