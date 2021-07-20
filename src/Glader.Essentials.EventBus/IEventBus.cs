@@ -7,12 +7,12 @@ namespace Glader.Essentials
 	public static class IEventBusExtensions
 	{
 		/// <summary>
-		/// Unsubscribe from the Event type related to the specified <see cref="SubscriptionToken"/>
+		/// Unsubscribe from the Event type related to the specified <see cref="EventBusSubscriptionToken"/>
 		/// </summary>
 		/// <param name="bus">The event bus to unsubscribe from.</param>
-		/// <param name="token">The <see cref="SubscriptionToken"/> received from calling the Subscribe method</param>
+		/// <param name="token">The <see cref="EventBusSubscriptionToken"/> received from calling the Subscribe method</param>
 		/// <returns>Indicates if a subscription was removed (if token actually was registered)</returns>
-		public static bool Unsubscribe(this IEventBus bus, SubscriptionToken token)
+		public static bool Unsubscribe(this IEventBus bus, EventBusSubscriptionToken token)
 		{
 			if (bus == null) throw new ArgumentNullException(nameof(bus));
 			if (token == null) throw new ArgumentNullException(nameof(token));
@@ -41,8 +41,8 @@ namespace Glader.Essentials
 		/// <typeparam name="TEventType">The type of event</typeparam>
 		/// <param name="bus">The event bus to subscribe to.</param>
 		/// <param name="forwardTarget">The event bus that the events should be forwarded to.</param>
-		/// <returns>A <see cref="SubscriptionToken"/> to be used when calling <see cref="IEventBus.Unsubscribe{TEventType}"/></returns>
-		public static SubscriptionToken SubscribeForwarded<TEventType>(this IEventBus bus, IEventBus forwardTarget)
+		/// <returns>A <see cref="EventBusSubscriptionToken"/> to be used when calling <see cref="IEventBus.Unsubscribe{TEventType}"/></returns>
+		public static EventBusSubscriptionToken SubscribeForwarded<TEventType>(this IEventBus bus, IEventBus forwardTarget)
 			where TEventType : IEventBusEventArgs
 		{
 			if (bus == null) throw new ArgumentNullException(nameof(bus));
@@ -64,16 +64,16 @@ namespace Glader.Essentials
 		/// <typeparam name="TEventType">The type of event</typeparam>
 		/// <param name="action">The Action to invoke when an event of this type is published</param>
 		/// <param name="mode">The subscription mode to use.</param>
-		/// <returns>A <see cref="SubscriptionToken"/> to be used when calling <see cref="Unsubscribe{TEventType}"/></returns>
-		SubscriptionToken Subscribe<TEventType>(EventHandler<TEventType> action, EventBusSubscriptionMode mode = EventBusSubscriptionMode.Default) 
+		/// <returns>A <see cref="EventBusSubscriptionToken"/> to be used when calling <see cref="Unsubscribe{TEventType}"/></returns>
+		EventBusSubscriptionToken Subscribe<TEventType>(EventHandler<TEventType> action, EventBusSubscriptionMode mode = EventBusSubscriptionMode.Default) 
 			where TEventType : IEventBusEventArgs;
 
 		/// <summary>
-		/// Unsubscribe from the Event type related to the specified <see cref="SubscriptionToken"/>
+		/// Unsubscribe from the Event type related to the specified <see cref="EventBusSubscriptionToken"/>
 		/// </summary>
-		/// <param name="token">The <see cref="SubscriptionToken"/> received from calling the Subscribe method</param>
+		/// <param name="token">The <see cref="EventBusSubscriptionToken"/> received from calling the Subscribe method</param>
 		/// <returns>Indicates if a subscription was removed (if token actually was registered)</returns>
-		bool Unsubscribe<TEventType>(SubscriptionToken token)
+		bool Unsubscribe<TEventType>(EventBusSubscriptionToken token)
 			where TEventType : IEventBusEventArgs;
 
 		/// <summary>

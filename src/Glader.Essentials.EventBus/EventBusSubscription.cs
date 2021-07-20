@@ -12,14 +12,14 @@ namespace Glader.Essentials
 		where TEventType : IEventBusEventArgs
 	{
 		/// <inheritdoc />
-		public SubscriptionToken Token { get; }
+		public EventBusSubscriptionToken Token { get; }
 
 		/// <summary>
 		/// Internally managed event reference.
 		/// </summary>
 		private EventHandler<TEventType> EventReference { get; }
 
-		public EventBusSubscription(EventHandler<TEventType> eventReference, SubscriptionToken token)
+		public EventBusSubscription(EventHandler<TEventType> eventReference, EventBusSubscriptionToken token)
 		{
 			EventReference = eventReference ?? throw new ArgumentNullException(nameof(eventReference));
 			Token = token ?? throw new ArgumentNullException(nameof(token));
