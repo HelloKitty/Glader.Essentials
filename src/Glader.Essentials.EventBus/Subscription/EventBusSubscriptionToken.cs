@@ -22,10 +22,17 @@ namespace Glader.Essentials
 		// To detect redundant calls
 		public bool Disposed { get; protected set; } = false;
 
-		protected EventBusSubscriptionToken(Type eventType, IEventBus bus)
+		/// <summary>
+		/// The mode of the subscription
+		/// </summary>
+		internal EventBusSubscriptionMode Mode { get; }
+
+		protected EventBusSubscriptionToken(Type eventType, IEventBus bus, EventBusSubscriptionMode mode)
 		{
+			//We don't verify enum mode for perf
 			EventType = eventType ?? throw new ArgumentNullException(nameof(eventType));
 			Bus = bus ?? throw new ArgumentNullException(nameof(bus));
+			Mode = mode;
 		}
 
 		/// <summary>
@@ -41,8 +48,8 @@ namespace Glader.Essentials
 	internal class GenericSubscriptionToken<TEventType> : EventBusSubscriptionToken 
 		where TEventType : IEventBusEventArgs
 	{
-		public GenericSubscriptionToken(IEventBus bus) 
-			: base(typeof(TEventType), bus)
+		public GenericSubscriptionToken(IEventBus bus, EventBusSubscriptionMode mode) 
+			: base(typeof(TEventType), bus, mode)
 		{
 
 		}

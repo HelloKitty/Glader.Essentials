@@ -54,34 +54,34 @@ namespace Glader.Essentials
 			switch (mode)
 			{
 				case EventBusSubscriptionMode.Default:
-					return Subscribe(action, DefaultSubscriptionMap);
+					return Subscribe(action, DefaultSubscriptionMap, mode);
 				case EventBusSubscriptionMode.Forwarded:
 					UsedForwardedEvents = true;
-					return Subscribe(action, ForwardedSubscriptionMap);
+					return Subscribe(action, ForwardedSubscriptionMap, mode);
 				case EventBusSubscriptionMode.All:
 					UsedAllEvents = true;
 					if (typeof(TEventType) != typeof(IEventBusEventArgs))
 						throw new InvalidOperationException($"Cannot subscribe with Mode: {mode} Type: {typeof(TEventType).Name} for Action: {action}.");
 
-					return Subscribe<IEventBusEventArgs>((s, e) => action(s, (TEventType)e), AllSubscriptionMap);
+					return Subscribe<IEventBusEventArgs>((s, e) => action(s, (TEventType)e), AllSubscriptionMap, mode);
 				case EventBusSubscriptionMode.Exception:
 					if(typeof(TEventType) != typeof(ExceptionEventBusEventArgs))
 						throw new InvalidOperationException($"Cannot subscribe with Mode: {mode} Type: {typeof(TEventType).Name} for Action: {action}.");
 
-					return Subscribe<ExceptionEventBusEventArgs>((s, e) => action(s, (TEventType)(IEventBusEventArgs)e), ExceptionSubscriptionMap);
+					return Subscribe<ExceptionEventBusEventArgs>((s, e) => action(s, (TEventType)(IEventBusEventArgs)e), ExceptionSubscriptionMap, mode);
 				default:
 					throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
 			}
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private EventBusSubscriptionToken Subscribe<TEventType>(EventHandler<TEventType> action, IDictionary<Type, IEventBusSubscription[]> subscriptionMap) 
+		private EventBusSubscriptionToken Subscribe<TEventType>(EventHandler<TEventType> action, IDictionary<Type, IEventBusSubscription[]> subscriptionMap, EventBusSubscriptionMode mode) 
 			where TEventType : IEventBusEventArgs
 		{
 			if (action == null) throw new ArgumentNullException(nameof(action));
 			if (subscriptionMap == null) throw new ArgumentNullException(nameof(subscriptionMap));
 
-			var newSubscription = CreateNewSubscription(action);
+			var newSubscription = CreateNewSubscription(action, mode);
 
 			//TODO: Figure out how we might be able to do some array pooling.
 			//Only one thread can be in upgradeable mode at any time.
@@ -174,25 +174,19 @@ namespace Glader.Essentials
 			if(token.Disposed)
 				return false;
 
-			//TODO: Optimized forwarded subscription unsubscribe
-			//First try to remove from the default subscriptions, otherwise could be a forwarded subscription!
-			if (!Unsubscribe<TEventType>(token, DefaultSubscriptionMap))
+			switch (token.Mode)
 			{
-				if(UsedForwardedEvents)
-					if (Unsubscribe<TEventType>(token, ForwardedSubscriptionMap))
-						return true;
-
-				if(UsedAllEvents)
-					if(Unsubscribe<IEventBusEventArgs>(token, AllSubscriptionMap))
-						return true;
-
-				//TODO: Make this better
-				if(typeof(ExceptionEventBusEventArgs) == typeof(TEventType))
-					if(Unsubscribe<ExceptionEventBusEventArgs>(token, ExceptionSubscriptionMap))
-						return true;
+				case EventBusSubscriptionMode.Default:
+					return Unsubscribe<TEventType>(token, DefaultSubscriptionMap);
+				case EventBusSubscriptionMode.Forwarded:
+					return Unsubscribe<TEventType>(token, ForwardedSubscriptionMap);
+				case EventBusSubscriptionMode.All:
+					return Unsubscribe<IEventBusEventArgs>(token, AllSubscriptionMap);
+				case EventBusSubscriptionMode.Exception:
+					return Unsubscribe<ExceptionEventBusEventArgs>(token, ExceptionSubscriptionMap);
+				default:
+					throw new ArgumentOutOfRangeException();
 			}
-
-			return false;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -235,9 +229,9 @@ namespace Glader.Essentials
 			return false;
 		}
 
-		private EventBusSubscription<TEventType> CreateNewSubscription<TEventType>(EventHandler<TEventType> action) where TEventType : IEventBusEventArgs
+		private EventBusSubscription<TEventType> CreateNewSubscription<TEventType>(EventHandler<TEventType> action, EventBusSubscriptionMode mode) where TEventType : IEventBusEventArgs
 		{
-			return new EventBusSubscription<TEventType>(action, this);
+			return new EventBusSubscription<TEventType>(action, this, mode);
 		}
 
 		/// <inheritdoc />
