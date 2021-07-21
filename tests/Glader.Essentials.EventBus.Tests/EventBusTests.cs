@@ -31,6 +31,28 @@ namespace Glader.Essentials
 		}
 
 		[TestMethod]
+		public void SubscribeAndPublishBySenderEventMethodTest()
+		{
+			var eventBus = new EventBus();
+			eventBus.Subscribe<CustomTestEvent, EventBusTests>(this, CustomTestEventMethodHandler);
+
+			Assert.IsFalse(_methodHandlerHit);
+			eventBus.Publish(this, new CustomTestEvent { Name = "Custom Event", Identifier = 1 });
+			Assert.IsTrue(_methodHandlerHit);
+		}
+
+		[TestMethod]
+		public void SubscribeAndPublishBySenderEventMethodNotFiredIfNotExpectedSenderTest()
+		{
+			var eventBus = new EventBus();
+			eventBus.Subscribe<CustomTestEvent, EventBusTests>(this, CustomTestEventMethodHandler);
+
+			Assert.IsFalse(_methodHandlerHit);
+			eventBus.Publish(null, new CustomTestEvent { Name = "Custom Event", Identifier = 1 });
+			Assert.IsFalse(_methodHandlerHit);
+		}
+
+		[TestMethod]
 		public void SubscribeAndPublishAllEventTest()
 		{
 			var eventBus = new EventBus();
@@ -191,6 +213,13 @@ namespace Glader.Essentials
 		}
 
 		private void CustomTestEventMethodHandler(object sender, CustomTestEvent customTestEvent)
+		{
+			Assert.AreEqual("Custom Event", customTestEvent.Name);
+			Assert.AreEqual(1, customTestEvent.Identifier);
+			_methodHandlerHit = true;
+		}
+
+		private void GenericCustomTestEventMethodHandler(EventBusTests sender, CustomTestEvent customTestEvent)
 		{
 			Assert.AreEqual("Custom Event", customTestEvent.Name);
 			Assert.AreEqual(1, customTestEvent.Identifier);
