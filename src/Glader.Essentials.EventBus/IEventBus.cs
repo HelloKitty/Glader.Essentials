@@ -50,6 +50,23 @@ namespace Glader.Essentials
 
 			return bus.Subscribe<TEventType>(forwardTarget.Publish, EventBusSubscriptionMode.Forwarded);
 		}
+
+		/// <summary>
+		/// Subscribes to the specified event type to automatically produce a <see cref="EventBusEventForwardable{TEventType}"/> event message
+		/// published to the specified handler. Rather than publish a the event directly the <see cref="IEventBus"/> will publish a <see cref="EventBusEventForwardable{TEventType}"/> message.
+		/// </summary>
+		/// <typeparam name="TEventType">The type of event</typeparam>
+		/// <param name="bus">The event bus to subscribe to.</param>
+		/// <param name="action">The forwardable event message handler.</param>
+		/// <returns>A <see cref="EventBusSubscriptionToken"/> to be used when calling <see cref="IEventBus.Unsubscribe{TEventType}"/></returns>
+		public static EventBusSubscriptionToken SubscribeForwarded<TEventType>(this IEventBus bus, EventHandler<EventBusEventForwardable<TEventType>> action)
+			where TEventType : IEventBusEventArgs
+		{
+			if(bus == null) throw new ArgumentNullException(nameof(bus));
+			if (action == null) throw new ArgumentNullException(nameof(action));
+
+			return bus.Subscribe<TEventType>((s, e) => action(s, new EventBusEventForwardable<TEventType>(s, e)));
+		}
 	}
 
 	/// <summary>
