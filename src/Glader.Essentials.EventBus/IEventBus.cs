@@ -54,6 +54,7 @@ namespace Glader.Essentials
 		/// <summary>
 		/// Subscribes to the specified event type to automatically produce a <see cref="EventBusEventForwardable{TEventType}"/> event message
 		/// published to the specified handler. Rather than publish a the event directly the <see cref="IEventBus"/> will publish a <see cref="EventBusEventForwardable{TEventType}"/> message.
+		/// (Ex. You may want to use this if you don't want to automatically forward a message to another <see cref="IEventBus"/>.
 		/// </summary>
 		/// <typeparam name="TEventType">The type of event</typeparam>
 		/// <param name="bus">The event bus to subscribe to.</param>
