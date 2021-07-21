@@ -25,8 +25,8 @@ namespace Glader.Essentials
 			Token = token ?? throw new ArgumentNullException(nameof(token));
 		}
 
-		public EventBusSubscription(EventHandler<TEventType> eventReference, IEventBus bus)
-			: this(eventReference, new GenericSubscriptionToken<TEventType>(bus))
+		public EventBusSubscription(EventHandler<TEventType> eventReference, IEventBus bus, EventBusSubscriptionMode mode)
+			: this(eventReference, new GenericSubscriptionToken<TEventType>(bus, mode))
 		{
 
 		}
