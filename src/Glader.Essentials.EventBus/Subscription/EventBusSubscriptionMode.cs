@@ -23,5 +23,10 @@ namespace Glader.Essentials
 		/// The subscription mode that will subscribe to all published events.
 		/// </summary>
 		All = 3,
+
+		/// <summary>
+		/// The subscription mode that will publish exception events when a subscriber raises an exception.
+		/// </summary>
+		Exception = 4
 	}
 }
