@@ -96,7 +96,7 @@ namespace Glader.Essentials
 			if(action == null) throw new ArgumentNullException(nameof(action));
 
 			//Important to specify mode all
-			return bus.Subscribe(action, EventBusSubscriptionMode.Exception);
+			return bus.Subscribe<ExceptionEventBusEventArgs>(action, EventBusSubscriptionMode.Exception);
 		}
 	}
 
