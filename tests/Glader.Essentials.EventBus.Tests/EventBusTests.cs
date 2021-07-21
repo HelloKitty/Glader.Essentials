@@ -31,6 +31,29 @@ namespace Glader.Essentials
 		}
 
 		[TestMethod]
+		public void SubscribeAndPublishAllEventTest()
+		{
+			var eventBus = new EventBus();
+			eventBus.SubscribeAll((s, e) => CustomTestEventMethodHandler(s, (CustomTestEvent)e));
+
+			Assert.IsFalse(_methodHandlerHit);
+			eventBus.Publish(this, new CustomTestEvent { Name = "Custom Event", Identifier = 1 });
+			Assert.IsTrue(_methodHandlerHit);
+		}
+
+		[TestMethod]
+		public void SubscribeAndUnSubscribePublishAllEventTest()
+		{
+			var eventBus = new EventBus();
+			var token = eventBus.SubscribeAll((s, e) => CustomTestEventMethodHandler(s, (CustomTestEvent)e));
+			token.Unsubscribe();
+
+			Assert.IsFalse(_methodHandlerHit);
+			eventBus.Publish(this, new CustomTestEvent { Name = "Custom Event", Identifier = 1 });
+			Assert.IsFalse(_methodHandlerHit);
+		}
+
+		[TestMethod]
 		public void SubscribeAndPublishCustomEventActionTest()
 		{
 			var eventBus = new EventBus();
