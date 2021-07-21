@@ -72,8 +72,8 @@ namespace Glader.Essentials
 		/// <summary>
 		/// Subscribes all event types to the specified action.
 		/// </summary>
-		/// <param name="bus"></param>
-		/// <param name="action"></param>
+		/// <param name="bus">The event bus to subscribe to.</param>
+		/// <param name="action">The Action to invoke when an event of this type is published</param>
 		/// <returns></returns>
 		public static EventBusSubscriptionToken SubscribeAll(this IEventBus bus, EventHandler<IEventBusEventArgs> action)
 		{
@@ -82,6 +82,21 @@ namespace Glader.Essentials
 
 			//Important to specify mode all
 			return bus.Subscribe<IEventBusEventArgs>(action, EventBusSubscriptionMode.All);
+		}
+
+		/// <summary>
+		/// Subscribes to all exceptions generated during Publishing events of the provided <see cref="IEventBus"/> <see cref="bus"/>.
+		/// </summary>
+		/// <param name="bus">The event bus to subscribe to.</param>
+		/// <param name="action">The Action to invoke when an event of this type is published</param>
+		/// <returns></returns>
+		public static EventBusSubscriptionToken SubscribeException(this IEventBus bus, EventHandler<ExceptionEventBusEventArgs> action)
+		{
+			if(bus == null) throw new ArgumentNullException(nameof(bus));
+			if(action == null) throw new ArgumentNullException(nameof(action));
+
+			//Important to specify mode all
+			return bus.Subscribe(action, EventBusSubscriptionMode.Exception);
 		}
 	}
 

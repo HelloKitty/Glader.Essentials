@@ -34,6 +34,11 @@ namespace Glader.Essentials
 		/// </summary>
 		private IDictionary<Type, IEventBusSubscription[]> AllSubscriptionMap { get; } = new ConcurrentDictionary<Type, IEventBusSubscription[]>();
 
+		/// <summary>
+		/// Event subscription map that maintains subscriptions for exception events within the <see cref="IEventBus"/>.
+		/// </summary>
+		private IDictionary<Type, IEventBusSubscription[]> ExceptionSubscriptionMap { get; } = new ConcurrentDictionary<Type, IEventBusSubscription[]>();
+
 		private EventBusLock BusLock { get; } = new();
 
 		//TODO: This is a total hack for perf when consumer of the library never uses ForwardedSubscriptionMap
@@ -56,9 +61,14 @@ namespace Glader.Essentials
 				case EventBusSubscriptionMode.All:
 					UsedAllEvents = true;
 					if (typeof(TEventType) != typeof(IEventBusEventArgs))
-						throw new InvalidOperationException($"Cannot subscribe with Mode: {mode} for Action: {action}.");
+						throw new InvalidOperationException($"Cannot subscribe with Mode: {mode} Type: {typeof(TEventType).Name} for Action: {action}.");
 
 					return Subscribe<IEventBusEventArgs>((s, e) => action(s, (TEventType)e), AllSubscriptionMap);
+				case EventBusSubscriptionMode.Exception:
+					if(typeof(TEventType) != typeof(ExceptionEventBusEventArgs))
+						throw new InvalidOperationException($"Cannot subscribe with Mode: {mode} Type: {typeof(TEventType).Name} for Action: {action}.");
+
+					return Subscribe<ExceptionEventBusEventArgs>((s, e) => action(s, (TEventType)(IEventBusEventArgs)e), ExceptionSubscriptionMap);
 				default:
 					throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
 			}
@@ -175,6 +185,11 @@ namespace Glader.Essentials
 				if(UsedAllEvents)
 					if(Unsubscribe<IEventBusEventArgs>(token, AllSubscriptionMap))
 						return true;
+
+				//TODO: Make this better
+				if(typeof(ExceptionEventBusEventArgs) == typeof(TEventType))
+					if(Unsubscribe<ExceptionEventBusEventArgs>(token, ExceptionSubscriptionMap))
+						return true;
 			}
 
 			return false;
@@ -255,9 +270,20 @@ namespace Glader.Essentials
 
 			foreach (IEventBusSubscription sub in array) //this will enumerate the returned reference, so it won't change
 			{
-				//The subscription could be null because we REUSE indexes and set them as null
-				//to avoid allocations if possible on unsubscription or subscriptions
-				sub?.Publish(sender, eventData);
+				try
+				{
+					//The subscription could be null because we REUSE indexes and set them as null
+					//to avoid allocations if possible on unsubscription or subscriptions
+					sub?.Publish(sender, eventData);
+				}
+				catch (Exception e)
+				{
+					//Don't publish exceptions caused by subscribers of actual exception event types
+					if (typeof(TEventType) == typeof(ExceptionEventBusEventArgs))
+						throw;
+
+					Publish<ExceptionEventBusEventArgs>(sender, new ExceptionEventBusEventArgs(e, sub?.Token, sender, eventData), ExceptionSubscriptionMap);
+				}
 			}
 		}
 	}
