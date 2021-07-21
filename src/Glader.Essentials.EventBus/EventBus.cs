@@ -29,6 +29,8 @@ namespace Glader.Essentials
 		/// </summary>
 		private IDictionary<Type, IEventBusSubscription[]> ForwardedSubscriptionMap { get; } = new ConcurrentDictionary<Type, IEventBusSubscription[]>();
 
+		private EventBusLock BusLock { get; } = new();
+
 		//TODO: This is a total hack for perf when consumer of the library never uses ForwardedSubscriptionMap
 		private bool UsedForwardedEvents { get; set; } = false;
 
@@ -61,7 +63,7 @@ namespace Glader.Essentials
 			//TODO: Figure out how we might be able to do some array pooling.
 			//Only one thread can be in upgradeable mode at any time.
 			//However this will allow Read/Publish threads to publish until we absolutely MUST write to the array
-			EventBusLock<TEventType>.Lock.EnterUpgradeableReadLock();
+			BusLock.GetLock<TEventType>().EnterUpgradeableReadLock();
 			try
 			{
 				//Using TryGetValue instead of ContainsKey because ConcurrentDictionary won't lock as seen here: https://github.com/microsoft/referencesource/blob/master/mscorlib/system/collections/Concurrent/ConcurrentDictionary.cs#L498
@@ -75,7 +77,7 @@ namespace Glader.Essentials
 							//At this point we know there is a null entry *and* we know that we must write
 							//so we enter the write lock and don't need to double check locking because only write locks should be able
 							//to set NULL and we're within an upgradeable lock at the moment.
-							EventBusLock<TEventType>.Lock.EnterWriteLock();
+							BusLock.GetLock<TEventType>().EnterWriteLock();
 							try
 							{
 								//Because we only readlock for unsub we need to actually double-check lock here
@@ -87,7 +89,7 @@ namespace Glader.Essentials
 							}
 							finally
 							{
-								EventBusLock<TEventType>.Lock.ExitWriteLock();
+								BusLock.GetLock<TEventType>().ExitWriteLock();
 							}
 						}
 
@@ -98,7 +100,7 @@ namespace Glader.Essentials
 					newArray[newArray.Length - 1] = newSubscription;
 
 					//now we write lock in the secondary case where we need to replace the existing subscription array
-					EventBusLock<TEventType>.Lock.EnterWriteLock();
+					BusLock.GetLock<TEventType>().EnterWriteLock();
 					try
 					{
 						//Because in Unsub we only do a read lock to set null we cannot safely copy
@@ -112,7 +114,7 @@ namespace Glader.Essentials
 					}
 					finally
 					{
-						EventBusLock<TEventType>.Lock.ExitWriteLock();
+						BusLock.GetLock<TEventType>().ExitWriteLock();
 					}
 				}
 				else
@@ -123,7 +125,7 @@ namespace Glader.Essentials
 					//Case where there wasn't even an initial entry
 					//We don't have to write lock here but we do anyway just incase I'm
 					//not as smart in modeling the concurrency and thread safety in my head as I think I am
-					EventBusLock<TEventType>.Lock.EnterWriteLock();
+					BusLock.GetLock<TEventType>().EnterWriteLock();
 					try
 					{
 						subscriptionMap[typeof(TEventType)] = array;
@@ -131,13 +133,13 @@ namespace Glader.Essentials
 					}
 					finally
 					{
-						EventBusLock<TEventType>.Lock.ExitWriteLock();
+						BusLock.GetLock<TEventType>().ExitWriteLock();
 					}
 				}
 			}
 			finally
 			{
-				EventBusLock<TEventType>.Lock.ExitUpgradeableReadLock();
+				BusLock.GetLock<TEventType>().ExitUpgradeableReadLock();
 			}
 		}
 
@@ -165,7 +167,7 @@ namespace Glader.Essentials
 
 			//WARNING: We cannot remove read lock like we did with Publish here. See below warning above the loop.
 			//Even though we may write (set an index null) 
-			EventBusLock<TEventType>.Lock.EnterReadLock();
+			BusLock.GetLock<TEventType>().EnterReadLock();
 			try
 			{
 				//Using TryGetValue instead of ContainsKey because ConcurrentDictionary won't lock as seen here: https://github.com/microsoft/referencesource/blob/master/mscorlib/system/collections/Concurrent/ConcurrentDictionary.cs#L498
@@ -186,7 +188,7 @@ namespace Glader.Essentials
 			}
 			finally
 			{
-				EventBusLock<TEventType>.Lock.ExitReadLock();
+				BusLock.GetLock<TEventType>().ExitReadLock();
 			}
 
 			//No token found
