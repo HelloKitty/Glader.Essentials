@@ -136,6 +136,23 @@ namespace Glader.Essentials
 		}
 
 		[TestMethod]
+		public void PublishThrowsIfExceptionHandlerThrows()
+		{
+			var eventBus = new EventBus();
+			bool firstSubscriberHit = false, thirdSubscriberHit = false;
+			eventBus.Subscribe<CustomTestEvent>((obj, s) => { firstSubscriberHit = true; });
+			eventBus.Subscribe<CustomTestEvent>((obj, s) => throw new ApplicationException($"Subscriber error"));
+			eventBus.Subscribe<CustomTestEvent>((obj, s) => { thirdSubscriberHit = true; });
+
+			eventBus.SubscribeException((sender, args) => throw args.ExceptionData);
+
+			var thrownException = Assert.ThrowsException<ApplicationException>(() => eventBus.Publish(this, new CustomTestEvent())); // Subscriber exception is thrown
+			Assert.AreEqual("Subscriber error", thrownException.Message); // Verify correct message from subscriber
+			Assert.IsTrue(firstSubscriberHit); // The first subscriber will be hit
+			Assert.IsFalse(thirdSubscriberHit); // Third subscriber will not be hit, missed due to thrown exception.
+		}
+
+		[TestMethod]
 		public void PublishThrowSubscriberExceptionTest()
 		{
 			var eventBus = new EventBus();
