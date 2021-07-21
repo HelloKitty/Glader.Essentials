@@ -29,10 +29,17 @@ namespace Glader.Essentials
 		/// </summary>
 		private IDictionary<Type, IEventBusSubscription[]> ForwardedSubscriptionMap { get; } = new ConcurrentDictionary<Type, IEventBusSubscription[]>();
 
+		/// <summary>
+		/// Event subscription map that maintains the subscriptions that are subscribed to all events.
+		/// </summary>
+		private IDictionary<Type, IEventBusSubscription[]> AllSubscriptionMap { get; } = new ConcurrentDictionary<Type, IEventBusSubscription[]>();
+
 		private EventBusLock BusLock { get; } = new();
 
 		//TODO: This is a total hack for perf when consumer of the library never uses ForwardedSubscriptionMap
 		private bool UsedForwardedEvents { get; set; } = false;
+
+		private bool UsedAllEvents { get; set; } = false;
 
 		/// <inheritdoc />
 		public EventBusSubscriptionToken Subscribe<TEventType>(EventHandler<TEventType> action, EventBusSubscriptionMode mode = EventBusSubscriptionMode.Default) 
@@ -46,6 +53,12 @@ namespace Glader.Essentials
 				case EventBusSubscriptionMode.Forwarded:
 					UsedForwardedEvents = true;
 					return Subscribe(action, ForwardedSubscriptionMap);
+				case EventBusSubscriptionMode.All:
+					UsedAllEvents = true;
+					if (typeof(TEventType) != typeof(IEventBusEventArgs))
+						throw new InvalidOperationException($"Cannot subscribe with Mode: {mode} for Action: {action}.");
+
+					return Subscribe<IEventBusEventArgs>((s, e) => action(s, (TEventType)e), AllSubscriptionMap);
 				default:
 					throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
 			}
@@ -150,7 +163,15 @@ namespace Glader.Essentials
 			//TODO: Optimized forwarded subscription unsubscribe
 			//First try to remove from the default subscriptions, otherwise could be a forwarded subscription!
 			if (!Unsubscribe<TEventType>(token, DefaultSubscriptionMap))
-				return Unsubscribe<TEventType>(token, ForwardedSubscriptionMap);
+			{
+				if(UsedForwardedEvents)
+					if (Unsubscribe<TEventType>(token, ForwardedSubscriptionMap))
+						return true;
+
+				if(UsedAllEvents)
+					if(Unsubscribe<IEventBusEventArgs>(token, AllSubscriptionMap))
+						return true;
+			}
 
 			return false;
 		}
@@ -211,13 +232,15 @@ namespace Glader.Essentials
 			//TODO: We can only do this because we ASSUME it's ConcurrentDictionary. May not be in the future!!
 			if (UsedForwardedEvents)
 				Publish(sender, eventData, ForwardedSubscriptionMap);
+
+			if (UsedAllEvents)
+				Publish<IEventBusEventArgs>(sender, eventData, DefaultSubscriptionMap);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private void Publish<TEventType>(object sender, TEventType eventData, IDictionary<Type, IEventBusSubscription[]> subscriptionMap) 
 			where TEventType : IEventBusEventArgs
 		{
-
 			//We can avoid read lots by just reading the current value directly, if there is any, this is actually threadsafe still!
 			//Already checked that it contains the key but this could have changed since it wasn't locked
 			//in the calling function. Checking it avoided doing a lock or waiting for a contended lock potentially.
