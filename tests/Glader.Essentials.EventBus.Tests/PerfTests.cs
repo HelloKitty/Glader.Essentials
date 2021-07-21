@@ -18,12 +18,10 @@ namespace Redbus.Tests
 			var eventBus = new EventBus();
 			eventBus.Subscribe<CustomTestEvent>(CustomTestEventHandler);
 
-			GC.TryStartNoGCRegion(int.MaxValue, true);
 			var sw = Stopwatch.StartNew();
 			for(int i = 0; i < 10000000; i++)
 				eventBus.Publish(this, new CustomTestEvent { Name = "Custom Event", Identifier = 1 });
 			sw.Stop();
-			GC.EndNoGCRegion();
 
 			Debug.WriteLine($"Finished in {sw.ElapsedMilliseconds}ms");
 			Assert.IsTrue(sw.Elapsed < TimeSpan.FromSeconds(1), $"NaivePublishPerformanceTest took {sw.ElapsedMilliseconds}ms");
