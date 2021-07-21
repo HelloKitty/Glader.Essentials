@@ -98,6 +98,33 @@ namespace Glader.Essentials
 			//Important to specify mode all
 			return bus.Subscribe<ExceptionEventBusEventArgs>(action, EventBusSubscriptionMode.Exception);
 		}
+
+		/// <summary>
+		/// Subscribes to the specified event type with the specified action.
+		/// Only publishes the event if the sender of the event is the provided <see cref="sender"/>.
+		/// This is computed by reference.
+		/// </summary>
+		/// <typeparam name="TEventType">The type of event</typeparam>
+		/// <typeparam name="TSenderType">The type of the sender to subscribe the event for.</typeparam>
+		/// <param name="bus">The event bus to subscribe to.</param>
+		/// <param name="sender">The sender to pair to the subscription.</param>
+		/// <param name="action">The Action to invoke when an event of this type is published</param>
+		/// <param name="mode">The subscription mode to use.</param>
+		/// <returns>A <see cref="EventBusSubscriptionToken"/> to be used when calling <see cref="IEventBus.Unsubscribe{TEventType}"/></returns>
+		public static EventBusSubscriptionToken Subscribe<TEventType, TSenderType>(this IEventBus bus, TSenderType sender, GenericSenderEventHandler<TSenderType, TEventType> action, EventBusSubscriptionMode mode = EventBusSubscriptionMode.Default)
+			where TEventType : IEventBusEventArgs
+			where TSenderType : class
+		{
+			if (action == null) throw new ArgumentNullException(nameof(action));
+
+			//TODO: Find a more efficient way to subscribe sender-specific events
+			return bus.Subscribe<TEventType>((s, args) =>
+			{
+				//Don't fire the event unless the sender if the specified sender
+				if (ReferenceEquals(s, sender))
+					action(sender, args);
+			}, mode);
+		}
 	}
 
 	/// <summary>
