@@ -18,5 +18,10 @@ namespace Glader.Essentials
 		/// The forwarded subscription mode.
 		/// </summary>
 		Forwarded = 2,
+
+		/// <summary>
+		/// The subscription mode that will subscribe to all published events.
+		/// </summary>
+		All = 3,
 	}
 }

@@ -68,6 +68,21 @@ namespace Glader.Essentials
 
 			return bus.Subscribe<TEventType>((s, e) => action(s, new EventBusEventForwardable<TEventType>(s, e)));
 		}
+
+		/// <summary>
+		/// Subscribes all event types to the specified action.
+		/// </summary>
+		/// <param name="bus"></param>
+		/// <param name="action"></param>
+		/// <returns></returns>
+		public static EventBusSubscriptionToken SubscribeAll(this IEventBus bus, EventHandler<IEventBusEventArgs> action)
+		{
+			if (bus == null) throw new ArgumentNullException(nameof(bus));
+			if (action == null) throw new ArgumentNullException(nameof(action));
+
+			//Important to specify mode all
+			return bus.Subscribe<IEventBusEventArgs>(action, EventBusSubscriptionMode.All);
+		}
 	}
 
 	/// <summary>
