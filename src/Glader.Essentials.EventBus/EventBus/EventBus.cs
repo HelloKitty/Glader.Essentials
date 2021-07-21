@@ -160,6 +160,10 @@ namespace Glader.Essentials
 		public bool Unsubscribe<TEventType>(EventBusSubscriptionToken token) 
 			where TEventType : IEventBusEventArgs
 		{
+			//Case where users might try to remove subscription multiple times from the save token.
+			if(token.Disposed)
+				return false;
+
 			//TODO: Optimized forwarded subscription unsubscribe
 			//First try to remove from the default subscriptions, otherwise could be a forwarded subscription!
 			if (!Unsubscribe<TEventType>(token, DefaultSubscriptionMap))
