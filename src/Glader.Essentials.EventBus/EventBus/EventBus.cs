@@ -234,7 +234,7 @@ namespace Glader.Essentials
 				Publish(sender, eventData, ForwardedSubscriptionMap);
 
 			if (UsedAllEvents)
-				Publish<IEventBusEventArgs>(sender, eventData, DefaultSubscriptionMap);
+				Publish<IEventBusEventArgs>(sender, eventData, AllSubscriptionMap);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
