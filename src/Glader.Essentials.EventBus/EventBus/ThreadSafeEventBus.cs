@@ -29,7 +29,7 @@ namespace Glader.Essentials
 		/// Will manage threading and thread safety issues.
 		/// </summary>
 		/// <param name="bus">Event bus.</param>
-		/// <param name="threadStrategy"></param>
+		/// <param name="threadStrategy">Strategy to determine if calls to publish are on the main thread.</param>
 		public ThreadSafeEventBus(IEventBus bus, IMainThreadDeterminable threadStrategy)
 		{
 			DecoratedEventBus = bus ?? throw new ArgumentNullException(nameof(bus));
