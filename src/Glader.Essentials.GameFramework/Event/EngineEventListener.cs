@@ -21,6 +21,7 @@ namespace Glader.Essentials
 
 		}
 
+		/// <inheritdoc />
 		public virtual Task OnGameInitialized()
 		{
 			//Do nothing, this puts it into the Engine system.
@@ -45,6 +46,7 @@ namespace Glader.Essentials
 
 		}
 
+		/// <inheritdoc />
 		public virtual Task OnGameInitialized()
 		{
 			//Do nothing, this puts it into the Engine system.
