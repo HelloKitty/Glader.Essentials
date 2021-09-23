@@ -38,7 +38,7 @@ namespace Glader.Essentials
 		{
 			foreach(var creatable in AssemblyToParse.GetTypes()
 				.Where(t => EngineTypes.Any(et => et.IsAssignableFrom(t))) //TODO: Is this accurate?
-				.Where(t => t.GetCustomAttributes(typeof(SceneTypeCreateAttribute), false).Any(a => ((SceneTypeCreateAttribute)a).SceneType == SceneType)))
+				.Where(IsForScene))
 			{
 				//TODO: DO we need register self?
 				var registrationBuilder = builder.RegisterType(creatable)
@@ -61,6 +61,21 @@ namespace Glader.Essentials
 				registrationBuilder = registrationBuilder
 					.InstancePerLifetimeScope();
 			}
+		}
+
+		/// <summary>
+		/// Indicates if a type is for the current scene
+		/// (or for all scenes).
+		/// </summary>
+		/// <param name="t">The type.</param>
+		/// <returns></returns>
+		private bool IsForScene(Type t)
+		{
+			// Is it for all scenes?
+			if (t.GetCustomAttribute<AllSceneTypeCreateAttribute>() != null)
+				return true;
+
+			return t.GetCustomAttributes(typeof(SceneTypeCreateAttribute), false).Any(a => ((SceneTypeCreateAttribute)a).SceneType == SceneType);
 		}
 	}
 }
