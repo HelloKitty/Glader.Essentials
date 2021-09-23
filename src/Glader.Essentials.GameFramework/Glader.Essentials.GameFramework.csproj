@@ -35,6 +35,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Glader.Essentials.Common\Glader.Essentials.Common.csproj" />
     <ProjectReference Include="..\Glader.Essentials.ECS\Glader.Essentials.ECS.csproj" />
+    <ProjectReference Include="..\Glader.Essentials.EventBus\Glader.Essentials.EventBus.csproj" />
     <ProjectReference Include="..\Glader.Essentials.Events\Glader.Essentials.Events.csproj" />
   </ItemGroup>
 
