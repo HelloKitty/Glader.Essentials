@@ -62,7 +62,7 @@ namespace Glader.Essentials
 					throw new InvalidOperationException($"Cannot {nameof(Subscribe)} multiple times in {GetType().Name}. Subscriptions should only occur once..");
 
 				IsSubscribed = true;
-				return bus.Subscribe<TEventArgsType>(OnEventFired);;
+				return bus.Subscribe<TEventArgsType>(OnEventFired);
 			}
 		}
 
