@@ -20,7 +20,7 @@ namespace Glader.Essentials
 		/// <summary>
 		/// Queue of pending events that could not be serviced due to not being on the main thread.
 		/// </summary>
-		private ConcurrentQueue<IEventBusEventForwardable> EnqueuedEvents { get; }
+		private ConcurrentQueue<IEventBusEventForwardable> EnqueuedEvents { get; } = new();
 
 		private IMainThreadDeterminable ThreadStrategy { get; }
 
@@ -39,6 +39,7 @@ namespace Glader.Essentials
 
 		private void PublishPendingEvents(object sender, PublishPendingEventBusEventArgs e)
 		{
+			// WARNING: If this throws before forwarding it will silently fail!
 			// If it's the main thread we can publish
 			int count = EnqueuedEvents.Count;
 			for(int i = 0; i < count; i++)
