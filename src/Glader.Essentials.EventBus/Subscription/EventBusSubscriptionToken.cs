@@ -56,7 +56,10 @@ namespace Glader.Essentials
 
 		/// <inheritdoc />
 		public override bool Unsubscribe()
-		{ 
+		{
+			if(Disposed)
+				return true;
+
 			return Bus.Unsubscribe<TEventType>(this);
 		}
 
@@ -77,7 +80,7 @@ namespace Glader.Essentials
 			if (Disposed)
 				return;
 
-			Bus.Unsubscribe<TEventType>(this);
+			Unsubscribe();
 			Bus = null; // important for if anyone is holding a ref to this token still the Bus can de allocate.
 			Disposed = true;
 		}
