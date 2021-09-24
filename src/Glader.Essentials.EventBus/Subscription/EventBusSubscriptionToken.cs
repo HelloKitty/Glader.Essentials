@@ -17,7 +17,7 @@ namespace Glader.Essentials
 		/// <summary>
 		/// The <see cref="IEventBus"/> reference this subscription token was produced from.
 		/// </summary>
-		protected IEventBus Bus { get; }
+		protected IEventBus Bus { get; set; }
 
 		// To detect redundant calls
 		public bool Disposed { get; protected set; } = false;
@@ -69,6 +69,7 @@ namespace Glader.Essentials
 			GC.SuppressFinalize(this);
 		}
 
+		//A correctly-written program cannot assume that finalizers will ever run.
 		~GenericSubscriptionToken() => Dispose(false);
 
 		protected void Dispose(bool disposing)
@@ -77,6 +78,7 @@ namespace Glader.Essentials
 				return;
 
 			Bus.Unsubscribe<TEventType>(this);
+			Bus = null; // important for if anyone is holding a ref to this token still the Bus can de allocate.
 			Disposed = true;
 		}
 	}
