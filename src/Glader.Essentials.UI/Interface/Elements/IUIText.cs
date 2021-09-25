@@ -7,7 +7,7 @@ namespace Glader.Essentials
 	/// <summary>
 	/// Contract for a text rendered in the UI.
 	/// </summary>
-	public interface IUIText
+	public interface IUIText : IUIElement<IUIText>
 	{
 		/// <summary>
 		/// The text field of the UI text.

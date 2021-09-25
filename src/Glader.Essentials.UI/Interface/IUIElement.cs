@@ -4,7 +4,11 @@ using System.Text;
 
 namespace Glader.Essentials
 {
-	public interface IUIElement
+	/// <summary>
+	/// Contract for root-element type. All things that exist within a Window can be considered
+	/// <see cref="IUIElement"/>. Even sub-windows (Ex <see cref="IUIFrame"/>).
+	/// </summary>
+	public interface IUIElement : IUIEventListenable
 	{
 		/// <summary>
 		/// Sets the <see cref="IUIElement"/> to the provided
@@ -16,6 +20,16 @@ namespace Glader.Essentials
 		/// <summary>
 		/// Indicates if the element is active.
 		/// </summary>
-		bool isActive { get; }
+		bool IsActive { get; }
+	}
+
+	/// <summary>
+	/// Contract for root-element type. All things that exist within a Window can be considered
+	/// <see cref="IUIElement"/>. Even sub-windows (Ex <see cref="IUIFrame"/>).
+	/// </summary>
+	public interface IUIElement<TUIElementType> : IUIElement, IUIEventListenable<TUIElementType> 
+		where TUIElementType : IUIEventListenable<TUIElementType>
+	{
+
 	}
 }

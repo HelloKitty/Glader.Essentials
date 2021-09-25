@@ -16,6 +16,7 @@ namespace Glader.Essentials
 
 		/// <inheritdoc />
 		public UnityImageUIFillableImageAdapterImplementation([NotNull] Image unityImageObject)
+			: base(unityImageObject)
 		{
 			UnityImageObject = unityImageObject ?? throw new ArgumentNullException(nameof(unityImageObject));
 		}

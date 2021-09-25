@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Glader.Essentials;
 using UnityEngine;
 
-namespace Glader
+namespace Glader.Essentials
 {
-	public interface IUIParentable
+	public interface IUIParentable : IUIElement
 	{
 		/// <summary>
 		/// Parents the provided <paramref name="go"/> to

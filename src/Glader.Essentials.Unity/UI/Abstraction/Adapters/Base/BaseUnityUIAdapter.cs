@@ -8,8 +8,25 @@ using Unitysync.Async;
 
 namespace Glader.Essentials
 {
-	public abstract class BaseUnityUIAdapter<TAdaptedUnityEngineType, TAdaptedToType> : BaseUnityUI<TAdaptedToType>
+	public abstract class BaseUnityUIAdapter<TAdaptedUnityEngineType, TAdaptedToType> : BaseUnityUI, IUIElement
+		where TAdaptedToType : IUIElement
+		where TAdaptedUnityEngineType : UnityEngine.Component
 	{
+		/// <inheritdoc />
+		public IEventBus Bus => Element.Bus;
+
+		private Lazy<IUIElement> _Element;
+
+		/// <summary>
+		/// The implementer will expose access to the element implementation 
+		/// </summary>
+		protected virtual IUIElement Element => _Element.Value;
+
+		protected BaseUnityUIAdapter()
+		{
+			_Element = new Lazy<IUIElement>(() => new BaseUnityUIAdapterImplementation(UnityUIObject));
+		}
+
 		static BaseUnityUIAdapter()
 		{
 			if(typeof(TAdaptedToType) == typeof(TAdaptedUnityEngineType))
@@ -51,5 +68,14 @@ namespace Glader.Essentials
 			else
 				Debug.LogError($"Failed to find Component Type: {typeof(TAdaptedUnityEngineType).Name}");
 		}
+
+		/// <inheritdoc />
+		public virtual void SetElementActive(bool state)
+		{
+			Element.SetElementActive(state);
+		}
+
+		/// <inheritdoc />
+		public virtual bool IsActive => Element.IsActive;
 	}
 }

@@ -4,14 +4,18 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Unitysync.Async;
 
 namespace Glader.Essentials
 {
-	public sealed class UnityButtonUIButtonAdapter : BaseUnityUIAdapter<Button, IUIButton>, IUIButton
+	public class UnityButtonUIButtonAdapter : BaseUnityUIAdapter<Button, IUIButton>, IUIButton
 	{
+		/// <inheritdoc />
+		protected override IUIElement Element => Adapter.Value;
+
 		//This is sorta the new design
 		//Create an adapter property that will actually handle the adaptor
 		//the responsibility of this class is to expose registeration and to
@@ -26,35 +30,16 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		public void AddOnClickListener(Action action)
-		{
-			Adapter.Value.AddOnClickListener(action);
-		}
-
-		/// <inheritdoc />
-		public void AddOnClickListenerAsync(Func<Task> action)
-		{
-			Adapter.Value.AddOnClickListenerAsync(action);
-		}
-
-		/// <inheritdoc />
 		public bool IsInteractable
 		{
 			get => Adapter.Value.IsInteractable;
 			set => Adapter.Value.IsInteractable = value;
 		}
 
+		/// <inheritdoc />
 		public void SimulateClick(bool eventsOnly)
 		{
-			if (eventsOnly)
-				UnityUIObject.onClick?.Invoke();
-			else
-				ExecuteEvents.Execute(this.UnityUIObject.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
-		}
-
-		public void RemoveOnClickListener(Action action)
-		{
-			Adapter.Value.RemoveOnClickListener(action);
+			Adapter.Value.SimulateClick(eventsOnly);
 		}
 	}
 }
