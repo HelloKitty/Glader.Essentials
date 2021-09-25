@@ -12,23 +12,6 @@ namespace Glader.Essentials
 	public sealed class UnityToggleUIToggleAdapter : BaseUnityUIAdapter<Toggle, IUIToggle>, IUIToggle
 	{
 		/// <inheritdoc />
-		public void AddOnToggleChangedListener(Action<bool> action)
-		{
-			UnityUIObject.onValueChanged.AddListener(b => action(b));
-		}
-
-		/// <inheritdoc />
-		public void AddOnToggleChangedListenerAsync(Func<bool, Task> action)
-		{
-			if(action == null) throw new ArgumentNullException(nameof(action));
-
-			UnityUIObject.onValueChanged.AddListener(value =>
-			{
-				StartCoroutine(this.AsyncCallbackHandler(action(value)));
-			});
-		}
-
-		/// <inheritdoc />
 		public bool IsInteractable
 		{
 			get => UnityUIObject.interactable;

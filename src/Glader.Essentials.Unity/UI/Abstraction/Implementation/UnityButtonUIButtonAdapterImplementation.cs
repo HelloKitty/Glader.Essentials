@@ -23,25 +23,10 @@ namespace Glader.Essentials
 
 		/// <inheritdoc />
 		public UnityButtonUIButtonAdapterImplementation([NotNull] Button unityButton)
+			: base(unityButton)
 		{
 			UnityButton = unityButton ?? throw new ArgumentNullException(nameof(unityButton));
-		}
-
-		/// <inheritdoc />
-		public void AddOnClickListener(Action action)
-		{
-			if(action == null) throw new ArgumentNullException(nameof(action));
-
-			UnityButton.onClick.AddListener(new UnityAction(action));
-		}
-
-		/// <inheritdoc />
-		public void AddOnClickListenerAsync(Func<Task> action)
-		{
-			if(action == null) throw new ArgumentNullException(nameof(action));
-
-			//Supporting async button events from the Unity engine button is abit complex.
-			AddOnClickListener(() => AsyncUnityEngineButtonCallbackHandler(action));
+			UnityButton.onClick.AddListener(() => Bus.PublishSimple<OnElementClickedEventArgs>(this));
 		}
 
 		/// <inheritdoc />
@@ -51,28 +36,13 @@ namespace Glader.Essentials
 			set => UnityButton.interactable = value;
 		}
 
+		/// <inheritdoc />
 		public void SimulateClick(bool eventsOnly)
 		{
 			if(eventsOnly)
 				UnityButton.onClick?.Invoke();
 			else
 				ExecuteEvents.Execute(UnityButton.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
-		}
-
-		private void AsyncUnityEngineButtonCallbackHandler(Func<Task> action)
-		{
-			if(action == null) throw new ArgumentNullException(nameof(action));
-
-			//When this is called, the button has been clicked and we need async button handling.
-			//This will call the async Method, get the task and create a coroutine that awaits it (for exception handling purposes)
-
-			//We can't use the Button MonoBehaviour because it might be deactivated, we have to use a global behaviour
-			UnityAsyncHelper.UnityUIAsyncContinuationBehaviour.StartCoroutine(AsyncCallbackHandler(action()));
-		}
-
-		public void RemoveOnClickListener(Action action)
-		{
-			UnityButton.onClick.RemoveListener(new UnityAction(action));
 		}
 	}
 }

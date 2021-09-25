@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace Glader.Essentials
 {
 	public abstract class BaseUnityUIImageAdapter<TAdaptedToType> : BaseUnityUIAdapter<Image, TAdaptedToType>, IUIImage
-		where TAdaptedToType : IUIImage //just make sure it's a IUIImage
+		where TAdaptedToType : IUIImage, IUIElement //just make sure it's a IUIImage
 	{
 		/// <inheritdoc />
 		public virtual void SetSpriteTexture(Texture2D texture)

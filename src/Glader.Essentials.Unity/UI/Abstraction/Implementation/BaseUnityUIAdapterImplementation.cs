@@ -4,41 +4,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
+using UnityEngine;
 using Unitysync.Async;
 
 namespace Glader.Essentials
 {
-	public abstract class BaseUnityUIAdapterImplementation
+	public class BaseUnityUIAdapterImplementation : IUIElement
 	{
-		protected abstract string LoggableComponentName { get; }
+		[NotNull] 
+		private Component AdaptedObject { get; }
 
-		/// <summary>
-		/// Can be called as a <see cref="StartCoroutine"/>
-		/// to track the result, and dispatch the exception/logging for, async tasks.
-		/// </summary>
-		/// <param name="task">The task to await.</param>
-		/// <returns></returns>
-		protected IEnumerator AsyncCallbackHandler(Task task)
+		protected virtual string LoggableComponentName => AdaptedObject.gameObject.name;
+
+		/// <inheritdoc />
+		public IEventBus Bus { get; } = new EventBus();
+
+		/// <inheritdoc />
+		public bool IsActive => AdaptedObject.gameObject.activeSelf;
+
+		/// <inheritdoc />
+		public void SetElementActive(bool state)
 		{
-			if(task == null) throw new ArgumentNullException(nameof(task));
+			AdaptedObject.gameObject.SetActive(state);
+		}
 
-			//This will wait until the task is complete
-			yield return new WaitForFuture(task);
-
-			if(task.IsFaulted)
-			{
-				StringBuilder builder = new StringBuilder(200);
-
-				if(task.Exception != null && task.Exception.InnerExceptions != null)
-					foreach(Exception inner in task.Exception?.InnerExceptions)
-					{
-						builder.Append($"\nMessage: {inner.Message}\nStack: {inner.StackTrace}");
-					}
-
-				UnityEngine.Debug.LogError($"Encounter exception from Button: {LoggableComponentName} OnClickAsync: {builder.ToString()}");
-			}
-
-			//We don't need to do anything, task succeeded and is finished.
+		public BaseUnityUIAdapterImplementation([NotNull] UnityEngine.Component adaptedObject)
+		{
+			AdaptedObject = adaptedObject ?? throw new ArgumentNullException(nameof(adaptedObject));
 		}
 	}
 }

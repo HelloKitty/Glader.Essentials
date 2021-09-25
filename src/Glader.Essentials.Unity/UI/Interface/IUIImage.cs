@@ -8,7 +8,7 @@ namespace Glader.Essentials
 	/// <summary>
 	/// Contract for types that implement UI image.
 	/// </summary>
-	public interface IUIImage
+	public interface IUIImage : IUIElement
 	{
 		/// <summary>
 		/// Sets the texture for the current sprite.

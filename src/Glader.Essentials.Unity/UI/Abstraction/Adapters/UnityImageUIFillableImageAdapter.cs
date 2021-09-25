@@ -10,6 +10,9 @@ namespace Glader.Essentials
 	[ExecuteInEditMode]
 	public sealed class UnityImageUIFillableImageAdapter : BaseUnityUIImageAdapter<IUIFillableImage>, IUIFillableImage
 	{
+		/// <inheritdoc />
+		protected override IUIElement Element => Adapter.Value;
+
 		//This is sorta the new design
 		//Create an adapter property that will actually handle the adaptor
 		//the responsibility of this class is to expose registeration and to
@@ -23,6 +26,7 @@ namespace Glader.Essentials
 
 		//TODO: This won't hold up if the Type changes.
 		//Override validation to check image is fillable
+		/// <inheritdoc />
 		protected override bool ValidateInitializedObject(Image obj)
 		{
 			bool result = base.ValidateInitializedObject(obj);

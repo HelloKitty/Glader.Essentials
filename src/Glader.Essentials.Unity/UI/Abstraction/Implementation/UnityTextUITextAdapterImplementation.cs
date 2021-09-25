@@ -13,6 +13,9 @@ namespace Glader.Essentials
 		private UnityEngine.UI.Text UnityText { get; }
 
 		/// <inheritdoc />
+		public IEventBus Bus { get; } = new EventBus();
+
+		/// <inheritdoc />
 		public UnityTextUITextAdapterImplementation([NotNull] Text unityText)
 		{
 			UnityText = unityText ?? throw new ArgumentNullException(nameof(unityText));
@@ -24,5 +27,14 @@ namespace Glader.Essentials
 			get => UnityText.text;
 			set => UnityText.text = value;
 		}
+
+		/// <inheritdoc />
+		public void SetElementActive(bool state)
+		{
+			UnityText.gameObject.SetActive(state);
+		}
+
+		/// <inheritdoc />
+		public bool IsActive => UnityText.gameObject.activeSelf;
 	}
 }

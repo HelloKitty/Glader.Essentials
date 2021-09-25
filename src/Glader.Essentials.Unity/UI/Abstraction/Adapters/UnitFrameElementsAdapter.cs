@@ -5,20 +5,8 @@ using UnityEngine;
 
 namespace Glader.Essentials
 {
-	public sealed class UnitFrameElementsAdapter : GladerBehaviour, IUIAdapterRegisterable, IUIUnitFrame
+	public sealed class UnitFrameElementsAdapter : BaseUIFrameAdapter<IUIUnitFrame>, IUIUnitFrame
 	{
-		[Tooltip("Used to determine wiring for UI dependencies.")]
-		[SerializeField]
-		private string _RegistrationKey;
-
-		/// <summary>
-		/// The registration key for the adapted UI element.
-		/// </summary>
-		public string RegistrationKey => _RegistrationKey;
-
-		/// <inheritdoc />
-		public Type UIServiceType => typeof(IUIUnitFrame);
-
 		/// <inheritdoc />
 		public UILabeledBar HealthBar => _healthBar.Value;
 
@@ -66,13 +54,5 @@ namespace Glader.Essentials
 			_unitName = new Lazy<IUIText>(() => new UnityTextUITextAdapterImplementation(PlayerNameText));
 			_unitLevel = new Lazy<IUIText>(() => new UnityTextUITextAdapterImplementation(UnitLevelText));
 		}
-
-		/// <inheritdoc />
-		public void SetElementActive(bool state)
-		{
-			gameObject.SetActive(state);
-		}
-
-		public bool isActive => gameObject.activeSelf;
 	}
 }

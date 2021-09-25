@@ -12,34 +12,8 @@ namespace Glader.Essentials
 	/// <summary>
 	/// <see cref="GladerBehaviour"/> implementation of <see cref="IUIAdapterRegisterable"/>
 	/// </summary>
-	public abstract class BaseUnityUI : GladerBehaviour, IUIAdapterRegisterable
+	public abstract class BaseUnityUI : GladerBehaviour
 	{
-		//Assigned by Unity3D.
-		/// <summary>
-		/// Internally Unity3D serialized key.
-		/// </summary>
-		[Tooltip("Used to determine wiring for UI dependencies.")]
-		[SerializeField]
-#pragma warning disable 649
-		private string _RegistrationKey;
-#pragma warning restore 649
-
-		/// <inheritdoc />
-		public string RegistrationKey => _RegistrationKey;
-
-		/// <inheritdoc />
-		public abstract Type UIServiceType { get; }
-	}
-
-	/// <summary>
-	/// <see cref="BaseUnityUI"/> that adapts the specified type <typeparamref name="TAdaptedToType"/>.
-	/// </summary>
-	/// <typeparam name="TAdaptedToType"></typeparam>
-	public abstract class BaseUnityUI<TAdaptedToType> : BaseUnityUI
-	{
-		/// <inheritdoc />
-		public override Type UIServiceType => typeof(TAdaptedToType);
-
 		//TODO: Eventually we need to refactor this away.
 		/// <summary>
 		/// Can be called as a <see cref="StartCoroutine"/>

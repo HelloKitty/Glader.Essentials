@@ -12,7 +12,7 @@ namespace Glader.Essentials
 	/// Provider the ability for ordered collections of element Type <typeparamref name="TAdaptedToType"/>
 	/// to be adapted and registered together.
 	/// </summary>
-	public abstract class BaseCollectionUnityUIAdapter<TAdaptedToType> : BaseUnityUI<IReadOnlyCollection<TAdaptedToType>>, IReadOnlyCollection<TAdaptedToType>
+	public abstract class BaseCollectionUnityUIAdapter<TAdaptedToType> : BaseUnityUI, IReadOnlyCollection<TAdaptedToType>
 	{
 		protected abstract IEnumerable<TAdaptedToType> Elements { get; }
 

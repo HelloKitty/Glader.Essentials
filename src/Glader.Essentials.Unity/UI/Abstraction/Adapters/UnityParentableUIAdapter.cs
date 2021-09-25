@@ -5,7 +5,7 @@ using Glader.Essentials;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Glader
+namespace Glader.Essentials
 {
 	public sealed class UnityParentableUIAdapter : BaseUnityUIAdapter<Transform, IUIParentable>, IUIParentable
 	{

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Glader.Essentials
 {
-	public interface IUIUnitFrame : IUIElement
+	public interface IUIUnitFrame : IUIFrame, IUIElement<IUIUnitFrame>
 	{
 		UILabeledBar HealthBar { get; }
 
