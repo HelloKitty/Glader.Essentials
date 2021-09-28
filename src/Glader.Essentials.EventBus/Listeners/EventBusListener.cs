@@ -13,7 +13,8 @@ namespace Glader.Essentials
 	/// Will register a callback <see cref="OnEventFired"/> to the event on <see cref="TEventArgsType"/>.
 	/// </summary>
 	/// <typeparam name="TEventArgsType">The event type.</typeparam>
-	public abstract class EventBusListener<TEventArgsType> : IDisposable
+	/// <typeparam name="TSourceType">The type of the sender expected.</typeparam>
+	public abstract class EventBusListener<TEventArgsType, TSourceType> : IDisposable
 		where TEventArgsType : IEventBusEventArgs
 	{
 		private object _SyncObj { get; } = new object();
@@ -34,7 +35,7 @@ namespace Glader.Essentials
 		/// <param name="bus">The bus to register to.</param>
 		protected EventBusListener(IEventBus bus)
 		{
-			if (bus == null) throw new ArgumentNullException(nameof(bus));
+			if(bus == null) throw new ArgumentNullException(nameof(bus));
 
 			//This implementation doesn't depend on IGameInitializable and subscribes in the ctor.
 			Subscription = Subscribe(bus);
@@ -48,11 +49,13 @@ namespace Glader.Essentials
 		/// <param name="args">The event args.</param>
 		private void InternalOnEventFired(object sender, TEventArgsType args)
 		{
+			TSourceType castedSender = (TSourceType) sender;
+
 			// If OnBefore returns false then we don't continue handling the event.
-			if(!OnBeforeEventFired(sender, args))
+			if(!OnBeforeEventFired(castedSender, args))
 				return;
 
-			HandleEvent(sender, args);
+			HandleEvent(castedSender, args);
 		}
 
 		/// <summary>
@@ -60,14 +63,14 @@ namespace Glader.Essentials
 		/// </summary>
 		/// <param name="sender">The sender of the event (may be null).</param>
 		/// <param name="args">The event args.</param>
-		protected void HandleEvent(object sender, TEventArgsType args)
+		protected void HandleEvent(TSourceType sender, TEventArgsType args)
 		{
 			bool successful = true;
 			try
 			{
 				OnEventFired(sender, args);
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				successful = false;
 				OnException(sender, args, e);
@@ -84,7 +87,7 @@ namespace Glader.Essentials
 		/// <param name="sender">The sender of the event (may be null).</param>
 		/// <param name="args">The event args.</param>
 		/// <param name="error"></param>
-		protected virtual void OnException(object sender, TEventArgsType args, Exception error)
+		protected virtual void OnException(TSourceType sender, TEventArgsType args, Exception error)
 		{
 			return;
 		}
@@ -96,7 +99,7 @@ namespace Glader.Essentials
 		/// <param name="sender">The sender of the event (may be null).</param>
 		/// <param name="args">The event args.</param>
 		/// <param name="successful">Indicates if the event was handled without exception.</param>
-		protected virtual void OnAfterEventFired(object sender, TEventArgsType args, bool successful)
+		protected virtual void OnAfterEventFired(TSourceType sender, TEventArgsType args, bool successful)
 		{
 			return;
 		}
@@ -109,7 +112,7 @@ namespace Glader.Essentials
 		/// <param name="sender">The sender of the event (may be null).</param>
 		/// <param name="args">The event args.</param>
 		/// <returns>Indicates if the event should be handled.</returns>
-		protected virtual bool OnBeforeEventFired(object sender, TEventArgsType args)
+		protected virtual bool OnBeforeEventFired(TSourceType sender, TEventArgsType args)
 		{
 			return true;
 		}
@@ -119,7 +122,7 @@ namespace Glader.Essentials
 		/// </summary>
 		/// <param name="sender">The sender of the event (may be null).</param>
 		/// <param name="args">The event args.</param>
-		protected internal abstract void OnEventFired(object sender, TEventArgsType args);
+		protected internal abstract void OnEventFired(TSourceType sender, TEventArgsType args);
 
 		//TODO: Doc exceptions/warnings.
 		/// <summary>
@@ -128,7 +131,7 @@ namespace Glader.Essentials
 		/// </summary>
 		private EventBusSubscriptionToken Subscribe(IEventBus bus)
 		{
-			if (bus == null) throw new ArgumentNullException(nameof(bus));
+			if(bus == null) throw new ArgumentNullException(nameof(bus));
 
 			lock(_SyncObj)
 			{
@@ -160,7 +163,7 @@ namespace Glader.Essentials
 		/// </summary>
 		private void InternalUnsubscribe()
 		{
-			lock (_SyncObj)
+			lock(_SyncObj)
 			{
 				Subscription?.Dispose();
 				IsSubscribed = false;
@@ -171,6 +174,22 @@ namespace Glader.Essentials
 		public virtual void Dispose()
 		{
 			InternalUnsubscribe();
+		}
+	}
+
+	/// <summary>
+	/// Base type for an event listener that listens to a single event type.
+	/// Will register a callback <see cref="OnEventFired"/> to the event on <see cref="TEventArgsType"/>.
+	/// </summary>
+	/// <typeparam name="TEventArgsType">The event type.</typeparam>
+	public abstract class EventBusListener<TEventArgsType> : EventBusListener<TEventArgsType, object>, IDisposable
+		where TEventArgsType : IEventBusEventArgs
+	{
+		/// <inheritdoc />
+		protected EventBusListener(IEventBus bus) 
+			: base(bus)
+		{
+
 		}
 	}
 }
