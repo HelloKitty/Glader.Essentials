@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Glader.Essentials
 {
 	public class BaseUIFrameAdapter<TFrameType> : BaseUnityUI, IUIFrame, IUIAdapterRegisterable
-		where TFrameType : IUIFrame, IUIEventListenable<TFrameType>
+		where TFrameType : IUIFrame, IUIEventListenable
 	{
 		//Assigned by Unity3D.
 		/// <summary>
