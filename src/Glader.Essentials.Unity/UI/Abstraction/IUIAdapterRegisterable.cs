@@ -18,5 +18,10 @@ namespace Glader.Essentials
 		/// The actual type to register this UI adapter as.
 		/// </summary>
 		Type UIServiceType { get; }
+
+		/// <summary>
+		/// Indicates if it should use the key or register it directly.
+		/// </summary>
+		bool AsKeyed { get; }
 	}
 }
