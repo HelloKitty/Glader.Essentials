@@ -21,9 +21,18 @@ namespace Glader.Essentials
 			foreach(var registerable in new SceneUiElementEnumerable())
 			{
 				//Registers the adapter with the specified Key and Service Type.
-				register.RegisterInstance(registerable)
-					.SingleInstance()
-					.Keyed(registerable.RegistrationKey, registerable.UIServiceType);
+				if (registerable.AsKeyed)
+				{
+					register.RegisterInstance(registerable)
+						.SingleInstance()
+						.Keyed(registerable.RegistrationKey, registerable.UIServiceType);
+				}
+				else
+				{
+					register.RegisterInstance(registerable)
+						.SingleInstance()
+						.As(registerable.UIServiceType);
+				}
 			}
 		}
 	}
