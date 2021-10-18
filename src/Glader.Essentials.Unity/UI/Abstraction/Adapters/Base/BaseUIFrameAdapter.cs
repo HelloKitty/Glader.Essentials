@@ -24,6 +24,8 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public Type UIServiceType => typeof(TFrameType);
 
+		public virtual bool AsKeyed { get; } = true;
+
 		/// <inheritdoc />
 		public IEventBus Bus { get; } = new EventBus();
 
