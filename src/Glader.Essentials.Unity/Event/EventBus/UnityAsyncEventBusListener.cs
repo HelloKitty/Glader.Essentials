@@ -16,7 +16,8 @@ namespace Glader.Essentials
 		public static UnityAsyncEventBusHandlerSettings Default = new UnityAsyncEventBusHandlerSettings(false, false);
 	}
 
-	public abstract class UnityAsyncEventBusListener<TEventArgsType, TSourceType> : EventBusListener<TEventArgsType, TSourceType>
+	/// <inheritdoc />
+	public abstract class UnityAsyncEventBusListener<TEventArgsType, TSourceType> : EngineEventBusListener<TEventArgsType, TSourceType>
 		where TEventArgsType : IEventBusEventArgs
 	{
 		private UnityAsyncEventBusHandlerSettings Settings { get; }
@@ -125,11 +126,13 @@ namespace Glader.Essentials
 	public abstract class UnityAsyncEventBusListener<TEventArgsType> : UnityAsyncEventBusListener<TEventArgsType, object>
 		where TEventArgsType : IEventBusEventArgs
 	{
+		/// <inheritdoc />
 		protected UnityAsyncEventBusListener(IEventBus bus) 
 			: base(bus)
 		{
 		}
 
+		/// <inheritdoc />
 		protected UnityAsyncEventBusListener(IEventBus bus, [NotNull] UnityAsyncEventBusHandlerSettings settings) 
 			: base(bus, settings)
 		{
