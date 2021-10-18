@@ -8,7 +8,7 @@ namespace Glader.Essentials
 	/// Event listener that will subscribe to the provided element's click event.
 	/// Using <see cref="OnElementClickedEventArgs"/> with <see cref="IUIElement"/> as the source.
 	/// </summary>
-	public abstract class ElementClickedEventListener<TElementType> : EventBusListener<OnElementClickedEventArgs, TElementType>
+	public abstract class ElementClickedEventListener<TElementType> : EngineEventBusListener<OnElementClickedEventArgs, TElementType>
 		where TElementType : IUIElement
 	{
 		/// <summary>
@@ -55,6 +55,16 @@ namespace Glader.Essentials
 		{
 
 		}
+
+		/// <summary>
+		/// Creates a new click listener on the provided element.
+		/// </summary>
+		/// <param name="element">Element to listen on.</param>
+		/// <param name="settings">Async event settings.</param>
+		protected ElementClickedEventListenerAsync(IUIElement element, UnityAsyncEventBusHandlerSettings settings)
+			: base(element.Bus, settings)
+		{
+		}
 	}
 
 	/// <summary>
@@ -69,6 +79,17 @@ namespace Glader.Essentials
 		/// <param name="element">Element to listen on.</param>
 		protected ElementClickedEventListenerAsync(IUIElement element)
 			: base(element)
+		{
+
+		}
+
+		/// <summary>
+		/// Creates a new click listener on the provided element.
+		/// </summary>
+		/// <param name="element">Element to listen on.</param>
+		/// <param name="settings">Async event settings.</param>
+		protected ElementClickedEventListenerAsync(IUIElement element, UnityAsyncEventBusHandlerSettings settings)
+			: base(element, settings)
 		{
 
 		}
