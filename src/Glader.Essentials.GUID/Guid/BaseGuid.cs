@@ -6,6 +6,22 @@ using System.Runtime.Serialization;
 
 namespace Glader.Essentials
 {
+	public static class BaseGuidMutator
+	{
+		/// <summary>
+		/// Mutates/initializes the internal value of the provided <see cref="guid"/>.
+		/// </summary>
+		/// <param name="guid">The guid to initialize.</param>
+		/// <param name="value">The value.</param>
+		public static void SetValue(BaseGuid guid, ulong value)
+		{
+			if (guid == null)
+				return;
+
+			guid.RawValue = value;
+		}
+	}
+
 	/// <summary>
 	/// Base non-generic guid type.
 	/// </summary>
