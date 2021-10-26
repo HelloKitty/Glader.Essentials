@@ -8,7 +8,7 @@ namespace Glader.Essentials
 	/// Contract for types that implement the concept of an EventBus.
 	/// Supports publishing, subscribing and unsubscribing to event types.
 	/// </summary>
-	public interface IEventBus
+	public interface IEventBus : IEventBusPublishable
 	{
 		/// <summary>
 		/// Subscribes to the specified event type with the specified action.
@@ -26,15 +26,6 @@ namespace Glader.Essentials
 		/// <param name="token">The <see cref="EventBusSubscriptionToken"/> received from calling the Subscribe method</param>
 		/// <returns>Indicates if a subscription was removed (if token actually was registered)</returns>
 		bool Unsubscribe<TEventType>(EventBusSubscriptionToken token)
-			where TEventType : IEventBusEventArgs;
-
-		/// <summary>
-		/// Publishes the specified event to any subscribers for the event type.
-		/// </summary>
-		/// <typeparam name="TEventType">The type of event</typeparam>
-		/// <param name="sender">The sender of the event.</param>
-		/// <param name="eventData">Event to publish</param>
-		void Publish<TEventType>(object sender, TEventType eventData) 
 			where TEventType : IEventBusEventArgs;
 	}
 }
