@@ -184,32 +184,57 @@ namespace Glader.Essentials
 		public void PublishThrowsIfExceptionHandlerThrows()
 		{
 			var eventBus = new EventBus();
-			bool firstSubscriberHit = false, thirdSubscriberHit = false;
+			bool firstSubscriberHit = false, thirdSubscriberHit = false, exceptionSubscriptionHit = false;
 			eventBus.Subscribe<CustomTestEvent>((obj, s) => { firstSubscriberHit = true; });
 			eventBus.Subscribe<CustomTestEvent>((obj, s) => throw new ApplicationException($"Subscriber error"));
 			eventBus.Subscribe<CustomTestEvent>((obj, s) => { thirdSubscriberHit = true; });
 
-			eventBus.SubscribeException((sender, args) => throw args.ExceptionData);
+			eventBus.SubscribeException((sender, args) =>
+			{
+				exceptionSubscriptionHit = true;
+				throw args.ExceptionData;
+			});
 
 			var thrownException = Assert.ThrowsException<ApplicationException>(() => eventBus.Publish(this, new CustomTestEvent())); // Subscriber exception is thrown
 			Assert.AreEqual("Subscriber error", thrownException.Message); // Verify correct message from subscriber
 			Assert.IsTrue(firstSubscriberHit); // The first subscriber will be hit
 			Assert.IsFalse(thirdSubscriberHit); // Third subscriber will not be hit, missed due to thrown exception.
+			Assert.IsTrue(exceptionSubscriptionHit);
+		}
+
+		private class ToggleableMainThreadStrategy : IMainThreadDeterminable
+		{
+			public bool IsMainThread { get; set; } = false;
 		}
 
 		[TestMethod]
-		public void PublishThrowSubscriberExceptionTest()
+		public void PublishThrowsIfExceptionHandlerThrowsForThreadedEventBus()
 		{
-			var eventBus = new EventBus();
-			bool firstSubscriberHit = false, thirdSubscriberHit = false;
-			eventBus.Subscribe<CustomTestEvent>((obj, s) => { firstSubscriberHit = true; });
-			eventBus.Subscribe<CustomTestEvent>((obj, s) => throw new ApplicationException($"Subscriber error"));
+			var threadState = new ToggleableMainThreadStrategy();
+			var eventBus = new ThreadSafeEventBus(new EventBus(), threadState);
+			bool firstSubscriberHit = false, thirdSubscriberHit = false, exceptionSubscriptionHit = false;
+
+			eventBus.SubscribeException((sender, args) =>
+			{
+				exceptionSubscriptionHit = true;
+			});
+			
+			eventBus.Subscribe<CustomTestEvent>((obj, s) =>
+			{
+				firstSubscriberHit = true;
+				eventBus.Publish(this, new CustomTestEvent2());
+			});
+
+			eventBus.Subscribe<CustomTestEvent2>((obj, s) => throw new ApplicationException($"Subscriber error"));
 			eventBus.Subscribe<CustomTestEvent>((obj, s) => { thirdSubscriberHit = true; });
 
-			var thrownException = Assert.ThrowsException<ApplicationException>(() => eventBus.Publish(this, new CustomTestEvent())); // Subscriber exception is thrown
-			Assert.AreEqual("Subscriber error", thrownException.Message); // Verify correct message from subscriber
-			Assert.IsTrue(firstSubscriberHit); // The first subscriber will be hit
-			Assert.IsFalse(thirdSubscriberHit); // Third subscriber will not be hit, missed due to thrown exception.
+			eventBus.Publish(this, new CustomTestEvent());
+			threadState.IsMainThread = true;
+			eventBus.PublishSimple<PublishPendingEventBusEventArgs>(this);
+
+			Assert.IsTrue(firstSubscriberHit, nameof(firstSubscriberHit)); // The first subscriber will be hit
+			Assert.IsTrue(exceptionSubscriptionHit, nameof(exceptionSubscriptionHit));
+			Assert.IsTrue(thirdSubscriberHit, nameof(thirdSubscriberHit)); // Third subscriber will not be hit, missed due to thrown exception.
 		}
 
 		private void CustomTestEventMethodHandler(object sender, CustomTestEvent customTestEvent)
@@ -228,6 +253,12 @@ namespace Glader.Essentials
 	}
 
 	internal class CustomTestEvent : IEventBusEventArgs
+	{
+		public string Name { get; set; }
+		public int Identifier { get; set; }
+	}
+
+	internal class CustomTestEvent2 : IEventBusEventArgs
 	{
 		public string Name { get; set; }
 		public int Identifier { get; set; }
