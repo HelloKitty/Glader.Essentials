@@ -8,6 +8,20 @@ using System.Threading.Tasks;
 
 namespace Glader.Essentials
 {
+	public enum EventBusListenerExceptionThrowType
+	{
+		/// <summary>
+		/// Indicates it should be thrown.
+		/// </summary>
+		Throw = 1,
+
+		/// <summary>
+		/// Indicates that the exception should be considered "handled" and suppressed
+		/// by not being thrown.
+		/// </summary>
+		Suppress = 2
+	}
+
 	/// <summary>
 	/// Base type for an event listener that listens to a single event type.
 	/// Will register a callback <see cref="OnEventFired"/> to the event on <see cref="TEventArgsType"/>.
@@ -73,7 +87,8 @@ namespace Glader.Essentials
 			catch(Exception e)
 			{
 				successful = false;
-				OnException(sender, args, e);
+				if (OnException(sender, args, e) == EventBusListenerExceptionThrowType.Throw)
+					throw;
 			}
 			finally
 			{
@@ -87,9 +102,10 @@ namespace Glader.Essentials
 		/// <param name="sender">The sender of the event (may be null).</param>
 		/// <param name="args">The event args.</param>
 		/// <param name="error"></param>
-		protected virtual void OnException(TSourceType sender, TEventArgsType args, Exception error)
+		/// <returns>Exception handling behavior.</returns>
+		protected virtual EventBusListenerExceptionThrowType OnException(TSourceType sender, TEventArgsType args, Exception error)
 		{
-			return;
+			return EventBusListenerExceptionThrowType.Throw;
 		}
 
 		/// <summary>

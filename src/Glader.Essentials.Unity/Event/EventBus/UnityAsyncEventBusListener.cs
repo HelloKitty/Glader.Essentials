@@ -113,7 +113,8 @@ namespace Glader.Essentials
 			catch(Exception e)
 			{
 				successful = false;
-				OnException(sender, args, e);
+				if (OnException(sender, args, e) == EventBusListenerExceptionThrowType.Throw)
+					throw;
 			}
 			finally
 			{
