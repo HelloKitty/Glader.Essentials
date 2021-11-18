@@ -1,10 +1,10 @@
-﻿using System; using FreecraftCore;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace GladMMO
+namespace Glader.Essentials
 {
 	/// <summary>
 	/// Component that grabs the main camera in the scene
