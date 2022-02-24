@@ -36,13 +36,13 @@ namespace Glader.Essentials
 		}
 
 		/// <summary>
-		/// Subscribes to the specified event type to forward the event to the provided <see cref="IEventBus"/> <see cref="bus"/>.
+		/// Subscribes to the specified event type to forward the event to the provided <see cref="IEventBusSubscribable"/> <see cref="bus"/>.
 		/// </summary>
 		/// <typeparam name="TEventType">The type of event</typeparam>
 		/// <param name="bus">The event bus to subscribe to.</param>
 		/// <param name="forwardTarget">The event bus that the events should be forwarded to.</param>
-		/// <returns>A <see cref="EventBusSubscriptionToken"/> to be used when calling <see cref="IEventBus.Unsubscribe{TEventType}"/></returns>
-		public static EventBusSubscriptionToken SubscribeForwarded<TEventType>(this IEventBus bus, IEventBus forwardTarget)
+		/// <returns>A <see cref="EventBusSubscriptionToken"/> to be used when calling <see cref="IEventBusSubscribable.Unsubscribe{TEventType}"/></returns>
+		public static EventBusSubscriptionToken SubscribeForwarded<TEventType>(this IEventBusSubscribable bus, IEventBusPublishable forwardTarget)
 			where TEventType : IEventBusEventArgs
 		{
 			if(bus == null) throw new ArgumentNullException(nameof(bus));
@@ -59,8 +59,8 @@ namespace Glader.Essentials
 		/// <typeparam name="TEventType">The type of event</typeparam>
 		/// <param name="bus">The event bus to subscribe to.</param>
 		/// <param name="action">The forwardable event message handler.</param>
-		/// <returns>A <see cref="EventBusSubscriptionToken"/> to be used when calling <see cref="IEventBus.Unsubscribe{TEventType}"/></returns>
-		public static EventBusSubscriptionToken SubscribeForwarded<TEventType>(this IEventBus bus, EventHandler<EventBusEventForwardable<TEventType>> action)
+		/// <returns>A <see cref="EventBusSubscriptionToken"/> to be used when calling <see cref="IEventBusSubscribable.Unsubscribe{TEventType}"/></returns>
+		public static EventBusSubscriptionToken SubscribeForwarded<TEventType>(this IEventBusSubscribable bus, EventHandler<EventBusEventForwardable<TEventType>> action)
 			where TEventType : IEventBusEventArgs
 		{
 			if(bus == null) throw new ArgumentNullException(nameof(bus));
@@ -75,7 +75,7 @@ namespace Glader.Essentials
 		/// <param name="bus">The event bus to subscribe to.</param>
 		/// <param name="action">The Action to invoke when an event of this type is published</param>
 		/// <returns></returns>
-		public static EventBusSubscriptionToken SubscribeAll(this IEventBus bus, EventHandler<IEventBusEventArgs> action)
+		public static EventBusSubscriptionToken SubscribeAll(this IEventBusSubscribable bus, EventHandler<IEventBusEventArgs> action)
 		{
 			if(bus == null) throw new ArgumentNullException(nameof(bus));
 			if(action == null) throw new ArgumentNullException(nameof(action));
@@ -85,12 +85,12 @@ namespace Glader.Essentials
 		}
 
 		/// <summary>
-		/// Subscribes to all exceptions generated during Publishing events of the provided <see cref="IEventBus"/> <see cref="bus"/>.
+		/// Subscribes to all exceptions generated during Publishing events of the provided <see cref="IEventBusSubscribable"/> <see cref="bus"/>.
 		/// </summary>
 		/// <param name="bus">The event bus to subscribe to.</param>
 		/// <param name="action">The Action to invoke when an event of this type is published</param>
 		/// <returns></returns>
-		public static EventBusSubscriptionToken SubscribeException(this IEventBus bus, EventHandler<ExceptionEventBusEventArgs> action)
+		public static EventBusSubscriptionToken SubscribeException(this IEventBusSubscribable bus, EventHandler<ExceptionEventBusEventArgs> action)
 		{
 			if(bus == null) throw new ArgumentNullException(nameof(bus));
 			if(action == null) throw new ArgumentNullException(nameof(action));
@@ -110,8 +110,8 @@ namespace Glader.Essentials
 		/// <param name="sender">The sender to pair to the subscription.</param>
 		/// <param name="action">The Action to invoke when an event of this type is published</param>
 		/// <param name="mode">The subscription mode to use.</param>
-		/// <returns>A <see cref="EventBusSubscriptionToken"/> to be used when calling <see cref="IEventBus.Unsubscribe{TEventType}"/></returns>
-		public static EventBusSubscriptionToken Subscribe<TEventType, TSenderType>(this IEventBus bus, TSenderType sender, GenericSenderEventHandler<TSenderType, TEventType> action, EventBusSubscriptionMode mode = EventBusSubscriptionMode.Default)
+		/// <returns>A <see cref="EventBusSubscriptionToken"/> to be used when calling <see cref="IEventBusSubscribable.Unsubscribe{TEventType}"/></returns>
+		public static EventBusSubscriptionToken Subscribe<TEventType, TSenderType>(this IEventBusSubscribable bus, TSenderType sender, GenericSenderEventHandler<TSenderType, TEventType> action, EventBusSubscriptionMode mode = EventBusSubscriptionMode.Default)
 			where TEventType : IEventBusEventArgs
 			where TSenderType : class
 		{
