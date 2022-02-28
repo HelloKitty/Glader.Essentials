@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Glader.Essentials
@@ -15,10 +16,10 @@ namespace Glader.Essentials
 		public static DefaultEventSubscriptionIterationStrategy Instance { get; } = new();
 
 		/// <inheritdoc />
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public IEnumerable<IEventBusSubscription> Enumerate(IEventBusSubscription[] subscriptions)
 		{
-			foreach (var entry in subscriptions)
-				yield return entry;
+			return subscriptions;
 		}
 	}
 }
