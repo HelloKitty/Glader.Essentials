@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine.EventSystems;
 
 namespace Glader.Essentials
 {
@@ -8,11 +9,8 @@ namespace Glader.Essentials
 	/// Contract for UI that can receive events.
 	/// Implementing this interface allows for the Unity3D engine to callback.
 	/// </summary>
-	public interface IUIMouseOverExitEventListener
+	public interface IUIMouseOverExitEventListener : IPointerExitHandler
 	{
-		/// <summary>
-		/// See: https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnMouseExit.html
-		/// </summary>
-		void OnMouseExit();
+
 	}
 }
