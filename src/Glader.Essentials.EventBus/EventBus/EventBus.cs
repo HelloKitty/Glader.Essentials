@@ -50,6 +50,8 @@ namespace Glader.Essentials
 
 		private IEventSubscriptionPublishStrategy PublishStrategy { get; }
 
+		private readonly bool IsPublishIterationStrategyDefault;
+
 		/// <summary>
 		/// Creates <see cref="EventBus"/> with the default configuration.
 		/// </summary>
@@ -64,11 +66,13 @@ namespace Glader.Essentials
 		/// </summary>
 		/// <param name="publishIterationStrategy">The publish strategy.</param>
 		/// <param name="publishStrategy">The publish strategy.</param>
-		public EventBus(IEventSubscriptionIterationStrategy publishIterationStrategy, 
+		public EventBus(IEventSubscriptionIterationStrategy publishIterationStrategy,
 			IEventSubscriptionPublishStrategy publishStrategy)
 		{
 			PublishIterationStrategy = publishIterationStrategy ?? throw new ArgumentNullException(nameof(publishIterationStrategy));
 			PublishStrategy = publishStrategy ?? throw new ArgumentNullException(nameof(publishStrategy));
+
+			IsPublishIterationStrategyDefault = PublishIterationStrategy is DefaultEventSubscriptionIterationStrategy;
 		}
 
 		/// <inheritdoc />
@@ -287,23 +291,36 @@ namespace Glader.Essentials
 			if(!subscriptionMap.TryGetValue(typeof(TEventType), out var array))
 				return;
 
-			foreach (IEventBusSubscription sub in PublishIterationStrategy.Enumerate(array)) //this will enumerate the returned reference, so it won't change
+			//3x speed up from manually using the default
+			if (IsPublishIterationStrategyDefault)
 			{
-				try
-				{
-					//The subscription could be null because we REUSE indexes and set them as null
-					//to avoid allocations if possible on unsubscription or subscriptions
-					if (sub.IsNotNull())
-						PublishStrategy.Publish(sub, sender, eventData);
-				}
-				catch (Exception e)
-				{
-					//Don't publish exceptions caused by subscribers of actual exception event types
-					if (typeof(TEventType) == typeof(ExceptionEventBusEventArgs))
-						throw;
+				//this will enumerate the returned reference, so it won't change
+				foreach(IEventBusSubscription sub in array)
+					PublishEventSubscription(sender, eventData, sub);
+			}
+			else
+			{
+				foreach(IEventBusSubscription sub in PublishIterationStrategy.Enumerate(array))
+					PublishEventSubscription(sender, eventData, sub);
+			}
+		}
 
-					Publish<ExceptionEventBusEventArgs>(sender, new ExceptionEventBusEventArgs(e, sub?.Token, sender, eventData), ExceptionSubscriptionMap);
-				}
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private void PublishEventSubscription<TEventType>(object sender, TEventType eventData, IEventBusSubscription sub) where TEventType : IEventBusEventArgs
+		{
+			try
+			{
+				//The subscription could be null because we REUSE indexes and set them as null
+				//to avoid allocations if possible on unsubscription or subscriptions
+				PublishStrategy.Publish(sub, sender, eventData);
+			}
+			catch (Exception e)
+			{
+				//Don't publish exceptions caused by subscribers of actual exception event types
+				if (typeof(TEventType) == typeof(ExceptionEventBusEventArgs))
+					throw;
+
+				Publish<ExceptionEventBusEventArgs>(sender, new ExceptionEventBusEventArgs(e, sub?.Token, sender, eventData), ExceptionSubscriptionMap);
 			}
 		}
 	}
