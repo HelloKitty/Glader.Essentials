@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine.EventSystems;
 
 namespace Glader.Essentials
 {
@@ -8,11 +9,8 @@ namespace Glader.Essentials
 	/// Contract for UI that can receive events.
 	/// Implementing this interface allows for the Unity3D engine to callback.
 	/// </summary>
-	public interface IUIMouseOverEnterEventListener
+	public interface IUIMouseOverEnterEventListener : IPointerEnterHandler
 	{
-		/// <summary>
-		/// See: https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnMouseOver.html
-		/// </summary>
-		void OnMouseOver();
+
 	}
 }
