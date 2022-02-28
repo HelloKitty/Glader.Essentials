@@ -46,6 +46,31 @@ namespace Glader.Essentials
 
 		private bool UsedAllEvents { get; set; } = false;
 
+		private IEventSubscriptionIterationStrategy PublishIterationStrategy { get; }
+
+		private IEventSubscriptionPublishStrategy PublishStrategy { get; }
+
+		/// <summary>
+		/// Creates <see cref="EventBus"/> with the default configuration.
+		/// </summary>
+		public EventBus()
+			: this(DefaultEventSubscriptionIterationStrategy.Instance, DefaultEventSubscriptionPublishStrategy.Instance)
+		{
+
+		}
+
+		/// <summary>
+		/// Creates <see cref="EventBus"/> with a custom <see cref="IEventSubscriptionIterationStrategy"/> and custom configuration.
+		/// </summary>
+		/// <param name="publishIterationStrategy">The publish strategy.</param>
+		/// <param name="publishStrategy">The publish strategy.</param>
+		public EventBus(IEventSubscriptionIterationStrategy publishIterationStrategy, 
+			IEventSubscriptionPublishStrategy publishStrategy)
+		{
+			PublishIterationStrategy = publishIterationStrategy ?? throw new ArgumentNullException(nameof(publishIterationStrategy));
+			PublishStrategy = publishStrategy ?? throw new ArgumentNullException(nameof(publishStrategy));
+		}
+
 		/// <inheritdoc />
 		public EventBusSubscriptionToken Subscribe<TEventType>(EventHandler<TEventType> action, EventBusSubscriptionMode mode = EventBusSubscriptionMode.Default) 
 			where TEventType : IEventBusEventArgs
@@ -262,13 +287,14 @@ namespace Glader.Essentials
 			if(!subscriptionMap.TryGetValue(typeof(TEventType), out var array))
 				return;
 
-			foreach (IEventBusSubscription sub in array) //this will enumerate the returned reference, so it won't change
+			foreach (IEventBusSubscription sub in PublishIterationStrategy.Enumerate(array)) //this will enumerate the returned reference, so it won't change
 			{
 				try
 				{
 					//The subscription could be null because we REUSE indexes and set them as null
 					//to avoid allocations if possible on unsubscription or subscriptions
-					sub?.Publish(sender, eventData);
+					if (sub.IsNotNull())
+						PublishStrategy.Publish(sub, sender, eventData);
 				}
 				catch (Exception e)
 				{
