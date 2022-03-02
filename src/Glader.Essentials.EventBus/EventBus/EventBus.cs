@@ -53,6 +53,13 @@ namespace Glader.Essentials
 		private readonly bool IsPublishIterationStrategyDefault;
 
 		/// <summary>
+		/// Event fired by all <see cref="EventBus"/>'s if no <see cref="ExceptionEventBusEventArgs"/> listener
+		/// is registered. This is a global static shared event that can be listened to.
+		/// Suggested to listen to this for logging uncaught/unlistened to exceptions.
+		/// </summary>
+		public static event EventHandler<ExceptionEventBusEventArgs> SharedUncaughtExceptionEvent;
+
+		/// <summary>
 		/// Creates <see cref="EventBus"/> with the default configuration.
 		/// </summary>
 		public EventBus()
@@ -320,7 +327,12 @@ namespace Glader.Essentials
 				if (typeof(TEventType) == typeof(ExceptionEventBusEventArgs))
 					throw;
 
-				Publish<ExceptionEventBusEventArgs>(sender, new ExceptionEventBusEventArgs(e, sub?.Token, sender, eventData), ExceptionSubscriptionMap);
+				//Only if we have any exceptions listeners registered should we bother publishing
+				//otherwise we should fall back to the default exception listener.
+				if (ExceptionSubscriptionMap.Any())
+					Publish<ExceptionEventBusEventArgs>(sender, new ExceptionEventBusEventArgs(e, sub?.Token, sender, eventData), ExceptionSubscriptionMap);
+				else
+					SharedUncaughtExceptionEvent?.Invoke(sender, new ExceptionEventBusEventArgs(e, sub?.Token, sender, eventData));
 			}
 		}
 	}
