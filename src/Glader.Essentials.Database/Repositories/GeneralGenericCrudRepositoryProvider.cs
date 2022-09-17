@@ -27,7 +27,11 @@ namespace Glader.Essentials
 		/// </summary>
 		protected DbContext Context { get; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Creates a new generic CRUD repository provider using the provided DB context and ModelSet.
+		/// </summary>
+		/// <param name="modelSet"></param>
+		/// <param name="context"></param>
 		public GeneralGenericCrudRepositoryProvider(DbSet<TModelType> modelSet, DbContext context)
 		{
 			ModelSet = modelSet ?? throw new ArgumentNullException(nameof(modelSet));
@@ -35,16 +39,16 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> ContainsAsync(TKey key, CancellationToken token = default)
+		public virtual async Task<bool> ContainsAsync(TKey key, CancellationToken token = default)
 		{
 			return await RetrieveAsync(key, token) != null;
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> TryCreateAsync(TModelType model, CancellationToken token = default)
+		public virtual async Task<bool> TryCreateAsync(TModelType model, CancellationToken token = default)
 		{
 			//TODO: Should we validate no key already exists?
-			ModelSet.Add(model);
+			await ModelSet.AddAsync(model, token);
 			return await SaveAndCheckResultsAsync(token);
 		}
 
@@ -62,7 +66,7 @@ namespace Glader.Essentials
 
 				foreach(var navigation in Context.Entry(model).Navigations)
 				{
-					navigation.Load();
+					await navigation.LoadAsync(token);
 				}
 
 				return model;
@@ -72,7 +76,7 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> TryDeleteAsync(TKey key, CancellationToken token = default)
+		public virtual async Task<bool> TryDeleteAsync(TKey key, CancellationToken token = default)
 		{
 			//If it doesn't exist then this will just fail, so get out soon.
 			if(!await ContainsAsync(key, token))
@@ -85,7 +89,7 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		public async Task UpdateAsync(TKey key, TModelType model, CancellationToken token = default)
+		public virtual async Task UpdateAsync(TKey key, TModelType model, CancellationToken token = default)
 		{
 			if(!await ContainsAsync(key, token))
 				throw new InvalidOperationException($"Cannot update model with Key: {key} as it does not exist.");
