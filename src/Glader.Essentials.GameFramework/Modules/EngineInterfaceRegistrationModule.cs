@@ -11,7 +11,13 @@ namespace Glader.Essentials
 {
 	public sealed class EngineInterfaceRegistrationModule : Module
 	{
-		private static Type[] EngineTypes = new Type[] { typeof(IGameTickable), typeof(IGameInitializable), typeof(IGameStartable), typeof(IGameFixedTickable) };
+		private static Type[] EngineTypes = new Type[]
+		{
+			typeof(IGameTickable), 
+			typeof(IGameInitializable), 
+			typeof(IGameStartable), 
+			typeof(IGameFixedTickable)
+		};
 
 		//TODO: When we have specific floors or special scenes that don't fit type we may want to supply zone id or additional metadata.
 		/// <summary>
@@ -60,6 +66,11 @@ namespace Glader.Essentials
 
 				registrationBuilder = registrationBuilder
 					.InstancePerLifetimeScope();
+
+				if(creatable.GetCustomAttribute<SceneDisposableAttribute>() != null)
+					if (typeof(IDisposable).IsAssignableFrom(creatable))
+						registrationBuilder = registrationBuilder.As<IDisposable>()
+							.OwnedByLifetimeScope();
 			}
 		}
 
