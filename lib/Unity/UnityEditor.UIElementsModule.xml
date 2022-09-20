@@ -1,0 +1,1889 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<doc>
+  <members>
+    <assembly>
+      <name>UnityEditor.UIElementsModule</name>
+    </assembly>
+    <member name="T:UnityEditor.UIElements.BaseMaskField`1">
+      <summary>
+        <para>
+ Base class implementing the shared functionality for editing bit mask values.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.BaseMaskField_1.choices">
+      <summary>
+        <para>
+ The list of choices to display in the popup menu.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.BaseMaskField_1.choicesMasks">
+      <summary>
+        <para>
+ The list of list of masks for every specific choice to display in the popup menu.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.BindingExtensions">
+      <summary>
+        <para>
+ Provides VisualElement extension methods that implement data binding between INotivyValueChanged fields and SerializedObjects.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.BindingExtensions.prefabOverrideUssClassName">
+      <summary>
+        <para>
+ USS class added to element when in prefab override mode.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.BindingExtensions.Bind(UnityEngine.UIElements.VisualElement,UnityEditor.SerializedObject)">
+      <summary>
+        <para>
+ Binds a SerializedObject to fields in the element hierarchy.
+ </para>
+      </summary>
+      <param name="element">Root VisualElement containing IBindable fields.</param>
+      <param name="obj">Data object.</param>
+    </member>
+    <member name="M:UnityEditor.UIElements.BindingExtensions.BindProperty(UnityEngine.UIElements.IBindable,UnityEditor.SerializedObject)">
+      <summary>
+        <para>
+ Binds a property to a field and synchronizes their values. This method finds the property using the field's binding path.
+ </para>
+      </summary>
+      <param name="field">VisualElement field editing a property.</param>
+      <param name="obj">Root SerializedObject containing the bindable property.</param>
+      <returns>
+        <para>The serialized object that owns the bound property.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.UIElements.BindingExtensions.BindProperty(UnityEngine.UIElements.IBindable,UnityEditor.SerializedProperty)">
+      <summary>
+        <para>
+ Binds a property to a field and synchronizes their values.
+ </para>
+      </summary>
+      <param name="field">VisualElement field editing a property.</param>
+      <param name="property">The SerializedProperty to bind.</param>
+    </member>
+    <member name="M:UnityEditor.UIElements.BindingExtensions.TrackPropertyValue(UnityEngine.UIElements.VisualElement,UnityEditor.SerializedProperty,System.Action`1&lt;UnityEditor.SerializedProperty&gt;)">
+      <summary>
+        <para>
+ Checks the property values for changes at regular intervals. Executes the callback when the property value changes.
+ If no callback is specified, a SerializedPropertyChangeEvent is sent to the target element.
+ </para>
+      </summary>
+      <param name="element">VisualElement tracking a property.</param>
+      <param name="property">The SerializedProperty to track.</param>
+      <param name="callback">Invoked when the tracked SerializedProperty value changes.</param>
+    </member>
+    <member name="M:UnityEditor.UIElements.BindingExtensions.TrackSerializedObjectValue(UnityEngine.UIElements.VisualElement,UnityEditor.SerializedObject,System.Action`1&lt;UnityEditor.SerializedObject&gt;)">
+      <summary>
+        <para>
+ Checks the object for changes at regular intervals. Executes the callback when the object value changes.
+ If no callback is specified, a SerializedObjectChangeEvent is sent to the target element.
+ </para>
+      </summary>
+      <param name="element">VisualElement tracking an object.</param>
+      <param name="property">The SerializedObject to track.</param>
+      <param name="callback">Invoked when one of the tracked SerializedObject's value changes.</param>
+      <param name="obj"></param>
+    </member>
+    <member name="M:UnityEditor.UIElements.BindingExtensions.Unbind(UnityEngine.UIElements.VisualElement)">
+      <summary>
+        <para>
+ Disconnects all properties bound to fields in the element's hierarchy.
+ </para>
+      </summary>
+      <param name="element">Root VisualElement containing IBindable fields.</param>
+    </member>
+    <member name="T:UnityEditor.UIElements.ColorField">
+      <summary>
+        <para>
+ Makes a field for selecting a color.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.ColorField.hdr">
+      <summary>
+        <para>
+ If true, treats the color as an HDR value. If false, treats the color as a standard LDR value.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ColorField.inputUssClassName">
+      <summary>
+        <para>
+ USS class name of input elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ColorField.labelUssClassName">
+      <summary>
+        <para>
+ USS class name of labels in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.ColorField.showAlpha">
+      <summary>
+        <para>
+ If true, allows the user to set an alpha value for the color. If false, hides the alpha component.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.ColorField.showEyeDropper">
+      <summary>
+        <para>
+ If true, the color picker will show the eyedropper control. If false, the color picker won't show the eyedropper control.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ColorField.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ColorField.#ctor">
+      <summary>
+        <para>
+ Initializes and returns an instance of ColorField.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ColorField.#ctor(System.String)">
+      <summary>
+        <para>
+ Initializes and returns an instance of ColorField.
+ </para>
+      </summary>
+      <param name="label">The text to use as a label.</param>
+    </member>
+    <member name="T:UnityEditor.UIElements.ColorField.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a ColorField using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ColorField.UxmlTraits">
+      <summary>
+        <para>
+ Defines UxmlTraits for the ColorField.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ColorField.UxmlTraits.Init(UnityEngine.UIElements.VisualElement,UnityEngine.UIElements.IUxmlAttributes,UnityEngine.UIElements.CreationContext)">
+      <summary>
+        <para>
+ Initialize ColorField properties using values from the attribute bag.
+ </para>
+      </summary>
+      <param name="ve">The object to initialize.</param>
+      <param name="bag">The attribute bag.</param>
+      <param name="cc">The creation context; unused.</param>
+    </member>
+    <member name="T:UnityEditor.UIElements.CurveField">
+      <summary>
+        <para>
+ Makes a field for editing an AnimationCurve.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.CurveField.borderUssClassName">
+      <summary>
+        <para>
+ USS class name of border elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.CurveField.contentUssClassName">
+      <summary>
+        <para>
+ USS class name of content elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.CurveField.inputUssClassName">
+      <summary>
+        <para>
+ USS class name of input elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.CurveField.labelUssClassName">
+      <summary>
+        <para>
+ USS class name of labels in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.CurveField.ranges">
+      <summary>
+        <para>
+ Optional rectangle that the curve is restrained within. If the range width or height is &amp;lt; 0 then CurveField computes an automatic range, which encompasses the whole curve.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.CurveField.renderMode">
+      <summary>
+        <para>
+ The RenderMode of CurveField. The default is RenderMode.Default.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.CurveField.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.CurveField.#ctor">
+      <summary>
+        <para>
+ Initializes and returns an instance of CurveField.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.CurveField.#ctor(System.String)">
+      <summary>
+        <para>
+ Initializes and returns an instance of CurveField.
+ </para>
+      </summary>
+      <param name="label">The text to use as a label.</param>
+    </member>
+    <member name="T:UnityEditor.UIElements.CurveField.RenderMode">
+      <summary>
+        <para>
+ Render mode of CurveFields
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.CurveField.RenderMode.Default">
+      <summary>
+        <para>
+ Renders the curve with the default mode. Currently Texture.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.CurveField.RenderMode.Mesh">
+      <summary>
+        <para>
+ Renders the curve with an anti-aliased mesh.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.CurveField.RenderMode.Texture">
+      <summary>
+        <para>
+ Renders the curve with a generated texture, like with Unity’s Immediate Mode GUI system (IMGUI).
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.CurveField.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a CurveField using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.CurveField.UxmlTraits">
+      <summary>
+        <para>
+ Defines UxmlTraits for the CurveField.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.EnumFlagsField">
+      <summary>
+        <para>
+ Makes a dropdown for switching between enum flag values that are marked with the Flags attribute.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.EnumFlagsField.inputUssClassName">
+      <summary>
+        <para>
+ USS class name for input elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.EnumFlagsField.labelUssClassName">
+      <summary>
+        <para>
+ USS class name for labels of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.EnumFlagsField.ussClassName">
+      <summary>
+        <para>
+ USS class name for elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.EnumFlagsField.#ctor(System.Enum)">
+      <summary>
+        <para>
+ Constructs an EnumFlagsField with a default value, and initializes its underlying type.
+ </para>
+      </summary>
+      <param name="defaultValue">Initial value. This also detects the Enum type.</param>
+    </member>
+    <member name="M:UnityEditor.UIElements.EnumFlagsField.#ctor(System.Enum,System.Boolean)">
+      <summary>
+        <para>
+ Constructs an EnumFlagsField with a default value, and initializes its underlying type.
+ </para>
+      </summary>
+      <param name="defaultValue">Initial value. This also detects the Enum type.</param>
+      <param name="includeObsoleteValues"></param>
+    </member>
+    <member name="M:UnityEditor.UIElements.EnumFlagsField.#ctor(System.String,System.Enum)">
+      <summary>
+        <para>
+ Constructs an EnumFlagsField with a default value, and initializes its underlying type.
+ </para>
+      </summary>
+      <param name="defaultValue">Initial value. This also detects the Enum type.</param>
+      <param name="label"></param>
+    </member>
+    <member name="M:UnityEditor.UIElements.EnumFlagsField.#ctor">
+      <summary>
+        <para>
+ Constructs an EnumFlagsField with a default value, and initializes its underlying type.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.EnumFlagsField.#ctor(System.String,System.Enum,System.Boolean)">
+      <summary>
+        <para>
+ Constructs an EnumFlagsField with a default value, and initializes its underlying type.
+ </para>
+      </summary>
+      <param name="defaultValue">Initial value. This also detects the Enum type.</param>
+      <param name="label"></param>
+      <param name="includeObsoleteValues"></param>
+    </member>
+    <member name="M:UnityEditor.UIElements.EnumFlagsField.#ctor(System.String)">
+      <summary>
+        <para>
+ Constructs an EnumFlagsField with a default value, and initializes its underlying type.
+ </para>
+      </summary>
+      <param name="label"></param>
+    </member>
+    <member name="M:UnityEditor.UIElements.EnumFlagsField.Init(System.Enum,System.Boolean)">
+      <summary>
+        <para>
+ Initializes the EnumFlagsField with a default value, and initializes its underlying type.
+ </para>
+      </summary>
+      <param name="defaultValue">The typed enum value.</param>
+      <param name="includeObsoleteValues">Set to true to display obsolete values as choices.</param>
+    </member>
+    <member name="T:UnityEditor.UIElements.EnumFlagsField.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a EnumFlagsField using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.EnumFlagsField.UxmlTraits">
+      <summary>
+        <para>
+ Defines UxmlTraits for the EnumFlagsField.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.GradientField">
+      <summary>
+        <para>
+ Makes a field for editing an Gradient.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.GradientField.borderUssClassName">
+      <summary>
+        <para>
+ USS class name for border elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.GradientField.colorSpace">
+      <summary>
+        <para>
+ The color space currently used by the field.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.GradientField.contentUssClassName">
+      <summary>
+        <para>
+ USS class name for the content for the gradient visual in the GradientField element.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.GradientField.hdr">
+      <summary>
+        <para>
+ If true, treats the color as an HDR value. If false, treats the color as a standard LDR value.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.GradientField.inputUssClassName">
+      <summary>
+        <para>
+ USS class name for input elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.GradientField.labelUssClassName">
+      <summary>
+        <para>
+ USS class name for labels in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.GradientField.ussClassName">
+      <summary>
+        <para>
+ USS class name for elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.GradientField.value">
+      <summary>
+        <para>
+ The Gradient currently being exposed by the field.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.GradientField.#ctor">
+      <summary>
+        <para>
+ Constructor.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.GradientField.#ctor(System.String)">
+      <summary>
+        <para>
+ Constructor.
+ </para>
+      </summary>
+      <param name="label"></param>
+    </member>
+    <member name="T:UnityEditor.UIElements.GradientField.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a GradientField using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.GradientField.UxmlTraits">
+      <summary>
+        <para>
+ Defines UxmlTraits for the GradientField.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.InspectorElement">
+      <summary>
+        <para>
+ Create a VisualElement inspector from a SerializedObject.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.InspectorElement.customInspectorUssClassName">
+      <summary>
+        <para>
+ USS class name of custom inspector elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.InspectorElement.debugInternalVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type, when they are displayed in debug internal mode.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.InspectorElement.debugVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type, when they are displayed in debug USS mode.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.InspectorElement.iMGUIContainerUssClassName">
+      <summary>
+        <para>
+ USS class name of IMGUI containers in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.InspectorElement.iMGUICustomVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type, when they are displayed in IMGUI custom mode.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.InspectorElement.iMGUIDefaultVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type, when they are displayed in IMGUI default mode.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.InspectorElement.iMGUIInspectorVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type, when they are displayed in IMGUI inspector mode.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.InspectorElement.noInspectorFoundVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type, when no inspector is found.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.InspectorElement.uIECustomVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type, when they are displayed in UIElements custom mode.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.InspectorElement.uIEDefaultVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type, when they are displayed in UIElements default mode.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.InspectorElement.uIEInspectorVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type, when they are displayed in UIElements inspector mode.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.InspectorElement.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.InspectorElement.#ctor">
+      <summary>
+        <para>
+ InspectorElement constructor.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.InspectorElement.#ctor(UnityEngine.Object)">
+      <summary>
+        <para>
+ InspectorElement constructor.
+ </para>
+      </summary>
+      <param name="obj">Create a SerializedObject from given obj and automatically Bind() to it.</param>
+    </member>
+    <member name="M:UnityEditor.UIElements.InspectorElement.#ctor(UnityEditor.SerializedObject)">
+      <summary>
+        <para>
+ InspectorElement constructor.
+ </para>
+      </summary>
+      <param name="obj">Create a SerializedObject from given obj and automatically Bind() to it.</param>
+    </member>
+    <member name="M:UnityEditor.UIElements.InspectorElement.#ctor(UnityEditor.Editor)">
+      <summary>
+        <para>
+ InspectorElement constructor.
+ </para>
+      </summary>
+      <param name="editor"></param>
+    </member>
+    <member name="M:UnityEditor.UIElements.InspectorElement.FillDefaultInspector(UnityEngine.UIElements.VisualElement,UnityEditor.SerializedObject,UnityEditor.Editor)">
+      <summary>
+        <para>
+ Adds default inspector property fields under a container VisualElement
+ </para>
+      </summary>
+      <param name="container">The parent VisualElement</param>
+      <param name="serializedObject">The SerializedObject to inspect</param>
+      <param name="editor">The editor currently used</param>
+    </member>
+    <member name="T:UnityEditor.UIElements.InspectorElement.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a InspectorElement using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.InspectorElement.UxmlTraits">
+      <summary>
+        <para>
+ Defines UxmlTraits for the InspectorElement.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.InspectorElement.UxmlTraits.#ctor">
+      <summary>
+        <para>
+ Constructor.
+ </para>
+      </summary>
+    </member>
+    <member name="?:UnityEditor.UIElements.IToolbarMenuElement">
+      <summary>
+        <para>
+ An interface for toolbar items that display drop-down menus.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.IToolbarMenuElement.menu">
+      <summary>
+        <para>
+ The drop-down menu for the element.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.LayerField">
+      <summary>
+        <para>
+ A LayerField editor.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.LayerField.formatListItemCallback">
+      <summary>
+        <para>
+ Unsupported.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.LayerField.formatSelectedValueCallback">
+      <summary>
+        <para>
+ Unsupported.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.LayerField.inputUssClassName">
+      <summary>
+        <para>
+ USS class name of input elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.LayerField.labelUssClassName">
+      <summary>
+        <para>
+ USS class name of labels in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.LayerField.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.LayerField.#ctor(System.String)">
+      <summary>
+        <para>
+ Initializes and returns an instance of LayerField.
+ </para>
+      </summary>
+      <param name="label">The text to use as a label for the field.</param>
+    </member>
+    <member name="M:UnityEditor.UIElements.LayerField.#ctor">
+      <summary>
+        <para>
+ Initializes and returns an instance of LayerField.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.LayerField.#ctor(System.Int32)">
+      <summary>
+        <para>
+ Initializes and returns an instance of LayerField.
+ </para>
+      </summary>
+      <param name="defaultValue">The initial layer value this field should use.</param>
+    </member>
+    <member name="M:UnityEditor.UIElements.LayerField.#ctor(System.String,System.Int32)">
+      <summary>
+        <para>
+ Initializes and returns an instance of LayerField.
+ </para>
+      </summary>
+      <param name="label">The text to use as a label for the field.</param>
+      <param name="defaultValue">The initial layer value this field should use.</param>
+    </member>
+    <member name="T:UnityEditor.UIElements.LayerField.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a LayerField using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.LayerField.UxmlTraits">
+      <summary>
+        <para>
+ Defines UxmlTraits for the LayerField.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.LayerField.UxmlTraits.Init(UnityEngine.UIElements.VisualElement,UnityEngine.UIElements.IUxmlAttributes,UnityEngine.UIElements.CreationContext)">
+      <summary>
+        <para>
+ Initialize the traits.
+ </para>
+      </summary>
+      <param name="ve">VisualElement that will be created and populated.</param>
+      <param name="bag">Bag of attributes where the data comes from.</param>
+      <param name="cc">Creation context, unused.</param>
+    </member>
+    <member name="T:UnityEditor.UIElements.LayerMaskField">
+      <summary>
+        <para>
+ Make a field for layer as masks.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.LayerMaskField.formatListItemCallback">
+      <summary>
+        <para>
+ Unsupported.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.LayerMaskField.formatSelectedValueCallback">
+      <summary>
+        <para>
+ Unsupported.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.LayerMaskField.inputUssClassName">
+      <summary>
+        <para>
+ USS class name of input elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.LayerMaskField.labelUssClassName">
+      <summary>
+        <para>
+ USS class name of labels in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.LayerMaskField.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.LayerMaskField.#ctor(System.Int32)">
+      <summary>
+        <para>
+ Constructor of the field.
+ </para>
+      </summary>
+      <param name="defaultMask">The mask to use for a first selection.</param>
+    </member>
+    <member name="M:UnityEditor.UIElements.LayerMaskField.#ctor(System.String,System.Int32)">
+      <summary>
+        <para>
+ Constructor of the field.
+ </para>
+      </summary>
+      <param name="label">The label to prefix the &lt;see cref="LayerMaskField" /&gt;.</param>
+      <param name="defaultMask">The mask to use for a first selection.</param>
+    </member>
+    <member name="M:UnityEditor.UIElements.LayerMaskField.#ctor">
+      <summary>
+        <para>
+ Constructor of the field.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.LayerMaskField.#ctor(System.String)">
+      <summary>
+        <para>
+ Constructor of the field.
+ </para>
+      </summary>
+      <param name="label">The label to prefix the &lt;see cref="LayerMaskField" /&gt;.</param>
+    </member>
+    <member name="T:UnityEditor.UIElements.LayerMaskField.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a LayerMaskField using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.LayerMaskField.UxmlTraits">
+      <summary>
+        <para>
+ Defines UxmlTraits for the LayerMaskField.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.MaskField">
+      <summary>
+        <para>
+ Make a field for masks.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.MaskField.formatListItemCallback">
+      <summary>
+        <para>
+ Callback that provides a string representation used to populate the popup menu.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.MaskField.formatSelectedValueCallback">
+      <summary>
+        <para>
+ Callback that provides a string representation used to display the selected value.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.MaskField.inputUssClassName">
+      <summary>
+        <para>
+ USS class name of input elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.MaskField.labelUssClassName">
+      <summary>
+        <para>
+ USS class name of labels in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.MaskField.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.MaskField.#ctor(System.Collections.Generic.List`1&lt;System.String&gt;,System.Int32,System.Func`2&lt;System.String,System.String&gt;,System.Func`2&lt;System.String,System.String&gt;)">
+      <summary>
+        <para>
+ Initializes and returns an instance of MaskField.
+ </para>
+      </summary>
+      <param name="choices">A list of choices to populate the field.</param>
+      <param name="defaultValue">The initial mask value for this field.</param>
+      <param name="formatSelectedValueCallback">A callback to format the selected value. Unity calls this method automatically when a new value is selected in the field..</param>
+      <param name="formatListItemCallback">The initial mask value this field should use. Unity calls this method automatically when displaying choices for the field.</param>
+      <param name="defaultMask"></param>
+    </member>
+    <member name="M:UnityEditor.UIElements.MaskField.#ctor(System.String,System.Collections.Generic.List`1&lt;System.String&gt;,System.Int32,System.Func`2&lt;System.String,System.String&gt;,System.Func`2&lt;System.String,System.String&gt;)">
+      <summary>
+        <para>
+ Initializes and returns an instance of MaskField.
+ </para>
+      </summary>
+      <param name="label">The text to use as a label for the field.</param>
+      <param name="choices">A list of choices to populate the field.</param>
+      <param name="defaultValue">The initial mask value for this field.</param>
+      <param name="formatSelectedValueCallback">A callback to format the selected value. Unity calls this method automatically when a new value is selected in the field..</param>
+      <param name="formatListItemCallback">The initial mask value this field should use. Unity calls this method automatically when displaying choices for the field.</param>
+      <param name="defaultMask"></param>
+    </member>
+    <member name="M:UnityEditor.UIElements.MaskField.#ctor">
+      <summary>
+        <para>
+ Initializes and returns an instance of MaskField.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.MaskField.#ctor(System.String)">
+      <summary>
+        <para>
+ Initializes and returns an instance of MaskField.
+ </para>
+      </summary>
+      <param name="label">The text to use as a label for the field.</param>
+    </member>
+    <member name="T:UnityEditor.UIElements.MaskField.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a MaskField using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.MaskField.UxmlTraits">
+      <summary>
+        <para>
+ Defines UxmlTraits for the MaskField.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.MaskField.UxmlTraits.Init(UnityEngine.UIElements.VisualElement,UnityEngine.UIElements.IUxmlAttributes,UnityEngine.UIElements.CreationContext)">
+      <summary>
+        <para>
+ Initializes the UxmlTraits for MaskField.
+ </para>
+      </summary>
+      <param name="ve">The VisualElement that will be populated.</param>
+      <param name="bag">The bag from where the attributes are taken.</param>
+      <param name="cc">The creation context, unused.</param>
+    </member>
+    <member name="T:UnityEditor.UIElements.ObjectField">
+      <summary>
+        <para>
+ Makes a field to receive any object type.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.ObjectField.allowSceneObjects">
+      <summary>
+        <para>
+ Allows scene objects to be assigned to the field.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ObjectField.inputUssClassName">
+      <summary>
+        <para>
+ USS class name of input elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ObjectField.labelUssClassName">
+      <summary>
+        <para>
+ USS class name of labels in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.ObjectField.objectType">
+      <summary>
+        <para>
+ The type of the objects that can be assigned.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ObjectField.objectUssClassName">
+      <summary>
+        <para>
+ USS class name of object elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ObjectField.selectorUssClassName">
+      <summary>
+        <para>
+ USS class name of selector elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ObjectField.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ObjectField.#ctor">
+      <summary>
+        <para>
+ Constructor.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ObjectField.#ctor(System.String)">
+      <summary>
+        <para>
+ Constructor.
+ </para>
+      </summary>
+      <param name="label"></param>
+    </member>
+    <member name="T:UnityEditor.UIElements.ObjectField.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates an ObjectField using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ObjectField.UxmlTraits">
+      <summary>
+        <para>
+ Defines UxmlTraits for the ObjectField.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ObjectField.UxmlTraits.Init(UnityEngine.UIElements.VisualElement,UnityEngine.UIElements.IUxmlAttributes,UnityEngine.UIElements.CreationContext)">
+      <summary>
+        <para>
+ Initialize ObjectField properties using values from the attribute bag.
+ </para>
+      </summary>
+      <param name="ve">The object to initialize.</param>
+      <param name="bag">The attribute bag.</param>
+      <param name="cc">The creation context; unused.</param>
+    </member>
+    <member name="T:UnityEditor.UIElements.PropertyField">
+      <summary>
+        <para>
+ A SerializedProperty wrapper VisualElement that, on Bind(), will generate the correct field elements with the correct bindingPaths.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.PropertyField.binding">
+      <summary>
+        <para>
+ Binding object that will be updated.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.PropertyField.bindingPath">
+      <summary>
+        <para>
+ Path of the target property to be bound.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.PropertyField.inputUssClassName">
+      <summary>
+        <para>
+ USS class name of input elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.PropertyField.label">
+      <summary>
+        <para>
+ Optionally overwrite the label of the generate property field. If no label is provided the string will be taken from the SerializedProperty.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.PropertyField.labelUssClassName">
+      <summary>
+        <para>
+ USS class name of labels in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.PropertyField.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.PropertyField.#ctor">
+      <summary>
+        <para>
+ PropertyField constructor.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.PropertyField.#ctor(UnityEditor.SerializedProperty)">
+      <summary>
+        <para>
+ PropertyField constructor.
+ </para>
+      </summary>
+      <param name="property">Providing a SerializedProperty in the construct just sets the bindingPath. You will still have to call Bind() on the PropertyField afterwards.</param>
+    </member>
+    <member name="M:UnityEditor.UIElements.PropertyField.#ctor(UnityEditor.SerializedProperty,System.String)">
+      <summary>
+        <para>
+ PropertyField constructor.
+ </para>
+      </summary>
+      <param name="property">Providing a SerializedProperty in the construct just sets the bindingPath. You will still have to call Bind() on the PropertyField afterwards.</param>
+      <param name="label">Optionally overwrite the property label.</param>
+    </member>
+    <member name="M:UnityEditor.UIElements.PropertyField.RegisterValueChangeCallback(UnityEngine.UIElements.EventCallback`1&lt;UnityEditor.UIElements.SerializedPropertyChangeEvent&gt;)">
+      <summary>
+        <para>
+ Registers this callback to receive SerializedPropertyChangeEvent when a value is changed.
+ </para>
+      </summary>
+      <param name="callback"></param>
+    </member>
+    <member name="T:UnityEditor.UIElements.PropertyField.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a PropertyField using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.PropertyField.UxmlTraits">
+      <summary>
+        <para>
+ Defines UxmlTraits for the PropertyField.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.PropertyField.UxmlTraits.#ctor">
+      <summary>
+        <para>
+ Constructor.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.SearchFieldBase`2">
+      <summary>
+        <para>
+ The base class for a search field.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.SearchFieldBase_2.cancelButtonOffVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of cancel buttons in elements of this type, when they are off.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.SearchFieldBase_2.cancelButtonUssClassName">
+      <summary>
+        <para>
+ USS class name of cancel buttons in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.SearchFieldBase_2.popupVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type, when they are using a popup menu.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.SearchFieldBase_2.searchButton">
+      <summary>
+        <para>
+ The search button.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.SearchFieldBase_2.searchButtonUssClassName">
+      <summary>
+        <para>
+ USS class name of search buttons in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.SearchFieldBase_2.textInputField">
+      <summary>
+        <para>
+ The text field used by the search field to draw and modify the search string.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.SearchFieldBase_2.textInputUssClassName">
+      <summary>
+        <para>
+ USS class name of text input elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.SearchFieldBase_2.textUssClassName">
+      <summary>
+        <para>
+ USS class name of text elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.SearchFieldBase_2.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.SearchFieldBase_2.value">
+      <summary>
+        <para>
+ The object currently being exposed by the field.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.SearchFieldBase_2.ClearTextField">
+      <summary>
+        <para>
+ Method used when clearing the text field. You should usually clear the value when overriding the method.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.SearchFieldBase_2.FieldIsEmpty(T)">
+      <summary>
+        <para>
+ Tells if the field is empty. That meaning depends on the type of T.
+ </para>
+      </summary>
+      <param name="fieldValue">The value to check.</param>
+      <returns>
+        <para>True if the parameter is empty. That meaning depends on the type of T.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.UIElements.SearchFieldBase_2.SetValueWithoutNotify(T)">
+      <summary>
+        <para>
+ Sets the value for the toolbar search field without sending a change event.
+ </para>
+      </summary>
+      <param name="newValue"></param>
+    </member>
+    <member name="T:UnityEditor.UIElements.SerializedObjectChangeEvent">
+      <summary>
+        <para>
+ An event sent when any value in a SerializedObject changes
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.SerializedObjectChangeEvent.changedObject">
+      <summary>
+        <para>
+ The SerializedObject whose value changed.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.SerializedObjectChangeEvent.#ctor">
+      <summary>
+        <para>
+ Constructor. Use GetPooled instead.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.SerializedObjectChangeEvent.GetPooled(UnityEditor.SerializedObject)">
+      <summary>
+        <para>
+ Gets an event from the event pool and initializes it with the values provided. Use this function instead of
+ creating new events. Events obtained using this method need to be released back to the pool.
+ You can use Dispose() to release them.
+ </para>
+      </summary>
+      <param name="value">The SerializedObject that changed.</param>
+      <returns>
+        <para>An initialized event.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.UIElements.SerializedObjectChangeEvent.Init">
+      <summary>
+        <para>
+ Sets the event to its initial state.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.SerializedPropertyChangeEvent">
+      <summary>
+        <para>
+ An event sent when a value in a PropertyField changes.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.SerializedPropertyChangeEvent.changedProperty">
+      <summary>
+        <para>
+ The SerializedProperty whose value changed.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.SerializedPropertyChangeEvent.#ctor">
+      <summary>
+        <para>
+ Constructor. Use GetPooled instead.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.SerializedPropertyChangeEvent.GetPooled(UnityEditor.SerializedProperty)">
+      <summary>
+        <para>
+ Gets an event from the event pool and initializes it with the values provided.
+ Use this function instead of creating new events. Events obtained using this method need to be
+ released back to the pool. You can use Dispose() to release them.
+ </para>
+      </summary>
+      <param name="value">The SerializedProperty that changed.</param>
+      <returns>
+        <para>An initialized event.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEditor.UIElements.SerializedPropertyChangeEvent.Init">
+      <summary>
+        <para>
+ Sets the event to its initial state.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.TagField">
+      <summary>
+        <para>
+ A TagField editor.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.TagField.formatListItemCallback">
+      <summary>
+        <para>
+ Unsupported.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.TagField.formatSelectedValueCallback">
+      <summary>
+        <para>
+ Unsupported.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.TagField.inputUssClassName">
+      <summary>
+        <para>
+ USS class name of input elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.TagField.labelUssClassName">
+      <summary>
+        <para>
+ USS class name of labels in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.TagField.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.TagField.#ctor">
+      <summary>
+        <para>
+ Initializes and returns an instance of CurveField.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.TagField.#ctor(System.String,System.String)">
+      <summary>
+        <para>
+ Initializes and returns an instance of CurveField.
+ </para>
+      </summary>
+      <param name="label">The text to use as a label for the field.</param>
+      <param name="defaultValue">The initial tag value this field should use.</param>
+    </member>
+    <member name="T:UnityEditor.UIElements.TagField.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a TagField using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.TagField.UxmlTraits">
+      <summary>
+        <para>
+ Defines UxmlTraits for the TagField.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.Toolbar">
+      <summary>
+        <para>
+ A toolbar for tool windows.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.Toolbar.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.Toolbar.#ctor">
+      <summary>
+        <para>
+ Constructor.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.Toolbar.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a Toolbar using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarBreadcrumbs">
+      <summary>
+        <para>
+ Creates a breadcrumb UI element for the toolbar to help users navigate a hierarchy. For example, the visual scripting breadcrumb toolbar makes it easier to explore scripts because users can jump to any level of the script by clicking a breadcrumb item.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarBreadcrumbs.firstItemClassName">
+      <summary>
+        <para>
+ A Unity style sheet (USS) class for the first element or item in a breadcrumb toolbar.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarBreadcrumbs.itemClassName">
+      <summary>
+        <para>
+ A Unity style sheet (USS) class for individual items in a breadcrumb toolbar.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarBreadcrumbs.ussClassName">
+      <summary>
+        <para>
+ A Unity style sheet (USS) class for the main ToolbarBreadcrumbs container.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ToolbarBreadcrumbs.#ctor">
+      <summary>
+        <para>
+ Constructs a breadcrumb UI element for the toolbar to help users navigate a hierarchy.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ToolbarBreadcrumbs.PopItem">
+      <summary>
+        <para>
+ Removes the last item in the breadcrumb toolbar, which is the deepest item in the hierarchy.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ToolbarBreadcrumbs.PushItem(System.String,System.Action)">
+      <summary>
+        <para>
+ Adds an item to the end of the breadcrumbs, which makes that item the deepest item in the hierarchy.
+ </para>
+      </summary>
+      <param name="label">The text to display for the item in the breadcrumb toolbar.</param>
+      <param name="clickedEvent">The action to perform when the a users clicks the item in the toolbar.</param>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarBreadcrumbs.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a ToolbarBreadcrumbs using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarButton">
+      <summary>
+        <para>
+ A button for the toolbar.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarButton.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ToolbarButton.#ctor(System.Action)">
+      <summary>
+        <para>
+ Constructor.
+ </para>
+      </summary>
+      <param name="clickEvent">The action to be called when the button is pressed.</param>
+    </member>
+    <member name="M:UnityEditor.UIElements.ToolbarButton.#ctor">
+      <summary>
+        <para>
+ Constructor.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarButton.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a ToolbarButton using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarButton.UxmlTraits">
+      <summary>
+        <para>
+ Defines UxmlTraits for the ToolbarButton.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarMenu">
+      <summary>
+        <para>
+ A drop-down menu for the toolbar.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarMenu.arrowUssClassName">
+      <summary>
+        <para>
+ USS class name of arrow indicators in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.ToolbarMenu.menu">
+      <summary>
+        <para>
+ The menu.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarMenu.popupVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type, when they are displayed as popup menu.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarMenu.textUssClassName">
+      <summary>
+        <para>
+ USS class name of text elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarMenu.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.ToolbarMenu.variant">
+      <summary>
+        <para>
+ The display styles that you can use when creating menus.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ToolbarMenu.#ctor">
+      <summary>
+        <para>
+ Constructor.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarMenu.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a ToolbarMenu using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarMenu.UxmlTraits">
+      <summary>
+        <para>
+ Defines UxmlTraits for the ToolbarMenu.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarMenu.Variant">
+      <summary>
+        <para>
+ Display styles for the menu.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarMenu.Variant.Default">
+      <summary>
+        <para>
+ Display the menu using the default style.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarMenu.Variant.Popup">
+      <summary>
+        <para>
+ Display the menu using the popup style.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarMenuElementExtensions">
+      <summary>
+        <para>
+ An extension class that handles menu management for elements that are implemented with the IToolbarMenuElement interface, but are identical to DropdownMenu.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ToolbarMenuElementExtensions.ShowMenu(UnityEditor.UIElements.IToolbarMenuElement)">
+      <summary>
+        <para>
+ Display the menu for the element.
+ </para>
+      </summary>
+      <param name="tbe">The element that is part of the menu to be displayed.</param>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarPopupSearchField">
+      <summary>
+        <para>
+ The pop-up search field for the toolbar. The search field includes a menu button.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.ToolbarPopupSearchField.menu">
+      <summary>
+        <para>
+ The menu used by the pop-up search field element.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ToolbarPopupSearchField.#ctor">
+      <summary>
+        <para>
+ Constructor.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarPopupSearchField.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a ToolbarPopupSearchField using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarSearchField">
+      <summary>
+        <para>
+ A search field for the toolbar.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarSearchField.cancelButtonOffVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of cancel buttons in elements of this type, when they are off.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarSearchField.cancelButtonUssClassName">
+      <summary>
+        <para>
+ USS class name of cancel buttons in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarSearchField.popupVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type, when they are using a popup menu.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.ToolbarSearchField.searchButton">
+      <summary>
+        <para>
+ The search button.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarSearchField.searchButtonUssClassName">
+      <summary>
+        <para>
+ USS class name of search buttons in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarSearchField.textUssClassName">
+      <summary>
+        <para>
+ USS class name of text elements in elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarSearchField.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.ToolbarSearchField.value">
+      <summary>
+        <para>
+ The object currently being exposed by the field.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ToolbarSearchField.ClearTextField">
+      <summary>
+        <para>
+ Removes the text when clearing the field.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ToolbarSearchField.#ctor">
+      <summary>
+        <para>
+ Constructor.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ToolbarSearchField.FieldIsEmpty(System.String)">
+      <summary>
+        <para>
+ Tells if the string is null or empty.
+ </para>
+      </summary>
+      <param name="fieldValue"></param>
+    </member>
+    <member name="M:UnityEditor.UIElements.ToolbarSearchField.SetValueWithoutNotify(System.String)">
+      <summary>
+        <para>
+ Sets the value for the toolbar search field without sending a change event.
+ </para>
+      </summary>
+      <param name="newValue"></param>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarSearchField.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a ToolbarSearchField using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarSpacer">
+      <summary>
+        <para>
+ A toolbar spacer of static size.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarSpacer.fixedSpacerVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type, when they are of fixed size.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.ToolbarSpacer.flex">
+      <summary>
+        <para>
+ True if the spacer will stretch or shring to occupy available space.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarSpacer.flexibleSpacerVariantUssClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type, when they are of flexible size.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarSpacer.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ToolbarSpacer.#ctor">
+      <summary>
+        <para>
+ Constructor.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarSpacer.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a ToolbarSpacer using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarToggle">
+      <summary>
+        <para>
+ A toggle for the toolbar.
+ </para>
+      </summary>
+    </member>
+    <member name="F:UnityEditor.UIElements.ToolbarToggle.ussClassName">
+      <summary>
+        <para>
+ USS class name of elements of this type.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.ToolbarToggle.#ctor">
+      <summary>
+        <para>
+ Constructor.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarToggle.UxmlFactory">
+      <summary>
+        <para>
+ Instantiates a ToolbarToggle using the data read from a UXML file.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.ToolbarToggle.UxmlTraits">
+      <summary>
+        <para>
+ Defines UxmlTraits for the ToolbarToggle.
+ </para>
+      </summary>
+    </member>
+    <member name="T:UnityEditor.UIElements.UxmlNamespacePrefixAttribute">
+      <summary>
+        <para>
+ Attribute that can be used on an assembly to define an XML namespace prefix for a namespace.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.UxmlNamespacePrefixAttribute.ns">
+      <summary>
+        <para>
+ The namespace name.
+ </para>
+      </summary>
+    </member>
+    <member name="P:UnityEditor.UIElements.UxmlNamespacePrefixAttribute.prefix">
+      <summary>
+        <para>
+ The namespace prefix.
+ </para>
+      </summary>
+    </member>
+    <member name="M:UnityEditor.UIElements.UxmlNamespacePrefixAttribute.#ctor(System.String,System.String)">
+      <summary>
+        <para>
+ Constructor.
+ </para>
+      </summary>
+      <param name="ns">The XML/C# namespace to which a prefix will be associated.</param>
+      <param name="prefix">The prefix to associate to the namespace.</param>
+    </member>
+  </members>
+</doc>
