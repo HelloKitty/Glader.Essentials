@@ -167,7 +167,6 @@ namespace Glader.Essentials
 		/// Registers the event handler <see cref="OnEventFired"/> to the
 		/// <see cref="IEventBus"/>.
 		/// </summary>
-		private EventBusSubscriptionToken Subscribe(IEventBus bus)
 		private EventBusSubscriptionToken InternalSubscribe(IEventBus bus)
 		{
 			if(bus == null) throw new ArgumentNullException(nameof(bus));
