@@ -30,6 +30,10 @@ namespace Glader.Essentials
 				if (!typeof(IUIFrame).IsAssignableFrom(fi.FieldType))
 					continue;
 
+				// Don't set fields that aren't null.
+				if (fi.GetValue(this) != null)
+					continue;
+
 				//Because of active load scene, we have to iterate each scene
 				foreach(var go in SceneManager.GetSceneByBuildIndex(gameObject.scene.buildIndex).GetRootGameObjects())
 				{
