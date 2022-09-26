@@ -41,7 +41,13 @@ namespace Glader.Essentials
 		/// <summary>
 		/// The event subscription.
 		/// </summary>
-		private IDisposable Subscription { get; }
+		private EventBusSubscriptionToken Subscription { get; set; }
+		
+		/// <summary>
+		/// Delegate that captures the EventBus subscription to avoid storing
+		/// the EventBus as a member which would pollute the Type.
+		/// </summary>
+		private Func<EventBusSubscriptionToken> SubscriptionAction { get; }
 
 		/// <summary>
 		/// Creates an registers the event in the provided <see cref="bus"/>.
@@ -51,8 +57,24 @@ namespace Glader.Essentials
 		{
 			if(bus == null) throw new ArgumentNullException(nameof(bus));
 
-			//This implementation doesn't depend on IGameInitializable and subscribes in the ctor.
-			Subscription = Subscribe(bus);
+			// We do this to avoid storing EventBus as a member
+			SubscriptionAction = () => InternalSubscribe(bus);
+			Subscribe();
+		}
+
+		/// <summary>
+		/// Subscribes to the event if not already subscribed.
+		/// </summary>
+		protected void Subscribe()
+		{
+			lock (_SyncObj)
+			{
+				if (IsSubscribed)
+					return;
+
+				//This implementation doesn't depend on IGameInitializable and subscribes in the ctor.
+				Subscription = SubscriptionAction();
+			}
 		}
 
 		/// <summary>
@@ -146,13 +168,14 @@ namespace Glader.Essentials
 		/// <see cref="IEventBus"/>.
 		/// </summary>
 		private EventBusSubscriptionToken Subscribe(IEventBus bus)
+		private EventBusSubscriptionToken InternalSubscribe(IEventBus bus)
 		{
 			if(bus == null) throw new ArgumentNullException(nameof(bus));
 
 			lock(_SyncObj)
 			{
-				if(IsSubscribed)
-					throw new InvalidOperationException($"Cannot {nameof(Subscribe)} multiple times in {GetType().Name}. Subscriptions should only occur once..");
+				if (IsSubscribed)
+					throw new InvalidOperationException($"Cannot {nameof(Subscribe)} multiple times in {GetType().Name}. Subscriptions should only occur once.");
 
 				IsSubscribed = true;
 				return bus.Subscribe<TEventArgsType>(InternalOnEventFired);
