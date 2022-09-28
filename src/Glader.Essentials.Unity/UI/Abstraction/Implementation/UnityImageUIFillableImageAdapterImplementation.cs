@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,6 +40,13 @@ namespace Glader.Essentials
 				UnityImageObject.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
 			}
 		}
+
+		/// <inheritdoc />
+		public async Task SetSpriteTextureAsync(Task<Texture2D> textureAwaitable)
+		{
+			throw new NotImplementedException("Async fillable texture not implemented yet.");
+		}
+
 		/// <inheritdoc />
 		public Color ElementColor
 		{
