@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -10,6 +11,8 @@ namespace Glader.Essentials
 {
 	public sealed class UnityImageUIFillableImageAdapterImplementation : BaseUnityUIAdapterImplementation, IUIFillableImage
 	{
+		private int SpriteTextureSetCounter = 1;
+
 		/// <inheritdoc />
 		protected override string LoggableComponentName => UnityImageObject.name;
 
@@ -32,6 +35,8 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public void SetSpriteTexture(Texture2D texture)
 		{
+			Interlocked.Increment(ref SpriteTextureSetCounter);
+
 			if(UnityImageObject.sprite == null)
 				UnityImageObject.sprite = Sprite.Create(texture, Rect.zero, Vector2.zero); //TODO: What should defaults be?
 			else
@@ -44,7 +49,11 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public async Task SetSpriteTextureAsync(Task<Texture2D> textureAwaitable)
 		{
-			throw new NotImplementedException("Async fillable texture not implemented yet.");
+			int counter = Interlocked.Increment(ref SpriteTextureSetCounter);
+			var texture = await textureAwaitable;
+
+			if (counter == SpriteTextureSetCounter)
+				SetSpriteTexture(texture);
 		}
 
 		/// <inheritdoc />
