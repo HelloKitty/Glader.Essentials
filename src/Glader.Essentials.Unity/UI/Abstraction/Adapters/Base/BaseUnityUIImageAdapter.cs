@@ -15,5 +15,11 @@ namespace Glader.Essentials
 			//Sprites complain if we don't have proper size, so we need size based on the texture2D
 			UnityUIObject.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
 		}
+		/// <inheritdoc />
+		public Color ElementColor
+		{
+			get => UnityUIObject.color;
+			set => UnityUIObject.color = value;
+		}
 	}
 }
