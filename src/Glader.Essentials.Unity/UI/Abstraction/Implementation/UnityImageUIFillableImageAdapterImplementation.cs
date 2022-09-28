@@ -39,5 +39,11 @@ namespace Glader.Essentials
 				UnityImageObject.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
 			}
 		}
+		/// <inheritdoc />
+		public Color ElementColor
+		{
+			get => UnityImageObject.color;
+			set => UnityImageObject.color = value;
+		}
 	}
 }
