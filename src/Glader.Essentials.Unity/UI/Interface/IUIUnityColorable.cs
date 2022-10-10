@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Glader.Essentials
 {
-	public interface IUIColorable
+	public interface IUIUnityColorable : IUIColorable
 	{
 		UnityEngine.Color ElementColor { get; set; }
 	}
