@@ -39,5 +39,11 @@ namespace Glader.Essentials
 			get => UnityUIObject.color;
 			set => UnityUIObject.color = value;
 		}
+
+		/// <inheritdoc />
+		public void SetColor(byte r, byte g, byte b, byte a)
+		{
+			ElementColor = new Color32(r, g, b, a);
+		}
 	}
 }
