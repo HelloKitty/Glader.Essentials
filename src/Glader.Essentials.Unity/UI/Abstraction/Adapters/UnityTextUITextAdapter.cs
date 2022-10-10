@@ -29,5 +29,11 @@ namespace Glader.Essentials
 			get => Adapter.Value.Text;
 			set => Adapter.Value.Text = value;
 		}
+
+		/// <inheritdoc />
+		public void SetColor(byte r, byte g, byte b, byte a)
+		{
+			Adapter.Value.SetColor(r, g, b, a);
+		}
 	}
 }

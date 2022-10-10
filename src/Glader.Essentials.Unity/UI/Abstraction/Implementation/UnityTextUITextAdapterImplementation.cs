@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Glader.Essentials
@@ -36,5 +37,11 @@ namespace Glader.Essentials
 
 		/// <inheritdoc />
 		public bool IsActive => UnityText.gameObject.activeSelf;
+
+		/// <inheritdoc />
+		public void SetColor(byte r, byte g, byte b, byte a)
+		{
+			UnityText.color = new Color32(r, g, b, a);
+		}
 	}
 }
