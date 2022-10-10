@@ -23,5 +23,11 @@ namespace Glader.Essentials
 			get => TextUIObject.Text;
 			set => TextUIObject.Text = value;
 		}
+
+		/// <inheritdoc />
+		public void SetColor(byte r, byte g, byte b, byte a)
+		{
+			TextUIObject.SetColor(r, g, b, a);
+		}
 	}
 }

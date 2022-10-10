@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -15,6 +16,9 @@ namespace Glader.Essentials
 	{
 		/// <inheritdoc />
 		public abstract string Text { get; set; }
+
+		/// <inheritdoc />
+		public abstract void SetColor(byte r, byte g, byte b, byte a);
 	}
 
 	/// <summary>
@@ -27,6 +31,12 @@ namespace Glader.Essentials
 		{
 			get => UnityUIObject.text;
 			set => UnityUIObject.text = value;
+		}
+
+		/// <inheritdoc />
+		public override void SetColor(byte r, byte g, byte b, byte a)
+		{
+			UnityUIObject.textComponent.color = new Color32(r, g, b, a);
 		}
 	}
 }
