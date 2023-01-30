@@ -46,4 +46,46 @@ namespace Glader.Essentials
 			ElementColor = new Color32(r, g, b, a);
 		}
 	}
+
+	/// <summary>
+	/// Similar to <see cref="BaseUnityUIImageAdapter{TAdaptedToType}"/> but based on <see cref="RawImage"/>.
+	/// </summary>
+	/// <typeparam name="TAdaptedToType"></typeparam>
+	public abstract class BaseUnityUIRawImageAdapter<TAdaptedToType> : BaseUnityUIAdapter<RawImage, TAdaptedToType>, IUIImage
+		where TAdaptedToType : IUIImage, IUIElement //just make sure it's a IUIImage
+	{
+		private int SpriteTextureSetCounter = 1;
+
+		/// <inheritdoc />
+		public virtual void SetSpriteTexture(Texture2D texture)
+		{
+			Interlocked.Increment(ref SpriteTextureSetCounter);
+			//Sprites complain if we don't have proper size, so we need size based on the texture2D
+			UnityUIObject.texture = texture;
+		}
+
+		/// <inheritdoc />
+		public async Task SetSpriteTextureAsync(Task<Texture2D> textureAwaitable)
+		{
+			int currentCounter = Interlocked.Increment(ref SpriteTextureSetCounter);
+			var texture = await textureAwaitable;
+
+			// Check ensures if another texture was added or set this one won't set the texture and will basically just discard.
+			if(currentCounter == SpriteTextureSetCounter)
+				SetSpriteTexture(texture);
+		}
+
+		/// <inheritdoc />
+		public Color ElementColor
+		{
+			get => UnityUIObject.color;
+			set => UnityUIObject.color = value;
+		}
+
+		/// <inheritdoc />
+		public void SetColor(byte r, byte g, byte b, byte a)
+		{
+			ElementColor = new Color32(r, g, b, a);
+		}
+	}
 }

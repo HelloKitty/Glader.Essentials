@@ -10,4 +10,9 @@ namespace Glader.Essentials
 	{
 
 	}
+
+	public sealed class UnityImageUIRawImageAdapter : BaseUnityUIRawImageAdapter<IUIImage>
+	{
+
+	}
 }
