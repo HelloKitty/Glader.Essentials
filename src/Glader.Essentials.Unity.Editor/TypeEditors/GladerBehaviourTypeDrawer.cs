@@ -19,10 +19,10 @@ namespace Glader.Essentials
 			//a button and call the method if it's invoked.
 			foreach(MethodInfo mi in target.GetType().MethodsWith(Flags.InstanceAnyVisibility, typeof(ButtonAttribute)))
 			{
-				if(GUILayout.Button(AddSpacesToSentence(mi.Name, true)))
+				if (GUILayout.Button(AddSpacesToSentence(mi.Name, true)))
 				{
 					//TODO: Is it faster to invoke from the MethodInfo or from Fasterflects CallMethod extension?
-					target.CallMethod(mi.Name);
+					mi.Invoke(target, new object[0]);
 				}
 			}
 		}
