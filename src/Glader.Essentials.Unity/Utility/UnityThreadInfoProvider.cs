@@ -11,6 +11,13 @@ namespace Glader.Essentials
 	public sealed class UnityThreadInfoProvider : IMainThreadDeterminable
 	{
 		/// <inheritdoc />
-		public bool IsMainThread => UnityAsyncHelper.UnityMainThreadContext == SynchronizationContext.Current;
+		public bool IsMainThread => Thread.CurrentThread.ManagedThreadId == MainThreadId;
+
+		private int MainThreadId { get; } = Thread.CurrentThread.ManagedThreadId;
+
+		public UnityThreadInfoProvider()
+		{
+
+		}
 	}
 }
