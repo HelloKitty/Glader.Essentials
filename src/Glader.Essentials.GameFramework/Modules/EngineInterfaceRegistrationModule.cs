@@ -44,6 +44,7 @@ namespace Glader.Essentials
 		{
 			foreach(var creatable in AssemblyToParse.GetTypes()
 				.Where(t => EngineTypes.Any(et => et.IsAssignableFrom(t))) //TODO: Is this accurate?
+				.Where(t => !t.IsAbstract && !t.IsInterface)
 				.Where(IsForScene))
 			{
 				//TODO: DO we need register self?
