@@ -15,6 +15,14 @@ namespace Glader.Essentials
 				.Subscribe<TEventType>((sender, args) => callback?.Invoke((TElementType)sender, args));
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private static EventBusSubscriptionToken CreateSubscription<TEventType>(IUIEventListenable listenable, Action<object, TEventType> callback)
+			where TEventType : IEventBusEventArgs
+		{
+			return listenable.Bus
+				.Subscribe<TEventType>((sender, args) => callback?.Invoke(sender, args));
+		}
+
 		/// <summary>
 		/// Subscribes a callback for the button's click.
 		/// </summary>
@@ -22,6 +30,16 @@ namespace Glader.Essentials
 		/// <param name="callback">The callback to register.</param>
 		public static EventBusSubscriptionToken OnClick<TClickableType>(this TClickableType element, Action<TClickableType, OnElementClickedEventArgs> callback)
 			where TClickableType : IUIClickable
+		{
+			return CreateSubscription(element, callback);
+		}
+
+		/// <summary>
+		/// Subscribes a callback for the button's click.
+		/// </summary>
+		/// <param name="element">The button to subscribe to.</param>
+		/// <param name="callback">The callback to register.</param>
+		public static EventBusSubscriptionToken OnClick(this IUIClickable element, Action<object, OnElementClickedEventArgs> callback)
 		{
 			return CreateSubscription(element, callback);
 		}
