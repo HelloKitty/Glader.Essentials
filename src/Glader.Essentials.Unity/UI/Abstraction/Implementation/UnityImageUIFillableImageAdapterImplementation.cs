@@ -37,6 +37,16 @@ namespace Glader.Essentials
 		{
 			Interlocked.Increment(ref SpriteTextureSetCounter);
 
+			//Debug.Log($"Setting Texture: {texture.name} to Image with TextureName: {RetrieveCurrentSpriteName()} AreSame: {RetrieveCurrentSpriteName() == texture.name}");
+			// We compare the names of the textures to avoid expensive sprite creation
+			if(!string.IsNullOrEmpty(texture.name))
+			{
+				// If both have non-empty/non-null then we can compare and see if we
+				// can actually avoid a Sprite creation
+				if(RetrieveCurrentSpriteName() == texture.name)
+					return;
+			}
+
 			if(UnityImageObject.sprite == null)
 				UnityImageObject.sprite = Sprite.Create(texture, Rect.zero, Vector2.zero); //TODO: What should defaults be?
 			else
@@ -44,6 +54,20 @@ namespace Glader.Essentials
 				//Sprites complain if we don't have proper size, so we need size based on the texture2D
 				UnityImageObject.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
 			}
+		}
+
+		private string RetrieveCurrentSpriteName()
+		{
+			if(UnityImageObject == null)
+				return String.Empty;
+
+			if(UnityImageObject.sprite == null)
+				return String.Empty;
+
+			if(UnityImageObject.sprite.texture == null)
+				return String.Empty;
+
+			return UnityImageObject.sprite.texture.name;
 		}
 
 		/// <inheritdoc />
