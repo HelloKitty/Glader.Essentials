@@ -38,6 +38,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>..\..\..\SwanSong.Library\lib\Unity\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\..\lib\Unity\UnityEngine.dll</HintPath>
     </Reference>
