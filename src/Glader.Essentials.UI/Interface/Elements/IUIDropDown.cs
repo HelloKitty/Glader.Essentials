@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Glader.Essentials
@@ -26,5 +27,15 @@ namespace Glader.Essentials
 		/// The selected string option text at <see cref="SelectedIndex"/>
 		/// </summary>
 		string SelectedValue { get; }
+	}
+
+	public static class IUIDropDownExtensions
+	{
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private static EventBusSubscriptionToken OnSelectionChanged(this IUIDropDown dropdown, EventHandler<DropDownSelectionChangedEventArgs> callback)
+		{
+			return dropdown.Bus
+				.Subscribe<DropDownSelectionChangedEventArgs>(callback);
+		}
 	}
 }
