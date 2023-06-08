@@ -44,5 +44,18 @@ namespace Glader.Essentials
 
 			return collection.ToArray();
 		}
+
+		/// <summary>
+		/// Inverted Any LINQ. !Any.
+		/// </summary>
+		/// <typeparam name="TSource"></typeparam>
+		/// <param name="source"></param>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public static bool NotAny<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+		{
+			// !source.Any(predicate)
+			return !source.Any(predicate);
+		}
 	}
 }
