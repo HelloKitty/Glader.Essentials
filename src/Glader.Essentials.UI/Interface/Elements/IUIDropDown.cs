@@ -21,7 +21,7 @@ namespace Glader.Essentials
 		/// <summary>
 		/// The zero-based index into the options selected.
 		/// </summary>
-		int SelectedIndex { get; }
+		int SelectedIndex { get; set; }
 
 		/// <summary>
 		/// The selected string option text at <see cref="SelectedIndex"/>
