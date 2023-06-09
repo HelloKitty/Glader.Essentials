@@ -26,4 +26,25 @@ namespace Glader.Essentials
 			Frame = frame ?? throw new ArgumentNullException(nameof(frame));
 		}
 	}
+
+	/// <summary>
+	/// Implementation of <see cref="EngineEventBusListener{TEventArgsType, TSourceType}"/> that uses
+	/// the provided <see cref="IUIFrame"/>'s <see cref="IEventBus"/> to listen to the events.
+	/// </summary>
+	/// <typeparam name="TEventArgsType">The args type.</typeparam>
+	public abstract class FrameEngineEventListener<TEventArgsType> : EngineEventBusListener<TEventArgsType>
+		where TEventArgsType : IEventBusEventArgs
+	{
+		/// <summary>
+		/// The frame the <see cref="EngineEventListener{TSubscribableType}"/> is attached to.
+		/// </summary>
+		protected IUIFrame Frame { get; }
+
+		/// <inheritdoc />
+		protected FrameEngineEventListener(IUIFrame frame)
+			: base(frame.Bus)
+		{
+			Frame = frame ?? throw new ArgumentNullException(nameof(frame));
+		}
+	}
 }
