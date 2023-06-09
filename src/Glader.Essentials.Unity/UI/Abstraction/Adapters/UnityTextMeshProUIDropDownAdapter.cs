@@ -15,37 +15,38 @@ namespace Glader.Essentials
 	/// </summary>
 	public sealed class UnityTextMeshProUIDropDownAdapter : BaseUnityUIAdapter<TMPro.TMP_Dropdown, IUIDropDown>, IUIDropDown
 	{
-		[SerializeField]
-		private TMPro.TMP_Dropdown DropDownComponent;
+		/// <inheritdoc />
+		public int SelectedIndex
+		{
+			get => UnityUIObject.value;
+			set => UnityUIObject.value = value;
+		}
 
 		/// <inheritdoc />
-		public int SelectedIndex => DropDownComponent.value;
-
-		/// <inheritdoc />
-		public string SelectedValue => DropDownComponent.itemText.text;
+		public string SelectedValue => UnityUIObject.itemText.text;
 
 		private void Start()
 		{
 			// Wires up the OnSelectionChanged event
-			DropDownComponent.onValueChanged.AddListener(index => Bus.Publish(this, new DropDownSelectionChangedEventArgs(SelectedIndex, SelectedValue)));
+			UnityUIObject.onValueChanged.AddListener(index => Bus.Publish(this, new DropDownSelectionChangedEventArgs(SelectedIndex, SelectedValue)));
 		}
 
 		/// <inheritdoc />
 		public void AddOptions(IEnumerable<string> options)
 		{
-			DropDownComponent.AddOptions(options.ToList());
+			UnityUIObject.AddOptions(options.ToList());
 		}
 
 		/// <inheritdoc />
 		public void Clear()
 		{
-			DropDownComponent.ClearOptions();
+			UnityUIObject.ClearOptions();
 		}
 
 		/// <inheritdoc />
 		public IEnumerator<string> GetEnumerator()
 		{
-			foreach (var option in DropDownComponent.options)
+			foreach (var option in UnityUIObject.options)
 				yield return option.text;
 		}
 
