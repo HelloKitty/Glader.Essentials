@@ -17,5 +17,11 @@ namespace Glader.Essentials
 			get => UnityUIObject.interactable;
 			set => UnityUIObject.interactable = value;
 		}
+
+		private void Start()
+		{
+			// Register the toggle event.
+			UnityUIObject.onValueChanged.AddListener(state => Bus.Publish(this, new OnToggleStateChangedEventArgs(state)));
+		}
 	}
 }

@@ -49,8 +49,7 @@ namespace Glader.Essentials
 		/// </summary>
 		/// <param name="element">The toggle to subscribe to.</param>
 		/// <param name="callback">The callback to register.</param>
-		public static EventBusSubscriptionToken OnToggle<TToggleType>(this TToggleType element, Action<TToggleType, OnToggleStateChangedEventArgs> callback)
-			where TToggleType : IUIToggle
+		public static EventBusSubscriptionToken OnToggle(this IUIToggle element, Action<object, OnToggleStateChangedEventArgs> callback)
 		{
 			return CreateSubscription(element, callback);
 		}
