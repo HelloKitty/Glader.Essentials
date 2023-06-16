@@ -12,6 +12,12 @@ namespace Glader.Essentials
 	public sealed class UnityToggleUIToggleAdapter : BaseUnityUIAdapter<Toggle, IUIToggle>, IUIToggle
 	{
 		/// <inheritdoc />
+		public bool IsToggled
+		{
+			get => UnityUIObject.isOn;
+		}
+
+		/// <inheritdoc />
 		public bool IsInteractable
 		{
 			get => UnityUIObject.interactable;
