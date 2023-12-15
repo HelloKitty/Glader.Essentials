@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Glader.Essentials
 {
-	public static class EnumExtensions
+	public static class EnumReflectionExtensions
 	{
 		/// <summary>
 		/// Retrieves the attribute from the enum field value.
