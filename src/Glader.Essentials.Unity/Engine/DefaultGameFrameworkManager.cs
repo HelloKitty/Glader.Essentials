@@ -29,6 +29,9 @@ namespace Glader.Essentials.Unity
 		private IEnumerable<IGameStartable> Startables { get; set; }
 
 		[Inject]
+		private IEnumerable<IGameFixedTickable> FixedTickables { get; set; }
+
+		[Inject]
 		private ILog Logger { get; set; }
 
 		private bool isInitializationFinished = false;
@@ -87,6 +90,15 @@ namespace Glader.Essentials.Unity
 
 			//After a tickable is finished, we should set tickable compeltion
 			UnityAsyncHelper.SetNextTickableFrame();
+		}
+
+		private void FixedUpdate()
+		{
+			if (!isInitializationFinished)
+				return;
+
+			foreach(var tickable in FixedTickables)
+				tickable.OnGameFixedTick();
 		}
 	}
 }
