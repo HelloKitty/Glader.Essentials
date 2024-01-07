@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Common.Logging;
 using Glader.Essentials;
+using JetBrains.Annotations;
 using SceneJect.Common;
 using UnityEngine;
 
@@ -30,6 +32,9 @@ namespace Glader.Essentials.Unity
 
 		[Inject]
 		private IEnumerable<IGameFixedTickable> FixedTickables { get; set; }
+
+		[Inject]
+		private IEnumerable<IGameVariableRateTickable> VariableRateTickables { get; set; }
 
 		[Inject]
 		private ILog Logger { get; set; }
@@ -70,11 +75,18 @@ namespace Glader.Essentials.Unity
 
 			Tickables = OrderTickables(Tickables);
 			isInitializationFinished = true;
+			StartAllVariableRateTickables();
 		}
 
 		protected virtual IEnumerable<IGameTickable> OrderTickables(IEnumerable<IGameTickable> tickables)
 		{
 			return tickables;
+		}
+
+		private void StartAllVariableRateTickables()
+		{
+			foreach (var tickable in VariableRateTickables)
+				StartCoroutine(VariableRateUpdateCoroutine(tickable));
 		}
 
 		private void Update()
@@ -99,6 +111,28 @@ namespace Glader.Essentials.Unity
 
 			foreach(var tickable in FixedTickables)
 				tickable.OnGameFixedTick();
+		}
+
+		private IEnumerator VariableRateUpdateCoroutine([NotNull] IGameVariableRateTickable tickable)
+		{
+			if (tickable == null) throw new ArgumentNullException(nameof(tickable));
+
+			var waitForSeconds = new WaitForSeconds((float) tickable.TickFrequency.TotalSeconds);
+
+			while (true)
+			{
+				yield return waitForSeconds;
+
+				try
+				{
+					tickable.OnGameVariableRateTick();
+				}
+				catch (Exception e)
+				{
+					if (Logger.IsErrorEnabled)
+						Logger.Error($"Failed to update: {tickable.GetType().Name} Reason: {e}");
+				}
+			}
 		}
 	}
 }
