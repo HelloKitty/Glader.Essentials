@@ -13,5 +13,10 @@ namespace Glader.Essentials
 		/// The duration of the wait/frequency of the tick.
 		/// </summary>
 		TimeSpan TickFrequency { get; }
+
+		/// <summary>
+		/// Update tick called based on <see cref="TickFrequency"/>.
+		/// </summary>
+		void OnGameVariableRateTick();
 	}
 }
