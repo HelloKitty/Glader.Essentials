@@ -37,6 +37,9 @@ namespace Glader.Essentials.Unity
 		private IEnumerable<IGameVariableRateTickable> VariableRateTickables { get; set; }
 
 		[Inject]
+		private IEnumerable<IGamePreTickable> PreTickables { get; set; }
+
+		[Inject]
 		private ILog Logger { get; set; }
 
 		private bool isInitializationFinished = false;
@@ -96,6 +99,9 @@ namespace Glader.Essentials.Unity
 			//initializablizes having run, so to avoid this issue we don't run them until they are init
 			if(!isInitializationFinished)
 				return;
+
+			foreach(IGamePreTickable preTickable in PreTickables)
+				preTickable.PreTick();
 
 			foreach(IGameTickable tickable in Tickables)
 				tickable.Tick();
