@@ -101,10 +101,27 @@ namespace Glader.Essentials.Unity
 				return;
 
 			foreach(IGamePreTickable preTickable in PreTickables)
-				preTickable.PreTick();
+				try
+				{
+					preTickable.PreTick();
+				}
+				catch (Exception e)
+				{
+					if (Logger.IsErrorEnabled)
+						Logger.Error($"Encountered Exception in {nameof(IGamePreTickable.PreTick)} for Type: {preTickable.GetType().Name}. Reason: {e.Message}\n\nStack: {e.StackTrace}");
+				}
+				
 
 			foreach(IGameTickable tickable in Tickables)
-				tickable.Tick();
+				try
+				{
+					tickable.Tick();
+				}
+				catch (Exception e)
+				{
+					if(Logger.IsErrorEnabled)
+						Logger.Error($"Encountered Exception in {nameof(IGameTickable.Tick)} for Type: {tickable.GetType().Name}. Reason: {e.Message}\n\nStack: {e.StackTrace}");
+				}
 
 			//After a tickable is finished, we should set tickable compeltion
 			UnityAsyncHelper.SetNextTickableFrame();
