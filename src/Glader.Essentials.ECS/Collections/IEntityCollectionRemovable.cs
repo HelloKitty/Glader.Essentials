@@ -34,7 +34,7 @@ namespace Glader.Essentials
 		public static bool RemoveEntityEntry<TKey>(this IEntityCollectionRemovable<TKey> removable, TKey entityGuid)
 		{
 			if (removable == null) throw new ArgumentNullException(nameof(removable));
-			return removable.RemoveEntityEntry(entityGuid);
+			return removable.RemoveEntityEntry(entityGuid, out var _);
 		}
 	}
 }
