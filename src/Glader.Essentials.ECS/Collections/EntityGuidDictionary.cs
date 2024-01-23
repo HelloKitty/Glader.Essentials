@@ -43,11 +43,15 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		public bool RemoveEntityEntry(TKey entityGuid)
+		public bool RemoveEntityEntry(TKey entityGuid, out object obj)
 		{
-			return TryRemove(entityGuid, out var temp);
+			// Updated now to supply the removed object if it exists.
+			bool result = TryRemove(entityGuid, out var temp);
+			obj = temp;
+			return result;
 		}
 
+		/// <inheritdoc />
 		public void Add(TKey key, TValue value)
 		{
 			//If we can't add, it's probably because of a duplicate key. Probably...
