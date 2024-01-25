@@ -69,7 +69,7 @@ namespace Glader.Essentials
 			AsGameStartable<TConcreteType>(this IRegistrationBuilder<TConcreteType, ConcreteReflectionActivatorData, SingleRegistrationStyle> register)
 			where TConcreteType : IGameStartable
 		{
-			return register.As<IGameInitializable>();
+			return register.As<IGameStartable>();
 		}
 	}
 }
