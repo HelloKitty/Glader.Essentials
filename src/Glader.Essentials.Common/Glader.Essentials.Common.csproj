@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>2.5.147</Version>
+    <Version>2.5.148</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <RootNamespace>Glader.Essentials</RootNamespace>
