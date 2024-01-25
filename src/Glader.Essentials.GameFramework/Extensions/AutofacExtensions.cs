@@ -71,5 +71,18 @@ namespace Glader.Essentials
 		{
 			return register.As<IGameStartable>();
 		}
+
+		/// <summary>
+		/// Registers the provided <typeparamref name="TConcreteType"/> as <see cref="IDisposable"/> in a typesafe way.
+		/// </summary>
+		/// <typeparam name="TConcreteType">The concrete type.</typeparam>
+		/// <param name="register">The register interface.</param>
+		/// <returns>Fluent return.</returns>
+		public static IRegistrationBuilder<TConcreteType, ConcreteReflectionActivatorData, SingleRegistrationStyle>
+			AsDisposable<TConcreteType>(this IRegistrationBuilder<TConcreteType, ConcreteReflectionActivatorData, SingleRegistrationStyle> register)
+			where TConcreteType : IDisposable
+		{
+			return register.As<IDisposable>();
+		}
 	}
 }
