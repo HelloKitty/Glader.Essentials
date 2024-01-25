@@ -30,7 +30,7 @@ namespace Glader.Essentials
 			AsPreTickable<TConcreteType>(this IRegistrationBuilder<TConcreteType, ConcreteReflectionActivatorData, SingleRegistrationStyle> register)
 			where TConcreteType : IGamePreTickable
 		{
-			return register.As<IGameTickable>();
+			return register.As<IGamePreTickable>();
 		}
 
 		/// <summary>
