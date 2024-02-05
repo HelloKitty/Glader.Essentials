@@ -34,7 +34,7 @@ namespace Glader.Essentials
 
 		// Frames don't have a single component.
 		/// <inheritdoc />
-		public bool IsComponentActive => IsObjectActive;
+		public virtual bool IsComponentActive => IsObjectActive;
 
 		/// <inheritdoc />
 		public IEnumerable<IUIElement> Elements => throw new NotImplementedException("TODO: Implement.");
@@ -46,7 +46,7 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		public void SetComponentActive(bool state)
+		public virtual void SetComponentActive(bool state)
 		{
 			// Frames don't have a single component.
 			SetObjectActive(state);
