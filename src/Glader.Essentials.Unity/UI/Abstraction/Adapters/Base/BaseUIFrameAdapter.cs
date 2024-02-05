@@ -30,15 +30,26 @@ namespace Glader.Essentials
 		public IEventBus Bus { get; } = new EventBus();
 
 		/// <inheritdoc />
-		public virtual bool IsActive => gameObject.activeSelf;
+		public virtual bool IsObjectActive => gameObject.activeSelf;
+
+		// Frames don't have a single component.
+		/// <inheritdoc />
+		public bool IsComponentActive => IsObjectActive;
 
 		/// <inheritdoc />
 		public IEnumerable<IUIElement> Elements => throw new NotImplementedException("TODO: Implement.");
 
 		/// <inheritdoc />
-		public virtual void SetElementActive(bool state)
+		public virtual void SetObjectActive(bool state)
 		{
 			gameObject.SetActive(state);
+		}
+
+		/// <inheritdoc />
+		public void SetComponentActive(bool state)
+		{
+			// Frames don't have a single component.
+			SetObjectActive(state);
 		}
 	}
 }

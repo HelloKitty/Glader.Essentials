@@ -22,6 +22,20 @@ namespace Glader.Essentials
 		/// </summary>
 		protected virtual IUIElement Element => _Element.Value;
 
+		/// <inheritdoc />
+		public virtual bool IsObjectActive => Element.IsObjectActive;
+
+		/// <inheritdoc />
+		public bool IsComponentActive => Element.IsComponentActive;
+
+		[SerializeField]
+		private TAdaptedUnityEngineType _UnityUIObject;
+
+		/// <summary>
+		/// The Unity engine UI object being adapted.
+		/// </summary>
+		protected TAdaptedUnityEngineType UnityUIObject => _UnityUIObject;
+
 		protected BaseUnityUIAdapter()
 		{
 			_Element = new Lazy<IUIElement>(() => new BaseUnityUIAdapterImplementation(UnityUIObject));
@@ -34,14 +48,6 @@ namespace Glader.Essentials
 
 			//TODO: Check that TAdaptedUnityEngineType is in the Unity namespace.
 		}
-
-		[SerializeField]
-		private TAdaptedUnityEngineType _UnityUIObject;
-
-		/// <summary>
-		/// The Unity engine UI object being adapted.
-		/// </summary>
-		protected TAdaptedUnityEngineType UnityUIObject => _UnityUIObject;
 
 		/// <summary>
 		/// Validates that the provided <see cref="obj"/>
@@ -70,12 +76,15 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		public virtual void SetElementActive(bool state)
+		public virtual void SetObjectActive(bool state)
 		{
-			Element.SetElementActive(state);
+			Element.SetObjectActive(state);
 		}
 
 		/// <inheritdoc />
-		public virtual bool IsActive => Element.IsActive;
+		public void SetComponentActive(bool state)
+		{
+			Element.SetComponentActive(state);
+		}
 	}
 }

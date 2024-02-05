@@ -12,6 +12,7 @@ namespace Glader.Essentials
 {
 	public class BaseUnityUIAdapterImplementation : IUIElement
 	{
+		// TODO: Hope changing this didn't break stuff
 		[NotNull] 
 		private Component AdaptedObject { get; }
 
@@ -21,10 +22,30 @@ namespace Glader.Essentials
 		public IEventBus Bus { get; } = new EventBus();
 
 		/// <inheritdoc />
-		public bool IsActive => AdaptedObject.gameObject.activeSelf;
+		public bool IsObjectActive => AdaptedObject.gameObject.activeSelf;
 
 		/// <inheritdoc />
-		public void SetElementActive(bool state)
+		public bool IsComponentActive => GetIsComponentActive();
+
+		private bool GetIsComponentActive()
+		{
+			if (AdaptedObject is Behaviour behavior)
+				return behavior.enabled;
+			else
+				return IsObjectActive;
+		}
+
+		/// <inheritdoc />
+		public void SetComponentActive(bool state)
+		{
+			if (AdaptedObject is Behaviour behavior)
+				behavior.enabled = state;
+			else
+				SetObjectActive(state);
+		}
+
+		/// <inheritdoc />
+		public void SetObjectActive(bool state)
 		{
 			AdaptedObject.gameObject.SetActive(state);
 		}

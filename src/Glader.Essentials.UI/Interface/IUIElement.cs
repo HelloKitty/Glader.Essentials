@@ -11,16 +11,28 @@ namespace Glader.Essentials
 	public interface IUIElement : IUIEventListenable
 	{
 		/// <summary>
-		/// Sets the <see cref="IUIElement"/> to the provided
+		/// Sets the underlying OBJECT of the <see cref="IUIElement"/> to the provided
 		/// <see cref="state"/> value.
 		/// </summary>
-		/// <param name="state">The state to set the UI element to.</param>
-		void SetElementActive(bool state);
+		/// <param name="state">The state to set the UI element's OBJECT to.</param>
+		void SetObjectActive(bool state);
 
 		/// <summary>
-		/// Indicates if the element is active.
+		/// Sets the underlying COMPONENT of the <see cref="IUIElement"/> to the provided
+		/// <see cref="state"/> value.
 		/// </summary>
-		bool IsActive { get; }
+		/// <param name="state">The state to set the UI element's COMPONENT to.</param>
+		void SetComponentActive(bool state);
+
+		/// <summary>
+		/// Indicates if the element's underlying OBJECT is active.
+		/// </summary>
+		bool IsObjectActive { get; }
+
+		/// <summary>
+		/// Indicates if the element's underlying COMPONENT is active.
+		/// </summary>
+		bool IsComponentActive { get; }
 	}
 
 	/// <summary>
