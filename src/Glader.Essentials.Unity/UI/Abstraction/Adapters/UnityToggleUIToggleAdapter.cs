@@ -15,6 +15,7 @@ namespace Glader.Essentials
 		public bool IsToggled
 		{
 			get => UnityUIObject.isOn;
+			set => UnityUIObject.isOn = value;
 		}
 
 		/// <inheritdoc />

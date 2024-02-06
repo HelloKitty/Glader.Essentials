@@ -10,6 +10,6 @@ namespace Glader.Essentials
 		/// <summary>
 		/// Indicates if the toggle is toggled on.
 		/// </summary>
-		bool IsToggled { get; }
+		bool IsToggled { get; set; }
 	}
 }
