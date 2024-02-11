@@ -97,8 +97,12 @@ namespace Glader.Essentials.Unity
 			//The reason we don't update until initialization is finished
 			//is because we CAN'T let potential tickables that may depend on
 			//initializablizes having run, so to avoid this issue we don't run them until they are init
-			if(!isInitializationFinished)
+			if (!isInitializationFinished)
+			{
+				// Even if we don't have init finished we should set the next tickable to handle async events
+				UnityAsyncHelper.SetNextTickableFrame();
 				return;
+			}
 
 			foreach(IGamePreTickable preTickable in PreTickables)
 				try
