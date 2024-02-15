@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Nito.AsyncEx;
 using Refit;
 
 namespace Glader.Essentials
@@ -64,7 +65,7 @@ namespace Glader.Essentials
 					return await EndpointFuture;
 				else
 				{
-					if(await Task.WhenAny(EndpointFuture, Task.Run(() => token.WaitHandle.WaitOne(), token)) == EndpointFuture)
+					if (await Task.WhenAny(EndpointFuture, new CancellationTokenTaskSource<object>(token).Task) == EndpointFuture)
 						return await EndpointFuture;
 				}
 			}
