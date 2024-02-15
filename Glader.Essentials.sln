@@ -37,9 +37,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.Unity.Edi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.SourceGenerator", "src\Glader.Essentials.SourceGenerator\Glader.Essentials.SourceGenerator.csproj", "{BD22C2A4-BDCD-4645-A4D1-500D54236214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.EventBus", "src\Glader.Essentials.EventBus\Glader.Essentials.EventBus.csproj", "{7A8B2C89-8D8A-40C2-8A00-1C1624FD694A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.EventBus", "src\Glader.Essentials.EventBus\Glader.Essentials.EventBus.csproj", "{7A8B2C89-8D8A-40C2-8A00-1C1624FD694A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glader.Essentials.EventBus.Tests", "tests\Glader.Essentials.EventBus.Tests\Glader.Essentials.EventBus.Tests.csproj", "{64641414-1CB6-4E46-AF08-5436B461FF6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.EventBus.Tests", "tests\Glader.Essentials.EventBus.Tests\Glader.Essentials.EventBus.Tests.csproj", "{64641414-1CB6-4E46-AF08-5436B461FF6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
