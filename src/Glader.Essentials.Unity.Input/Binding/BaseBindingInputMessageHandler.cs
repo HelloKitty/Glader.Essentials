@@ -30,7 +30,7 @@ namespace Glader.Essentials.Binding
 		}
 
 		/// <summary>
-		/// Creates a handler that handles multiple <see cref="KeybindingType"/>s.
+		/// Creates a handler that handles multiple bindingss.
 		/// </summary>
 		/// <param name="handleFlags">Handler Flags.</param>
 		/// <param name="bindings">The bindings.</param>
