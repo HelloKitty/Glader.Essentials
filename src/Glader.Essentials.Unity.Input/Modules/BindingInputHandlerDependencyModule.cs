@@ -31,12 +31,6 @@ namespace Glader.Essentials
 			AssemblyToParse = assemblyToParse ?? throw new ArgumentNullException(nameof(assemblyToParse));
 		}
 
-		public BindingInputHandlerDependencyModule()
-			: this(typeof(BindingInputHandlerDependencyModule<TBindingEnumType>).Assembly)
-		{
-			
-		}
-
 		/// <inheritdoc />
 		protected override void Load(ContainerBuilder builder)
 		{
