@@ -17,7 +17,7 @@
     <PackageProjectUrl>http://github.com/helloKitty/glader.Essentials</PackageProjectUrl>
     <RepositoryUrl>http://github.com/helloKitty/glader.Essentials</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>Glader Essentials Message MessageHandler Handler</PackageTags>
+    <PackageTags>Glader Essentials Unity Input</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup>
