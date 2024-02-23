@@ -12,17 +12,17 @@ namespace Glader.Essentials.Binding
 	/// Base class implementation of <see cref="IBindingInputMessageHandler{TKeyBindingEnumType}"/>.
 	/// Bind handlers should inherit from this type and handle binding press state change logic in <see cref="HandleBindPressState"/>.
 	/// </summary>
-	public abstract class BaseBindingInputMessageHandler<TKeybindingEnumType> : IBindingInputMessageHandler<TKeybindingEnumType>
-		where TKeybindingEnumType : Enum
+	public abstract class BaseBindingInputMessageHandler<TBindingEnumType> : IBindingInputMessageHandler<TBindingEnumType>
+		where TBindingEnumType : Enum
 	{
-		private HashSet<TKeybindingEnumType> _BindingsSet { get; } = new();
+		private HashSet<TBindingEnumType> _BindingsSet { get; } = new();
 
 		/// <inheritdoc />
-		public IEnumerable<TKeybindingEnumType> Bindings => _BindingsSet;
+		public IEnumerable<TBindingEnumType> Bindings => _BindingsSet;
 
 		private BindingInputHandlingFlags HandleFlags { get; }
 
-		protected BaseBindingInputMessageHandler(TKeybindingEnumType binding,
+		protected BaseBindingInputMessageHandler(TBindingEnumType binding,
 			BindingInputHandlingFlags handleFlags = BindingInputHandlingFlags.OnPressed | BindingInputHandlingFlags.OnReleased)
 		{ 
 			_BindingsSet.Add(binding);
@@ -34,7 +34,7 @@ namespace Glader.Essentials.Binding
 		/// </summary>
 		/// <param name="handleFlags">Handler Flags.</param>
 		/// <param name="bindings">The bindings.</param>
-		protected BaseBindingInputMessageHandler(BindingInputHandlingFlags handleFlags = BindingInputHandlingFlags.OnPressed | BindingInputHandlingFlags.OnReleased, params TKeybindingEnumType[] bindings)
+		protected BaseBindingInputMessageHandler(BindingInputHandlingFlags handleFlags = BindingInputHandlingFlags.OnPressed | BindingInputHandlingFlags.OnReleased, params TBindingEnumType[] bindings)
 		{
 			foreach (var binding in bindings.Distinct())
 				_BindingsSet.Add(binding);
@@ -43,13 +43,13 @@ namespace Glader.Essentials.Binding
 		}
 
 		/// <inheritdoc />
-		public void BindTo(ITypeBinder<IMessageHandler<KeyBindingInputChangedEventArgs<TKeybindingEnumType>, string>, KeyBindingInputChangedEventArgs<TKeybindingEnumType>> bindTarget)
+		public void BindTo(ITypeBinder<IMessageHandler<KeyBindingInputChangedEventArgs<TBindingEnumType>, string>, KeyBindingInputChangedEventArgs<TBindingEnumType>> bindTarget)
 		{
-			bindTarget.Bind<KeyBindingInputChangedEventArgs<TKeybindingEnumType>>(this);
+			bindTarget.Bind<KeyBindingInputChangedEventArgs<TBindingEnumType>>(this);
 		}
 
 		/// <inheritdoc />
-		public virtual Task HandleMessageAsync(string context, KeyBindingInputChangedEventArgs<TKeybindingEnumType> message, CancellationToken token = default)
+		public virtual Task HandleMessageAsync(string context, KeyBindingInputChangedEventArgs<TBindingEnumType> message, CancellationToken token = default)
 		{
 			// Anything that happens when not connected or not in world should be considered a reset only.
 			// TODO: Remember SwanSong has a connected game of the gamestate, override for that maybe.
@@ -72,12 +72,12 @@ namespace Glader.Essentials.Binding
 		/// Implementer should handle the provided bind data change.
 		/// </summary>
 		/// <param name="args">The bind info.</param>
-		protected abstract void HandleBindPressState(KeyBindingInputChangedEventArgs<TKeybindingEnumType> args);
+		protected abstract void HandleBindPressState(KeyBindingInputChangedEventArgs<TBindingEnumType> args);
 
 		/// <summary>
 		/// Implementer should handle reset state here when disconnected.
 		/// </summary>
 		/// <param name="args">The args (will be release/not down)</param>
-		protected abstract void Reset(KeyBindingInputChangedEventArgs<TKeybindingEnumType> args);
+		protected abstract void Reset(KeyBindingInputChangedEventArgs<TBindingEnumType> args);
 	}
 }
