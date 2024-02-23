@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -25,6 +26,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Glader.Essentials.EventBus\Glader.Essentials.EventBus.csproj" />
     <ProjectReference Include="..\Glader.Essentials.MessageHandler\Glader.Essentials.MessageHandler.csproj" />
   </ItemGroup>
 
