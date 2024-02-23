@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.EventBus"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.EventBus.Tests", "tests\Glader.Essentials.EventBus.Tests\Glader.Essentials.EventBus.Tests.csproj", "{64641414-1CB6-4E46-AF08-5436B461FF6F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.Unity.Input", "src\Glader.Essentials.Unity.Input\Glader.Essentials.Unity.Input.csproj", "{5679ABCE-476D-46ED-871B-E76CA265929E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,10 @@ Global
 		{64641414-1CB6-4E46-AF08-5436B461FF6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64641414-1CB6-4E46-AF08-5436B461FF6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64641414-1CB6-4E46-AF08-5436B461FF6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5679ABCE-476D-46ED-871B-E76CA265929E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5679ABCE-476D-46ED-871B-E76CA265929E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5679ABCE-476D-46ED-871B-E76CA265929E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5679ABCE-476D-46ED-871B-E76CA265929E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,6 +143,7 @@ Global
 		{BD22C2A4-BDCD-4645-A4D1-500D54236214} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 		{7A8B2C89-8D8A-40C2-8A00-1C1624FD694A} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 		{64641414-1CB6-4E46-AF08-5436B461FF6F} = {E4641070-6CC1-4D57-B5E6-203F249BCFB4}
+		{5679ABCE-476D-46ED-871B-E76CA265929E} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BB23C32-5849-40C0-BB63-705FA3AC4FFB}

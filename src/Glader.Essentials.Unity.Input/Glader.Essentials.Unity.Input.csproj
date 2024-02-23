@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>2.6.154</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <RootNamespace>Glader.Essentials</RootNamespace>
+    <Authors>Andrew Blakely, Glader</Authors>
+    <Product>Glader.Essentials</Product>
+    <Description>Glader.Essentials provide basic essential .NET/C# development libraries for day-to-day development needs. The Unity.Input library provides services and APIs useful for game input in Unity3D.</Description>
+    <Copyright>Andrew Blakely</Copyright>
+    <PackageProjectUrl>http://github.com/helloKitty/glader.Essentials</PackageProjectUrl>
+    <RepositoryUrl>http://github.com/helloKitty/glader.Essentials</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Glader Essentials Message MessageHandler Handler</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Glader.Essentials.MessageHandler\Glader.Essentials.MessageHandler.csproj" />
+  </ItemGroup>
+
+</Project>
