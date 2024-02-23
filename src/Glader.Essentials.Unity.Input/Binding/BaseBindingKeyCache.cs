@@ -20,7 +20,7 @@ namespace Glader.Essentials
 		public BindingDefinition[] this[TBindingEnumType bind] => MappedBindings[bind];
 
 		/// <summary>
-		/// Creates a new <see cref="BaseBindingKeyCache"/> with the provided bindings data.
+		/// Creates a new <see cref="BaseBindingKeyCache{TBindingEnumType}"/> with the provided bindings data.
 		/// </summary>
 		/// <param name="mappedBindings"></param>
 		protected BaseBindingKeyCache([NotNull] Dictionary<TBindingEnumType, BindingDefinition[]> mappedBindings)
