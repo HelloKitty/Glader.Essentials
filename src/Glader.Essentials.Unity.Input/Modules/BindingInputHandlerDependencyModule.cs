@@ -11,9 +11,10 @@ namespace Glader.Essentials
 {
 	/// <summary>
 	/// Autofac module for registering <see cref="IBindingInputMessageHandler{TBindingEnumType}"/> and related services.
+	/// Based on SwanSong BindingInputDependencyModule
 	/// </summary>
 	/// <typeparam name="TBindingEnumType"></typeparam>
-	public class BindingInputDependencyModule<TBindingEnumType> : Module where TBindingEnumType : Enum
+	public class BindingInputHandlerDependencyModule<TBindingEnumType> : Module where TBindingEnumType : Enum
 	{
 		/// <summary>
 		/// Overrideable ignored handler types.
