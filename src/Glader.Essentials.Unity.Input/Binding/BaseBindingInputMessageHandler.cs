@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Glader.Essentials.Binding
+namespace Glader.Essentials
 {
 	/// <summary>
 	/// Base class implementation of <see cref="IBindingInputMessageHandler{TKeyBindingEnumType}"/>.
