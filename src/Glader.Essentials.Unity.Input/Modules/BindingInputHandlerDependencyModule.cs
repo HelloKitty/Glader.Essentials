@@ -26,13 +26,13 @@ namespace Glader.Essentials
 
 		private Assembly AssemblyToParse { get; }
 
-		public BindingInputDependencyModule([NotNull] Assembly assemblyToParse)
+		public BindingInputHandlerDependencyModule([NotNull] Assembly assemblyToParse)
 		{
 			AssemblyToParse = assemblyToParse ?? throw new ArgumentNullException(nameof(assemblyToParse));
 		}
 
-		public BindingInputDependencyModule()
-			: this(typeof(BindingInputDependencyModule<TBindingEnumType>).Assembly)
+		public BindingInputHandlerDependencyModule()
+			: this(typeof(BindingInputHandlerDependencyModule<TBindingEnumType>).Assembly)
 		{
 			
 		}
