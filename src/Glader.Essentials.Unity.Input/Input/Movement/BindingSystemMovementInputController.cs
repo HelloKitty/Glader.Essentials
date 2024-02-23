@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Glader.Essentials
 {
+	/// <inheritdoc />
 	public sealed class BindingSystemMovementInputController : IBindingSystemMovementInputController
 	{
 		/// <summary>
@@ -33,9 +34,9 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public float CurrentVertical => CalculateVertical();
 
-		public bool AutoRun = false;
+		private bool AutoRun = false;
 
-		public bool MoveFromSteer = false;
+		private bool MoveFromSteer = false;
 
 		private float CalculateHorizontal()
 		{
