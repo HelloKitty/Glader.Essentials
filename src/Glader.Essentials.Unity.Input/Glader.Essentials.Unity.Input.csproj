@@ -28,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Glader.Essentials.EventBus\Glader.Essentials.EventBus.csproj" />
     <ProjectReference Include="..\Glader.Essentials.MessageHandler\Glader.Essentials.MessageHandler.csproj" />
+    <ProjectReference Include="..\Glader.Essentials.Unity\Glader.Essentials.Unity.csproj" />
   </ItemGroup>
 
 </Project>
