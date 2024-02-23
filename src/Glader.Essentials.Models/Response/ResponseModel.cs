@@ -73,7 +73,7 @@ namespace Glader.Essentials
 		/// Internal serializable ctor.
 		/// </summary>
 		[JsonConstructor]
-		private ResponseModel()
+		public ResponseModel()
 		{
 			//Validates assumptions about the state of a response model.
 			if(isSuccessful && Result == null)
