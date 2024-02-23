@@ -31,4 +31,10 @@
     <ProjectReference Include="..\Glader.Essentials.Unity\Glader.Essentials.Unity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\lib\Unity\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
