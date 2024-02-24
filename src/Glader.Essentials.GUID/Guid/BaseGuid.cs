@@ -31,7 +31,6 @@ namespace Glader.Essentials
 		/// Internal GUID value.
 		/// </summary>
 		[DataMember(Order = 1, IsRequired = true)]
-		[IgnoreDataMember]
 		public ulong RawValue { get; internal set; } //setter only for serialization
 
 		/// <summary>
