@@ -6,6 +6,7 @@ using System.Text;
 using Common.Logging;
 using Common.Logging.Factory;
 using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Glader.Essentials
 {
@@ -14,6 +15,7 @@ namespace Glader.Essentials
 		public LogLevel LoggingLevel { get; }
 
 		/// <inheritdoc />
+		[Preserve]
 		public UnityLogger(LogLevel loggingLevel)
 		{
 			LoggingLevel = loggingLevel;
