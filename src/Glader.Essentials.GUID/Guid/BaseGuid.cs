@@ -27,11 +27,12 @@ namespace Glader.Essentials
 	/// </summary>
 	public abstract class BaseGuid : IEquatable<BaseGuid>
 	{
+		// Made protected internal so that you can set it for serialization purposes in derived types.
 		/// <summary>
 		/// Internal GUID value.
 		/// </summary>
 		[DataMember(Order = 1, IsRequired = true)]
-		public ulong RawValue { get; internal set; } //setter only for serialization
+		public ulong RawValue { get; protected internal set; } //setter only for serialization
 
 		/// <summary>
 		/// Indicates the current GUID of the object. This is the last chunk represents the id that the world server assigned to the object. (The rest is just maskable flags about the object)
