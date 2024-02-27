@@ -30,5 +30,17 @@ namespace Glader.Essentials
 		{
 			return CreateColor((float)r, (float)g, (float)b);
 		}
+
+		/// <summary>
+		/// Creates a color from the integer hexcode values.
+		/// </summary>
+		/// <param name="r">Hexcode integer value of Red channel (0-255)</param>
+		/// <param name="g">Hexcode integer value of Green channel (0-255)</param>
+		/// <param name="b">Hexcode integer value of Blue channel (0-255)</param>
+		/// <returns></returns>
+		public static Color CreateColorFromHexValues(int r, int g, int b)
+		{
+			return new Color(r / (float)255, g / (float)255, b / (float)255);
+		}
 	}
 }
