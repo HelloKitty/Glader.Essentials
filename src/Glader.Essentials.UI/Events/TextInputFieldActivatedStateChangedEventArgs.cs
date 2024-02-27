@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Glader.Essentials
 {
+	// From SwanSong
 	/// <summary>
 	/// Event fired by text input elements when the activation state of the input field changes.
 	/// </summary>
