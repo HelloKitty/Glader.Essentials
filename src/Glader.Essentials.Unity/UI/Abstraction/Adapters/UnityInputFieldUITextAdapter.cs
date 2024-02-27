@@ -19,6 +19,9 @@ namespace Glader.Essentials
 
 		/// <inheritdoc />
 		public abstract void SetColor(byte r, byte g, byte b, byte a);
+
+		/// <inheritdoc />
+		public abstract void RegisterTextChangeCallback(Action<string> callback);
 	}
 
 	/// <summary>
@@ -37,6 +40,15 @@ namespace Glader.Essentials
 		public override void SetColor(byte r, byte g, byte b, byte a)
 		{
 			UnityUIObject.textComponent.color = new Color32(r, g, b, a);
+		}
+
+		/// <inheritdoc />
+		public override void RegisterTextChangeCallback(Action<string> callback)
+		{
+			UnityUIObject.onValueChanged.AddListener(args =>
+			{
+				callback(args);
+			});
 		}
 	}
 }

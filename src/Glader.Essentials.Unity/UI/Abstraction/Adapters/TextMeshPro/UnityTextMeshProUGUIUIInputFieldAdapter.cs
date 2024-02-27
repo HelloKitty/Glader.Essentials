@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -31,6 +32,15 @@ namespace Glader.Essentials
 		{
 			get => UnityUIObject.text;
 			set => UnityUIObject.text = value;
+		}
+
+		/// <inheritdoc />
+		public override void RegisterTextChangeCallback(Action<string> callback)
+		{
+			UnityUIObject.onValueChanged.AddListener(args =>
+			{
+				callback(args);
+			});
 		}
 	}
 }

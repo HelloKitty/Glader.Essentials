@@ -7,7 +7,7 @@ namespace Glader.Essentials
 	/// <summary>
 	/// Contract for UI elements that implement Input Field functionality.
 	/// </summary>
-	public interface IUIInputField : IUIText
+	public interface IUIInputField : IUIText, IUITextChangedCallbackRegistrable
 	{
 
 	}
