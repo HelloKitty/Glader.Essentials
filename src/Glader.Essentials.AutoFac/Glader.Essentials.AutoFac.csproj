@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Glader.Essentials</RootNamespace>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>2.6.158</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <RootNamespace>Glader.Essentials</RootNamespace>
+    <Authors>Andrew Blakely, Glader</Authors>
+    <Product>Glader.Essentials</Product>
+    <Description>Glader.Essentials provide basic essential .NET/C# development libraries for day-to-day development needs. The Event library has helpful event patterns and types.</Description>
+    <Copyright>Andrew Blakely</Copyright>
+    <PackageProjectUrl>http://github.com/helloKitty/glader.Essentials</PackageProjectUrl>
+    <RepositoryUrl>http://github.com/helloKitty/glader.Essentials</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Glader Essentials AutoFac</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+</Project>
