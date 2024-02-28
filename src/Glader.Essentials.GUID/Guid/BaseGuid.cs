@@ -38,14 +38,14 @@ namespace Glader.Essentials
 		/// Indicates the current GUID of the object. This is the last chunk represents the id that the world server assigned to the object. (The rest is just maskable flags about the object)
 		/// </summary>
 		[IgnoreDataMember]
-		public int Identifier => (int)(RawValue & 0x0000000000FFFFFF);
+		public int Identifier => CanHaveEntry() ? (int)(RawValue & 0x0000000000FFFFFF) : (int)(RawValue & 0x00000000FFFFFFFF); // Use an extra byte if it can't have an entry
 
 		/// <summary>
 		/// Indicates the templated reference identifier (entry)
 		/// for the Entity.
 		/// </summary>
 		[IgnoreDataMember]
-		public int Entry => (int) (RawValue >> 24) & 0x0000000000FFFFFF;
+		public int Entry => CanHaveEntry() ? (int) (RawValue >> 24) & 0x0000000000FFFFFF : 0;
 
 		//TODO: This only support 15 shards.
 		/// <summary>
@@ -60,7 +60,17 @@ namespace Glader.Essentials
 		/// Indicates if the entity has an entry.
 		/// </summary>
 		[IgnoreDataMember]
-		public bool HasEntry => Entry != 0;
+		public bool HasEntry => CanHaveEntry() && Entry != 0;
+
+		/// <summary>
+		/// Indicates if the guid CAN have an entry.
+		/// If it cannot have an entry the bytes/bits are reclaimed for the <see cref="Identifier"/>.
+		/// </summary>
+		/// <returns></returns>
+		protected virtual bool CanHaveEntry()
+		{
+			return true;
+		}
 
 		/// <summary>
 		/// Indicates if the GUID is an empty or uninitialized GUID.
@@ -134,6 +144,9 @@ namespace Glader.Essentials
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		protected internal void SetEntry(int entry)
 		{
+			if (!CanHaveEntry())
+				return;
+
 			//(RawGuidValue >> 24) & 0x0000000000FFFFFF
 			RawValue |= ((ulong)(entry & 0x0000000000FFFFFF) << 24);
 		}
@@ -144,7 +157,10 @@ namespace Glader.Essentials
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		protected internal void SetIdentifier(int id)
 		{
-			RawValue |= (ulong)id & 0x0000000000FFFFFF;
+			if (CanHaveEntry())
+				RawValue |= (ulong)id & 0x0000000000FFFFFF;
+			else
+				RawValue |= (ulong)id & 0x00000000FFFFFFFF;
 		}
 
 		/// <summary>
