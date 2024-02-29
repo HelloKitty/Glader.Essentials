@@ -30,7 +30,10 @@ namespace Glader.Essentials
 			if (linkIndex != -1)
 			{
 				TMP_LinkInfo linkInfo = UnityUIObject.textInfo.linkInfo[linkIndex];
-				Bus.Publish(this, new TextLinkClickedEventArgs(eventData.button.ToMouseButtonType(), linkInfo.GetLinkID(), linkInfo.GetLinkText()));
+
+				var linkEventArgs = new TextLinkClickedEventArgs(eventData.button.ToMouseButtonType(), linkInfo.GetLinkID(), linkInfo.GetLinkText());
+				Bus.Publish(this, linkEventArgs);
+				UnityTextLinkHelper.Publish(this, linkEventArgs);
 			}
 		}
 	}
