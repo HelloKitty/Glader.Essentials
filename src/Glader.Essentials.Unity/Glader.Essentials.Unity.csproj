@@ -61,8 +61,4 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UI\Extensions\" />
-  </ItemGroup>
-
 </Project>
