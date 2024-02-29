@@ -56,6 +56,9 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>..\..\lib\Unity\UnityEngine.UI.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UIElementsModule">
+      <HintPath>..\..\lib\Unity\UnityEngine.UIElementsModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
