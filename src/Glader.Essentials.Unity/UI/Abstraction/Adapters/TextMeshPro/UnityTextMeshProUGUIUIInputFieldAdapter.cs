@@ -42,5 +42,13 @@ namespace Glader.Essentials
 				callback(args);
 			});
 		}
+
+		/// <inheritdoc />
+		public override void SetInputToEnd()
+		{
+			// Don't count on MoveToEnd, typical Unity3D doesn't work lol
+			// directly set the caret position
+			UnityUIObject.caretPosition = Text.Length;
+		}
 	}
 }

@@ -22,6 +22,9 @@ namespace Glader.Essentials
 
 		/// <inheritdoc />
 		public abstract void RegisterTextChangeCallback(Action<string> callback);
+
+		/// <inheritdoc />
+		public abstract void SetInputToEnd();
 	}
 
 	/// <summary>
@@ -49,6 +52,12 @@ namespace Glader.Essentials
 			{
 				callback(args);
 			});
+		}
+
+		/// <inheritdoc />
+		public override void SetInputToEnd()
+		{
+			UnityUIObject.MoveTextEnd(false);
 		}
 	}
 }
