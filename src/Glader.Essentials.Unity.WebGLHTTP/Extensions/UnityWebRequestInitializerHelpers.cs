@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using System.Threading.Tasks;
 using UnityEngine.Networking;
 
 namespace Glader.Essentials
@@ -59,6 +60,26 @@ namespace Glader.Essentials
 				default:
 					throw new ArgumentOutOfRangeException(nameof(type), type, null);
 			}
+		}
+
+		/// <summary>
+		/// Creates a <see cref="UnityWebRequest"/> for the provided HTTP <see cref="type"/> with the provided <see cref="url"/> and <see cref="data"/>.
+		/// Will also create a usable callback token <see cref="TaskCompletionSource{TResult}"/> for the request.
+		/// </summary>
+		/// <typeparam name="TCallbackType">The callback type.</typeparam>
+		/// <param name="type">The HTTP type. (Ex. GET)</param>
+		/// <param name="url">The url/uri</param>
+		/// <param name="data">The request data. Used for Post/Put.</param>
+		/// <param name="callbackToken">The callback token.</param>
+		/// <returns>A unsent <see cref="UnityWebRequest"/>. Call must send. Also an incomplete callback token.</returns>
+		public static UnityWebRequest CreateRequestWithCallbackToken<TCallbackType>(UnityHttpRequestType type,
+			string url, string data, out TaskCompletionSource<TCallbackType> callbackToken)
+		{
+			callbackToken = new TaskCompletionSource<TCallbackType>();
+
+			var request = UnityWebRequestInitializerHelpers.CreateRequest(type, url, data);
+			UnityWebRequestInitializerHelpers.DisableCertCheck(request);
+			return request;
 		}
 	}
 }
