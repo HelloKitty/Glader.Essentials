@@ -23,6 +23,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\lib\Unity\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UnityWebRequestModule">
       <HintPath>..\..\lib\Unity\UnityEngine.UnityWebRequestModule.dll</HintPath>
     </Reference>
