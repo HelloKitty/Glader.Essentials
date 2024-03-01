@@ -13,7 +13,7 @@
     <PackageProjectUrl>http://github.com/helloKitty/glader.Essentials</PackageProjectUrl>
     <RepositoryUrl>http://github.com/helloKitty/glader.Essentials</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>Glader Essentials Unity</PackageTags>
+    <PackageTags>Glader Essentials Unity WebGL Unity HTTP</PackageTags>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
