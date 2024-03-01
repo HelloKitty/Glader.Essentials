@@ -23,6 +23,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\lib\Unity\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
