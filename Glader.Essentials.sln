@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.Unity.Inp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.AutoFac", "src\Glader.Essentials.AutoFac\Glader.Essentials.AutoFac.csproj", "{9E5CD447-BC12-484F-A118-1AB8A1C06A7F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glader.Essentials.Unity.WebGLHTTP", "src\Glader.Essentials.Unity.WebGLHTTP\Glader.Essentials.Unity.WebGLHTTP.csproj", "{54203758-AB11-4AE9-882E-775962AF88A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,10 @@ Global
 		{9E5CD447-BC12-484F-A118-1AB8A1C06A7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E5CD447-BC12-484F-A118-1AB8A1C06A7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E5CD447-BC12-484F-A118-1AB8A1C06A7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54203758-AB11-4AE9-882E-775962AF88A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54203758-AB11-4AE9-882E-775962AF88A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54203758-AB11-4AE9-882E-775962AF88A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54203758-AB11-4AE9-882E-775962AF88A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +157,7 @@ Global
 		{64641414-1CB6-4E46-AF08-5436B461FF6F} = {E4641070-6CC1-4D57-B5E6-203F249BCFB4}
 		{5679ABCE-476D-46ED-871B-E76CA265929E} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 		{9E5CD447-BC12-484F-A118-1AB8A1C06A7F} = {B7640947-0573-4F62-8B41-DB4740B149CC}
+		{54203758-AB11-4AE9-882E-775962AF88A7} = {B7640947-0573-4F62-8B41-DB4740B149CC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BB23C32-5849-40C0-BB63-705FA3AC4FFB}
