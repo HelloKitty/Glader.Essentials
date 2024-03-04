@@ -15,7 +15,6 @@ namespace Glader.Essentials
 	[JsonObject]
 	public class ResponseModel<TModelType, TResponseCodeType> : IResponseModel<TResponseCodeType>, ISucceedable
 		where TResponseCodeType : Enum
-		where TModelType : class
 	{
 		/// <inheritdoc />
 		[JsonProperty]
@@ -56,7 +55,7 @@ namespace Glader.Essentials
 		/// <param name="result"></param>
 		public ResponseModel(TModelType result)
 		{
-			Result = result ?? throw new ArgumentNullException(nameof(result));
+			Result = result;
 
 			//TODO: This won't work on AOT platforms.
 			ResultCode = Generic.Math.GenericMath.Convert<int, TResponseCodeType>(GladerEssentialsModelConstants.RESPONSE_CODE_SUCCESS_VALUE);
