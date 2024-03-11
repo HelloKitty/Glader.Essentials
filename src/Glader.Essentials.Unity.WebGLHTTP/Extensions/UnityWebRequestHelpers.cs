@@ -24,11 +24,14 @@ namespace Glader.Essentials
 		/// </summary>
 		/// <param name="type"></param>
 		/// <param name="url"></param>
+		/// <param name="requestConfigAction"></param>
 		/// <param name="data"></param>
 		/// <returns></returns>
-		public static Task<byte[]> RequestBytes(UnityHttpRequestType type, string url, string data = null)
+		public static Task<byte[]> RequestBytes(UnityHttpRequestType type, string url,
+			Action<UnityWebRequest> requestConfigAction = null, string data = null)
 		{
 			var request = UnityWebRequestInitializerHelpers.CreateRequestWithCallbackToken<byte[]>(type, url, data, out var token);
+			requestConfigAction?.Invoke(request);
 
 			request.SendWebRequest().completed += operation =>
 			{
@@ -50,11 +53,14 @@ namespace Glader.Essentials
 		/// </summary>
 		/// <param name="type"></param>
 		/// <param name="url"></param>
+		/// <param name="requestConfigAction"></param>
 		/// <param name="data"></param>
 		/// <returns></returns>
-		public static Task<TResponseBodyType> RequestXml<TResponseBodyType>(UnityHttpRequestType type, string url, string data = null)
+		public static Task<TResponseBodyType> RequestXml<TResponseBodyType>(UnityHttpRequestType type, string url,
+			Action<UnityWebRequest> requestConfigAction = null, string data = null)
 		{
 			var request = UnityWebRequestInitializerHelpers.CreateRequestWithCallbackToken<TResponseBodyType>(type, url, data, out var token);
+			requestConfigAction?.Invoke(request);
 
 			request.SendWebRequest().completed += operation =>
 			{
@@ -77,11 +83,14 @@ namespace Glader.Essentials
 		/// </summary>
 		/// <param name="type"></param>
 		/// <param name="url"></param>
+		/// <param name="requestConfigAction"></param>
 		/// <param name="data"></param>
 		/// <returns></returns>
-		public static Task<TResponseBodyType> RequestJson<TResponseBodyType>(UnityHttpRequestType type, string url, string data = null)
+		public static Task<TResponseBodyType> RequestJson<TResponseBodyType>(UnityHttpRequestType type, string url,
+			Action<UnityWebRequest> requestConfigAction = null, string data = null)
 		{
 			var request = UnityWebRequestInitializerHelpers.CreateRequestWithCallbackToken<TResponseBodyType>(type, url, data, out var token);
+			requestConfigAction?.Invoke(request);
 
 			request.SendWebRequest().completed += operation =>
 			{
@@ -103,11 +112,14 @@ namespace Glader.Essentials
 		/// </summary>
 		/// <param name="type"></param>
 		/// <param name="url"></param>
+		/// <param name="requestConfigAction"></param>
 		/// <param name="data"></param>
 		/// <returns></returns>
-		public static Task<string> RequestString(UnityHttpRequestType type, string url, string data = null)
+		public static Task<string> RequestString(UnityHttpRequestType type, string url, 
+			Action<UnityWebRequest> requestConfigAction = null, string data = null)
 		{
 			var request = UnityWebRequestInitializerHelpers.CreateRequestWithCallbackToken<string>(type, url, data, out var token);
+			requestConfigAction?.Invoke(request);
 
 			request.SendWebRequest().completed += operation =>
 			{
