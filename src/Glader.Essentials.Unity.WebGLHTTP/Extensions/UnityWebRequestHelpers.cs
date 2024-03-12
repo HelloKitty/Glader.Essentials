@@ -146,7 +146,7 @@ namespace Glader.Essentials
 		/// <param name="requestConfigAction"></param>
 		/// <param name="data"></param>
 		/// <returns></returns>
-		public static Task<byte[]> RequestBytes(UnityHttpRequestType type, string url,
+		public static Task<byte[]> RequestBytesRaw(UnityHttpRequestType type, string url,
 			Action<UnityWebRequest> requestConfigAction = null, byte[] data = null)
 		{
 			var request = UnityWebRequestInitializerHelpers.CreateRequestWithCallbackToken<byte[]>(type, url, data, out var token);
@@ -175,7 +175,7 @@ namespace Glader.Essentials
 		/// <param name="requestConfigAction"></param>
 		/// <param name="data"></param>
 		/// <returns></returns>
-		public static Task<TResponseBodyType> RequestXml<TResponseBodyType>(UnityHttpRequestType type, string url,
+		public static Task<TResponseBodyType> RequestXmlRaw<TResponseBodyType>(UnityHttpRequestType type, string url,
 			Action<UnityWebRequest> requestConfigAction = null, byte[] data = null)
 		{
 			var request = UnityWebRequestInitializerHelpers.CreateRequestWithCallbackToken<TResponseBodyType>(type, url, data, out var token);
@@ -205,7 +205,7 @@ namespace Glader.Essentials
 		/// <param name="requestConfigAction"></param>
 		/// <param name="data"></param>
 		/// <returns></returns>
-		public static Task<TResponseBodyType> RequestJson<TResponseBodyType>(UnityHttpRequestType type, string url,
+		public static Task<TResponseBodyType> RequestJsonRaw<TResponseBodyType>(UnityHttpRequestType type, string url,
 			Action<UnityWebRequest> requestConfigAction = null, byte[] data = null)
 		{
 			var request = UnityWebRequestInitializerHelpers.CreateRequestWithCallbackToken<TResponseBodyType>(type, url, data, out var token);
@@ -234,7 +234,7 @@ namespace Glader.Essentials
 		/// <param name="requestConfigAction"></param>
 		/// <param name="data"></param>
 		/// <returns></returns>
-		public static Task<string> RequestString(UnityHttpRequestType type, string url,
+		public static Task<string> RequestStringRaw(UnityHttpRequestType type, string url,
 			Action<UnityWebRequest> requestConfigAction = null, byte[] data = null)
 		{
 			var request = UnityWebRequestInitializerHelpers.CreateRequestWithCallbackToken<string>(type, url, data, out var token);
