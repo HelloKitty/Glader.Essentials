@@ -43,6 +43,18 @@ namespace Glader.Essentials
 			});
 		}
 
+		/// <summary>
+		/// Registers the <see cref="OnTextFieldSubmitEventArgs"/> event for publishing through
+		/// the <see cref="Bus"/>.
+		/// </summary>
+		public void SetupSubmitPublishing()
+		{
+			UnityUIObject.onSubmit.AddListener(value =>
+			{
+				Bus.Publish(this, new OnTextFieldSubmitEventArgs(this, value));
+			});
+		}
+
 		/// <inheritdoc />
 		public override void SetInputToEnd()
 		{
