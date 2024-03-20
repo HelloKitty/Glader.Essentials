@@ -41,9 +41,9 @@ namespace Glader.Essentials
 				HandleAttemptedEnd();
 			});
 
-			UnityUIObject.onSelect.AddListener(arg =>
+			RegisterSelectCallback(arg =>
 			{
-				if(!ForcedFocus)
+				if (!ForcedFocus)
 					StartInput();
 			});
 
