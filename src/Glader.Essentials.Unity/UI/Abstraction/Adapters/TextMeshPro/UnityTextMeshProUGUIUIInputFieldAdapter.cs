@@ -44,6 +44,19 @@ namespace Glader.Essentials
 		}
 
 		/// <summary>
+		/// Registers a selection callback for the text input.
+		/// Calls <see cref="callback"/> on select.
+		/// </summary>
+		/// <param name="callback">The callback to register/call on select.</param>
+		public void RegisterSelectCallback(Action<string> callback)
+		{
+			UnityUIObject.onSelect.AddListener(args =>
+			{
+				callback(args);
+			});
+		}
+
+		/// <summary>
 		/// Registers the <see cref="OnTextFieldSubmitEventArgs"/> event for publishing through
 		/// the <see cref="Bus"/>.
 		/// </summary>
