@@ -19,6 +19,8 @@ namespace Glader.Essentials
 		/// </summary>
 		public bool ForcedFocus { get; private set; } = false;
 
+		private Coroutine InputEndCoroutine = null;
+
 		/// <summary>
 		/// Call to setup the functionality for forcing focus.
 		/// </summary>
@@ -69,6 +71,9 @@ namespace Glader.Essentials
 			if(!UnityUIObject.interactable)
 				return;
 
+			// If an end is in progress we should stop it
+			StopInputEndCoroutine();
+
 			// If we're starting input then deactivate temporarily
 			// So events can fire for reactivation
 			ForcedFocus = true;
@@ -88,7 +93,16 @@ namespace Glader.Essentials
 		{
 			UnityUIObject.interactable = false;
 			DisableInput();
-			StartCoroutine(EndInputCoroutine());
+
+			StopInputEndCoroutine();
+			InputEndCoroutine = StartCoroutine(EndInputCoroutine());
+		}
+
+		private void StopInputEndCoroutine()
+		{
+			if (InputEndCoroutine != null)
+				StopCoroutine(InputEndCoroutine);
+			InputEndCoroutine = null;
 		}
 
 		private void DisableInput(bool includeEventSystemDeselect = true)
