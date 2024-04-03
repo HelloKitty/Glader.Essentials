@@ -100,9 +100,14 @@ namespace Glader.Essentials
 
 		private void StopInputEndCoroutine()
 		{
-			if (InputEndCoroutine != null)
-				StopCoroutine(InputEndCoroutine);
+			if (InputEndCoroutine == null)
+				return;
+
+			StopCoroutine(InputEndCoroutine);
 			InputEndCoroutine = null;
+
+			// TODO: Hack to throw this here, but the courtine is suppose to re-enable it
+			UnityUIObject.interactable = true;
 		}
 
 		private void DisableInput(bool includeEventSystemDeselect = true)
@@ -126,6 +131,7 @@ namespace Glader.Essentials
 			yield return new WaitForEndOfFrame();
 			DisableInput();
 			UnityUIObject.interactable = true;
+			InputEndCoroutine = null;
 		}
 
 		private bool IsOverOtherTextInput()
