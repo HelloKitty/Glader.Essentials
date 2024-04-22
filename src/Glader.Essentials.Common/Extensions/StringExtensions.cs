@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SwanSong
+namespace Glader.Essentials
 {
 	public static class StringExtensions
 	{
