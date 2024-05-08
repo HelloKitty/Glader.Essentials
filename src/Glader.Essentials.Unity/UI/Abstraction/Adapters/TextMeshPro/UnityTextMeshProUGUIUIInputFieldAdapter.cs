@@ -75,5 +75,12 @@ namespace Glader.Essentials
 			// directly set the caret position
 			UnityUIObject.caretPosition = Text.Length;
 		}
+
+		/// <inheritdoc />
+		public override void ActivateInput()
+		{
+			// Should be enough
+			UnityUIObject.ActivateInputField();
+		}
 	}
 }

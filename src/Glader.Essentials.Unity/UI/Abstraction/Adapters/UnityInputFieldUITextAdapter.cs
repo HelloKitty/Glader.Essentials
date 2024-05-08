@@ -25,6 +25,9 @@ namespace Glader.Essentials
 
 		/// <inheritdoc />
 		public abstract void SetInputToEnd();
+
+		/// <inheritdoc />
+		public abstract void ActivateInput();
 	}
 
 	/// <summary>
@@ -58,6 +61,13 @@ namespace Glader.Essentials
 		public override void SetInputToEnd()
 		{
 			UnityUIObject.MoveTextEnd(false);
+		}
+
+		/// <inheritdoc />
+		public override void ActivateInput()
+		{
+			// Should be enough I hope.
+			UnityUIObject.ActivateInputField();
 		}
 	}
 }
