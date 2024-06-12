@@ -42,6 +42,9 @@ namespace Glader.Essentials.Unity
 		[Inject]
 		private ILog Logger { get; set; }
 
+		[Inject]
+		private IEventBus Bus { get; set; }
+
 		private bool isInitializationFinished = false;
 
 		private async Task Start()
@@ -78,6 +81,19 @@ namespace Glader.Essentials.Unity
 
 			Tickables = OrderTickables(Tickables);
 			isInitializationFinished = true;
+
+			try
+			{
+				// Fire this so anything that needs to run after init but before tickables will run.
+				Bus.Publish(this, GameFrameworkInitializationFinishedEventArgs.Instance);
+			}
+			catch (Exception e)
+			{
+				if (Logger.IsErrorEnabled)
+					Logger.Error($"Encountered Exception in Framework Initialization Finished Event. Reason: {e.Message}\n\nStack: {e.StackTrace}");
+				throw;
+			}
+
 			StartAllVariableRateTickables();
 		}
 
