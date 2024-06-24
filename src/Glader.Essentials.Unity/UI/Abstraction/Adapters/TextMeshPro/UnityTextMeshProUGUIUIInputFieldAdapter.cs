@@ -38,6 +38,19 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
+		public override bool IsTextHighlighted => CheckIsTextSelected();
+
+		private bool CheckIsTextSelected()
+		{
+			// From GPT https://chatgpt.com/c/991eb24b-86a8-443f-be6c-be5213d55b6e
+			// Check if text is selected (highlighted)
+			int selectionStart = Mathf.Min(UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition);
+			int selectionEnd = Mathf.Max(UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition);
+
+			return selectionStart != selectionEnd;
+		}
+
+		/// <inheritdoc />
 		public override void RegisterTextChangeCallback(Action<string> callback)
 		{
 			UnityUIObject.onValueChanged.AddListener(args =>
@@ -159,6 +172,119 @@ namespace Glader.Essentials
 				isRightAfterTag = false;
 
 			return isWithinTag || isRightAfterTag;
+		}
+
+		/// <inheritdoc />
+		public override bool TryRemoveRichTextBlock()
+		{
+			// Case where we have text selected
+			// if we do and we're not highlighting a rich text block partially then
+			// we don't need to do anything fancy.
+			bool textSelected = CheckIsTextSelected();
+			if(textSelected
+				&& !IsPartiallyHighlightingRichTextBlock())
+				return false;
+
+			// Same if we're not behind or within it.
+			if(!CheckCaretRichTextTagState(out var _, out var _))
+				return false;
+
+			// Get the current selection range
+			int selectionStart = Mathf.Min(UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition);
+			int selectionEnd = Mathf.Max(UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition);
+
+			// If there's no selection, set selection range to caret position for single delete action
+			if(!textSelected)
+			{
+				int caretPosition = UnityUIObject.caretPosition;
+				if(caretPosition > 0)
+				{
+					selectionStart = caretPosition - 1;
+					selectionEnd = caretPosition;
+				}
+				else if(caretPosition < UnityUIObject.text.Length)
+				{
+					selectionStart = caretPosition;
+					selectionEnd = caretPosition + 1;
+				}
+			}
+
+			// Get current text
+			string currentText = Text;
+
+			// Define regex patterns
+			string openingTagPattern = @"<[^\/>][^>]*?>";
+			string closingTagPattern = @"<\/[^>]+?>";
+
+			// Get the text within the selection range
+			string textInRange = currentText.Substring(selectionStart, selectionEnd - selectionStart);
+
+			// Find any partial tags within the selection range
+			Match openingTagMatchInRange = Regex.Match(textInRange, openingTagPattern);
+			Match closingTagMatchInRange = Regex.Match(textInRange, closingTagPattern);
+
+			// If a partial opening tag is found within the selection range
+			if(openingTagMatchInRange.Success)
+			{
+				int openingTagStart = currentText.LastIndexOf('<', selectionStart);
+				int openingTagEnd = currentText.IndexOf('>', openingTagStart) + 1;
+				selectionStart = openingTagStart;
+				selectionEnd = Mathf.Max(selectionEnd, openingTagEnd);
+			}
+
+			// If a partial closing tag is found within the selection range
+			if(closingTagMatchInRange.Success)
+			{
+				int closingTagStart = currentText.IndexOf('<', selectionEnd);
+				int closingTagEnd = currentText.IndexOf('>', closingTagStart) + 1;
+				selectionStart = Mathf.Min(selectionStart, closingTagStart);
+				selectionEnd = closingTagEnd;
+			}
+
+			// Remove the text within the adjusted selection range
+			string newText = currentText.Remove(selectionStart, selectionEnd - selectionStart);
+			Text = newText;
+			UnityUIObject.caretPosition = selectionStart;
+			return true;
+		}
+
+		/// <summary>
+		/// Checks if the highlighted text partially includes a rich text block.
+		/// </summary>
+		/// <returns>True if the highlighted text partially includes a rich text block, otherwise false.</returns>
+		private bool IsPartiallyHighlightingRichTextBlock()
+		{
+			// Get the current selection range
+			int selectionStart = Mathf.Min(UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition);
+			int selectionEnd = Mathf.Max(UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition);
+
+			// If there's no selection, return false
+			if(selectionStart == selectionEnd)
+			{
+				return false;
+			}
+
+			// Get current text
+			string currentText = Text;
+
+			// Define regex patterns
+			string openingTagPattern = @"<[^\/>][^>]*?>";
+			string closingTagPattern = @"<\/[^>]+?>";
+
+			// Get the text within the selection range
+			string textInRange = currentText.Substring(selectionStart, selectionEnd - selectionStart);
+
+			// Find any partial tags within the selection range
+			Match openingTagMatchInRange = Regex.Match(textInRange, openingTagPattern);
+			Match closingTagMatchInRange = Regex.Match(textInRange, closingTagPattern);
+
+			// Check if a partial opening or closing tag is found within the selection range
+			if(openingTagMatchInRange.Success || closingTagMatchInRange.Success)
+			{
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

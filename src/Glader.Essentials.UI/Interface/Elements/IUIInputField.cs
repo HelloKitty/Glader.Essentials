@@ -10,6 +10,11 @@ namespace Glader.Essentials
 	public interface IUIInputField : IUIText, IUITextChangedCallbackRegistrable
 	{
 		/// <summary>
+		/// Indicates if any text is highlighted.
+		/// </summary>
+		bool IsTextHighlighted { get; }
+
+		/// <summary>
 		/// Sets the input field, if it has a caret or enter position, to the end of the text.
 		/// </summary>
 		void SetInputToEnd();
@@ -32,5 +37,13 @@ namespace Glader.Essentials
 		/// <param name="isRightAfterTag">Output parameter that is true if the caret is right after a rich text tag.</param>
 		/// <returns>True if any of the parameters are not false.</returns>
 		bool CheckCaretRichTextTagState(out bool isWithinTag, out bool isRightAfterTag);
+
+		/// <summary>
+		/// Attempts to remove a rich text block if the cursor is within or right behind it.
+		/// It will do nothing if it doesn't find any RichText that matches that condition.
+		/// Will check <see cref="CheckCaretRichTextTagState"/>.
+		/// </summary>
+		/// <returns>True if a rich text block was removed.</returns>
+		bool TryRemoveRichTextBlock();
 	}
 }
