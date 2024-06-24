@@ -23,11 +23,13 @@ namespace Glader.Essentials
 			set => UnityUIObject.caretWidth = value;
 		}
 
+		/// <inheritdoc />
 		public override void SetColor(byte r, byte g, byte b, byte a)
 		{
 			UnityUIObject.textComponent.color = new Color32(r, g, b, a);
 		}
 
+		/// <inheritdoc />
 		public override string Text
 		{
 			get => UnityUIObject.text;
