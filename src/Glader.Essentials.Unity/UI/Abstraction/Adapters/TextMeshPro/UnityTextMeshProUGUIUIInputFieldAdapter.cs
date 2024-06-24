@@ -109,22 +109,26 @@ namespace Glader.Essentials
 			if (string.IsNullOrWhiteSpace(Text))
 			{
 				Text = text;
+
+				// Move caret position to the end of the new text
+				UnityUIObject.stringPosition = text.Length;
 				return;
 			}
 
-			int caretPosition = UnityUIObject.caretPosition;
+			// Get the current string position (accounts for rich text tags)
+			int stringPosition = UnityUIObject.stringPosition;
 
 			// Get current text
 			string currentText = UnityUIObject.text;
 
 			// Insert the text at the caret position
-			string newText = currentText.Insert(caretPosition, text);
+			string newText = currentText.Insert(stringPosition, text);
 
 			// Update the input field text
 			Text = newText;
 
 			// Move caret position after inserted text
-			UnityUIObject.caretPosition = caretPosition + text.Length;
+			UnityUIObject.stringPosition = stringPosition + text.Length;
 		}
 
 		/// <inheritdoc />
