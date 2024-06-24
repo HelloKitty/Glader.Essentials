@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using TMPro;
 using Glader.Essentials;
@@ -111,6 +112,53 @@ namespace Glader.Essentials
 
 			// Move caret position after inserted text
 			UnityUIObject.caretPosition = caretPosition + text.Length;
+		}
+
+		/// <inheritdoc />
+		public override bool CheckCaretRichTextTagState(out bool isWithinTag, out bool isRightAfterTag)
+		{
+			int caretPosition = UnityUIObject.caretPosition;
+
+			// Get current text
+			string currentText = UnityUIObject.text;
+
+			// Define regex patterns
+			string openingTagPattern = @"<[^\/>][^>]*?>";
+			string closingTagPattern = @"<\/[^>]+?>";
+
+			// Get the text before and after the caret position
+			string textBeforeCaret = currentText.Substring(0, caretPosition);
+			string textAfterCaret = currentText.Substring(caretPosition);
+
+			// Find matches for opening and closing tags
+			MatchCollection openingTagsBeforeCaret = Regex.Matches(textBeforeCaret, openingTagPattern);
+			MatchCollection closingTagsBeforeCaret = Regex.Matches(textBeforeCaret, closingTagPattern);
+			MatchCollection closingTagsAfterCaret = Regex.Matches(textAfterCaret, closingTagPattern);
+
+			// Check if there is an unmatched opening tag before the caret
+			bool hasUnmatchedOpeningTagBeforeCaret = openingTagsBeforeCaret.Count > closingTagsBeforeCaret.Count;
+			bool hasClosingTagAfterCaret = closingTagsAfterCaret.Count > 0;
+
+			// Check if the caret is within a rich text tag
+			isWithinTag = hasUnmatchedOpeningTagBeforeCaret && hasClosingTagAfterCaret;
+
+			if(isWithinTag)
+			{
+				isRightAfterTag = false;
+				return true;
+			}
+
+			// GPT explained this check as: The check if (caretPosition >= closingTagPattern.Length) ensures that there is enough text before the caret position to match a closing tag. This prevents potential errors when trying to extract a substring that is too short to contain a full closing tag.
+			// Check if the caret is right after a closing rich text tag
+			if(caretPosition >= closingTagPattern.Length)
+			{
+				string textBeforeCaretWithPadding = currentText.Substring(0, caretPosition);
+				isRightAfterTag = Regex.IsMatch(textBeforeCaretWithPadding, closingTagPattern + "$");
+			}
+			else
+				isRightAfterTag = false;
+
+			return isWithinTag || isRightAfterTag;
 		}
 	}
 }
