@@ -18,5 +18,11 @@ namespace Glader.Essentials
 		/// Activates the input field.
 		/// </summary>
 		void ActivateInput();
+
+		/// <summary>
+		/// Inserts the text into the string at the current caret positions.
+		/// </summary>
+		/// <param name="text">The text to insert.</param>
+		void InsertText(string text);
 	}
 }

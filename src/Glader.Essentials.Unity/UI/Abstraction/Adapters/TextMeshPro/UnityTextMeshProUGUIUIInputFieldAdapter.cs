@@ -84,5 +84,33 @@ namespace Glader.Essentials
 			// Should be enough
 			UnityUIObject.ActivateInputField();
 		}
+
+		/// <inheritdoc />
+		public override void InsertText(string text)
+		{
+			if (string.IsNullOrWhiteSpace(text))
+				return;
+
+			// Simple case where the current string is empty.
+			if (string.IsNullOrWhiteSpace(Text))
+			{
+				Text = text;
+				return;
+			}
+
+			int caretPosition = UnityUIObject.caretPosition;
+
+			// Get current text
+			string currentText = UnityUIObject.text;
+
+			// Insert the text at the caret position
+			string newText = currentText.Insert(caretPosition, text);
+
+			// Update the input field text
+			Text = newText;
+
+			// Move caret position after inserted text
+			UnityUIObject.caretPosition = caretPosition + text.Length;
+		}
 	}
 }

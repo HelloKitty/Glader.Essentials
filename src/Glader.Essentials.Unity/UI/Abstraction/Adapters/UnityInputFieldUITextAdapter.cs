@@ -28,6 +28,9 @@ namespace Glader.Essentials
 
 		/// <inheritdoc />
 		public abstract void ActivateInput();
+
+		/// <inheritdoc />
+		public abstract void InsertText(string text);
 	}
 
 	/// <summary>
@@ -68,6 +71,24 @@ namespace Glader.Essentials
 		{
 			// Should be enough I hope.
 			UnityUIObject.ActivateInputField();
+		}
+
+		/// <inheritdoc />
+		public override void InsertText(string text)
+		{
+			int caretPosition = UnityUIObject.caretPosition;
+
+			// Get current text
+			string currentText = UnityUIObject.text;
+
+			// Insert the text at the caret position
+			string newText = currentText.Insert(caretPosition, text);
+
+			// Update the input field text
+			Text = newText;
+
+			// Move caret position after inserted text
+			UnityUIObject.caretPosition = caretPosition + text.Length;
 		}
 	}
 }
