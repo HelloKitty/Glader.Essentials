@@ -89,7 +89,7 @@ namespace Glader.Essentials
 		{
 			// Don't count on MoveToEnd, typical Unity3D doesn't work lol
 			// directly set the caret position
-			UnityUIObject.caretPosition = Text.Length;
+			UnityUIObject.stringPosition = Text.Length;
 		}
 
 		/// <inheritdoc />
@@ -134,7 +134,7 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public override bool CheckCaretRichTextTagState(out bool isWithinTag, out bool isRightAfterTag)
 		{
-			int caretPosition = UnityUIObject.caretPosition;
+			int caretPosition = UnityUIObject.stringPosition;
 
 			// Get current text
 			string currentText = UnityUIObject.text;
@@ -200,7 +200,7 @@ namespace Glader.Essentials
 			// If there's no selection, set selection range to caret position for single delete action
 			if(!textSelected)
 			{
-				int caretPosition = UnityUIObject.caretPosition;
+				int caretPosition = UnityUIObject.stringPosition;
 				if(caretPosition > 0)
 				{
 					selectionStart = caretPosition - 1;
@@ -248,7 +248,7 @@ namespace Glader.Essentials
 			// Remove the text within the adjusted selection range
 			string newText = currentText.Remove(selectionStart, selectionEnd - selectionStart);
 			Text = newText;
-			UnityUIObject.caretPosition = selectionStart;
+			UnityUIObject.stringPosition = selectionStart;
 			return true;
 		}
 

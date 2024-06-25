@@ -79,10 +79,10 @@ namespace Glader.Essentials
 			ForcedFocus = true;
 			Bus.Publish(this, new TextInputFieldActivatedStateChangedEventArgs(ForcedFocus));
 
-			UnityUIObject.caretPosition = UnityUIObject.text.Length;
+			UnityUIObject.stringPosition = UnityUIObject.text.Length;
 			UnityUIObject.ActivateInputField();
 			UnityUIObject.Select();
-			UnityUIObject.caretPosition = UnityUIObject.text.Length;
+			UnityUIObject.stringPosition = UnityUIObject.text.Length;
 			// We set the caret position basically because of the SlashOpen binding.
 		}
 
