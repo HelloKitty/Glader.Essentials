@@ -54,8 +54,8 @@ namespace Glader.Essentials
 			if (position >= input.Length)
 				return input;
 
-			// Create a regex object with the pattern
-			Regex regex = new Regex(@"(<link.*<\/link>)");
+			// Define the regex pattern to match the <link> tag (non-greedy)
+			Regex regex = new Regex(@"(<link[^>]*?>.*?<\/link>)");
 
 			// Find all matches in the input string
 			var matches = regex.Matches(input);
@@ -71,7 +71,7 @@ namespace Glader.Essentials
 					// If the position is within the match, remove it
 					return input.Remove(matchStart, match.Length);
 				}
-				else if(position == matchEnd + 1)
+				else if(position == matchEnd)
 				{
 					// If the position is directly after the match, remove it
 					return input.Remove(matchStart, match.Length);
