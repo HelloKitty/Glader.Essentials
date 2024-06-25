@@ -146,11 +146,15 @@ namespace Glader.Essentials
 			}
 			else
 			{
+				var initialString = currentText;
+
 				// Remove any relevant at the end
 				// then the front (in that order to avoid breaking the offsets)
 				// anything captured fully inbetween will be deleted normally I guess?
-				Text = RemoveLinkAtPosition(currentText, UnityUIObject.selectionFocusPosition);
-				Text = RemoveLinkAtPosition(currentText, UnityUIObject.selectionAnchorPosition);
+				var newString = RemoveLinkAtPosition(initialString, UnityUIObject.selectionFocusPosition);
+				newString = RemoveLinkAtPosition(newString, UnityUIObject.selectionAnchorPosition);
+
+				Text = newString;
 			}
 
 			return Text != currentText;
