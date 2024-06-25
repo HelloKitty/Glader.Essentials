@@ -81,6 +81,39 @@ namespace Glader.Essentials
 			// Return the original input if no match was found at the position
 			return input;
 		}
+
+		public static string RemoveLinkAtPosition(string input, int startPosition, int endPosition)
+		{
+			// Safeguard against positions greater than the length of the input string
+			if (startPosition >= input.Length || endPosition >= input.Length)
+				return input;
+
+			// Ensure startPosition is less than or equal to endPosition
+			if (startPosition > endPosition)
+			{
+				int temp = startPosition;
+				startPosition = endPosition;
+				endPosition = temp;
+			}
+
+			// Iterate through the matches to find if the selection overlaps with a match
+			foreach(Match match in Regex.Matches(input, @"(<link[^>]*?>.*?<\/link>)"))
+			{
+				int matchStart = match.Index;
+				int matchEnd = match.Index + match.Length;
+
+				if ((startPosition >= matchStart && startPosition <= matchEnd) ||
+				   (endPosition >= matchStart && endPosition <= matchEnd) ||
+				   (startPosition <= matchStart && endPosition >= matchEnd))
+				{
+					// If the selection overlaps with the match, remove it
+					return input.Remove(matchStart, match.Length);
+				}
+			}
+
+			// Return the original input if no match was found in the selection range
+			return input;
+		}
 	}
 
 	/// <summary>
