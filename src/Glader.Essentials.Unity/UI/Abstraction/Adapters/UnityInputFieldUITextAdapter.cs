@@ -183,44 +183,5 @@ namespace Glader.Essentials
 
 			return Text != currentText;
 		}
-
-		/// <summary>
-		/// Checks if the highlighted text partially includes a rich text block.
-		/// </summary>
-		/// <returns>True if the highlighted text partially includes a rich text block, otherwise false.</returns>
-		private bool IsPartiallyHighlightingRichTextBlock()
-		{
-			// Get the current selection range
-			int selectionStart = Mathf.Min(UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition);
-			int selectionEnd = Mathf.Max(UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition);
-
-			// If there's no selection, return false
-			if(selectionStart == selectionEnd)
-			{
-				return false;
-			}
-
-			// Get current text
-			string currentText = Text;
-
-			// Define regex patterns
-			string openingTagPattern = @"<[^\/>][^>]*?>";
-			string closingTagPattern = @"<\/[^>]+?>";
-
-			// Get the text within the selection range
-			string textInRange = currentText.Substring(selectionStart, selectionEnd - selectionStart);
-
-			// Find any partial tags within the selection range
-			Match openingTagMatchInRange = Regex.Match(textInRange, openingTagPattern);
-			Match closingTagMatchInRange = Regex.Match(textInRange, closingTagPattern);
-
-			// Check if a partial opening or closing tag is found within the selection range
-			if (openingTagMatchInRange.Success || closingTagMatchInRange.Success)
-			{
-				return true;
-			}
-
-			return false;
-		}
 	}
 }
