@@ -38,6 +38,49 @@ namespace Glader.Essentials
 
 		/// <inheritdoc />
 		public abstract bool TryRemoveRichTextBlock();
+
+		/// <summary>
+		/// Removes link rich text right before or surrounding the provided <see cref="position"/> in the
+		/// input <see cref="input"/> string.
+		/// </summary>
+		/// <param name="input"></param>
+		/// <param name="position"></param>
+		/// <returns></returns>
+		protected static string RemoveLinkAtPosition(string input, int position)
+		{
+			if (string.IsNullOrWhiteSpace(input))
+				return input;
+
+			if (position >= input.Length)
+				return input;
+
+			// Create a regex object with the pattern
+			Regex regex = new Regex(@"(<link.*<\/link>)");
+
+			// Find all matches in the input string
+			var matches = regex.Matches(input);
+
+			// Iterate through the matches to find if the position is within or directly after a match
+			foreach(Match match in matches)
+			{
+				int matchStart = match.Index;
+				int matchEnd = match.Index + match.Length;
+
+				if (position >= matchStart && position <= matchEnd)
+				{
+					// If the position is within the match, remove it
+					return input.Remove(matchStart, match.Length);
+				}
+				else if(position == matchEnd + 1)
+				{
+					// If the position is directly after the match, remove it
+					return input.Remove(matchStart, match.Length);
+				}
+			}
+
+			// Return the original input if no match was found at the position
+			return input;
+		}
 	}
 
 	/// <summary>
@@ -115,7 +158,26 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public override bool TryRemoveRichTextBlock()
 		{
+			string currentText = Text;
 
+			if(string.IsNullOrWhiteSpace(currentText))
+				return false;
+
+			// Nothing selected??
+			if (UnityUIObject.selectionAnchorPosition == UnityUIObject.selectionFocusPosition)
+			{
+				Text = RemoveLinkAtPosition(currentText, UnityUIObject.caretPosition);
+			}
+			else
+			{
+				// Remove any relevant at the end
+				// then the front (in that order to avoid breaking the offsets)
+				// anything captured fully inbetween will be deleted normally I guess?
+				Text = RemoveLinkAtPosition(currentText, UnityUIObject.selectionFocusPosition);
+				Text = RemoveLinkAtPosition(currentText, UnityUIObject.selectionAnchorPosition);
+			}
+
+			return Text != currentText;
 		}
 
 		/// <summary>

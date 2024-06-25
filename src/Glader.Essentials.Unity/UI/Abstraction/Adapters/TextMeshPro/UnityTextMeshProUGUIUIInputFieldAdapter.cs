@@ -134,7 +134,26 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public override bool TryRemoveRichTextBlock()
 		{
-			
+			string currentText = Text;
+
+			if(string.IsNullOrWhiteSpace(currentText))
+				return false;
+
+			// Nothing selected??
+			if (UnityUIObject.selectionAnchorPosition == UnityUIObject.selectionFocusPosition)
+			{
+				Text = RemoveLinkAtPosition(currentText, UnityUIObject.stringPosition);
+			}
+			else
+			{
+				// Remove any relevant at the end
+				// then the front (in that order to avoid breaking the offsets)
+				// anything captured fully inbetween will be deleted normally I guess?
+				Text = RemoveLinkAtPosition(currentText, UnityUIObject.selectionFocusPosition);
+				Text = RemoveLinkAtPosition(currentText, UnityUIObject.selectionAnchorPosition);
+			}
+
+			return Text != currentText;
 		}
 
 		/// <summary>
