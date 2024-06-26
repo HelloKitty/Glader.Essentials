@@ -209,11 +209,11 @@ namespace Glader.Essentials
 			// Nothing selected??
 			if (UnityUIObject.selectionAnchorPosition == UnityUIObject.selectionFocusPosition)
 			{
-				Text = RemoveLinkAtPosition(currentText, UnityUIObject.caretPosition);
+				Text = RemoveLinkAtPosition(currentText, UnityUIObject.caretPosition, replace, replaceChar);
 			}
 			else
 			{
-				Text = RemoveLinkAtPosition(currentText, UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition);
+				Text = RemoveLinkAtPosition(currentText, UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition, replace, replaceChar);
 			}
 
 			return Text != currentText;
