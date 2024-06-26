@@ -161,10 +161,7 @@ namespace Glader.Essentials
 			}
 			else
 			{
-				// The reason we do this is because the position of the anchors is actually wrong and fucked (proven!)
-				int focusOffset = UnityUIObject.stringPosition - UnityUIObject.caretPosition;
-
-				if (TryRemoveLinkAtPosition(ref originalText, UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition + focusOffset, out var start, out var end, replace, replaceChar))
+				if (TryRemoveLinkAtPosition(ref originalText, UnityUIObject.selectionStringAnchorPosition, UnityUIObject.selectionStringFocusPosition, out var start, out var end, replace, replaceChar))
 				{
 					Text = originalText;
 					return true;
