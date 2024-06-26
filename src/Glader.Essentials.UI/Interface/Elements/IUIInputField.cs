@@ -36,5 +36,10 @@ namespace Glader.Essentials
 		/// </summary>
 		/// <returns>True if a rich text block was removed.</returns>
 		bool TryRemoveRichTextBlock();
+
+		/// <summary>
+		/// Forces an update on the input field.
+		/// </summary>
+		void ForceUpdate();
 	}
 }

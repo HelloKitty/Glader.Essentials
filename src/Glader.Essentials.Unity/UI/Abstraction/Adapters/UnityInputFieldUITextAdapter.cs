@@ -39,6 +39,9 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public abstract bool TryRemoveRichTextBlock();
 
+		/// <inheritdoc />
+		public abstract void ForceUpdate();
+
 		/// <summary>
 		/// Removes link rich text right before or surrounding the provided <see cref="position"/> in the
 		/// input <see cref="input"/> string.
@@ -205,6 +208,12 @@ namespace Glader.Essentials
 			}
 
 			return Text != currentText;
+		}
+
+		/// <inheritdoc />
+		public override void ForceUpdate()
+		{
+			UnityUIObject.ForceLabelUpdate();
 		}
 	}
 }

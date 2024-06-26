@@ -151,5 +151,11 @@ namespace Glader.Essentials
 
 			return Text != currentText;
 		}
+
+		/// <inheritdoc />
+		public override void ForceUpdate()
+		{
+			UnityUIObject.ForceLabelUpdate();
+		}
 	}
 }
