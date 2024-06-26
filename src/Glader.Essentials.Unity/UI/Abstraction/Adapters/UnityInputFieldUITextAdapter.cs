@@ -127,8 +127,6 @@ namespace Glader.Essentials
 			if(!matches.Any())
 				return false;
 
-			Debug.LogError($"Match Count: {matches.Length} Start: {startPosition} End: {endPosition}");
-
 			// Iterate through the matches to find if the selection overlaps with a match
 			foreach(Match match in matches)
 			{
