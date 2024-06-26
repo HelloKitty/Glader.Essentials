@@ -102,9 +102,7 @@ namespace Glader.Essentials
 				int matchStart = match.Index;
 				int matchEnd = match.Index + match.Length;
 
-				if ((startPosition >= matchStart && startPosition <= matchEnd) ||
-				   (endPosition >= matchStart && endPosition <= matchEnd) ||
-				   (startPosition <= matchStart && endPosition >= matchEnd))
+				if (startPosition <= matchEnd && endPosition >= matchStart)
 				{
 					// If the selection overlaps with the match, remove it
 					return input.Remove(matchStart, match.Length);
