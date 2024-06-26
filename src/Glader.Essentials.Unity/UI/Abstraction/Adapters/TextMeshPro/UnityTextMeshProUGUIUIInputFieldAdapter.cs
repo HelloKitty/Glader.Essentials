@@ -134,24 +134,29 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public override bool TryRemoveRichTextBlock(bool replace = false, char replaceChar = '-')
 		{
-			string currentText = Text;
+			string originalText = Text;
 
-			if(string.IsNullOrWhiteSpace(currentText))
+			if(string.IsNullOrWhiteSpace(originalText))
 				return false;
 
 			// Nothing selected??
+			string newText;
 			if (UnityUIObject.selectionAnchorPosition == UnityUIObject.selectionFocusPosition)
 			{
-				Text = RemoveLinkAtPosition(currentText, UnityUIObject.stringPosition, replace, replaceChar);
+				newText = RemoveLinkAtPosition(originalText, UnityUIObject.stringPosition, replace, replaceChar);
 			}
 			else
 			{
 				// The reason we do this is because the position of the anchors is actually wrong and fucked (proven!)
 				int offset = UnityUIObject.stringPosition - UnityUIObject.caretPosition;
-				Text = RemoveLinkAtPosition(currentText, UnityUIObject.selectionAnchorPosition + offset, UnityUIObject.selectionFocusPosition + offset, replace, replaceChar);
+				newText = RemoveLinkAtPosition(originalText, UnityUIObject.selectionAnchorPosition + offset, UnityUIObject.selectionFocusPosition + offset, replace, replaceChar);
 			}
 
-			return Text != currentText;
+			if (newText == originalText)
+				return false;
+
+			Text = newText;
+			return true;
 		}
 
 		/// <inheritdoc />

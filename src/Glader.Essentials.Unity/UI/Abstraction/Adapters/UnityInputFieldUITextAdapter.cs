@@ -201,22 +201,28 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public override bool TryRemoveRichTextBlock(bool replace = false, char replaceChar = '-')
 		{
-			string currentText = Text;
+			string originalText = Text;
 
-			if(string.IsNullOrWhiteSpace(currentText))
+			if(string.IsNullOrWhiteSpace(originalText))
 				return false;
 
 			// Nothing selected??
+			// WARNING: I think it's possible the text property is not updated until the next frame??
+			string newText;
 			if (UnityUIObject.selectionAnchorPosition == UnityUIObject.selectionFocusPosition)
 			{
-				Text = RemoveLinkAtPosition(currentText, UnityUIObject.caretPosition, replace, replaceChar);
+				newText = RemoveLinkAtPosition(originalText, UnityUIObject.caretPosition, replace, replaceChar);
 			}
 			else
 			{
-				Text = RemoveLinkAtPosition(currentText, UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition, replace, replaceChar);
+				newText = RemoveLinkAtPosition(originalText, UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition, replace, replaceChar);
 			}
 
-			return Text != currentText;
+			if (newText == originalText)
+				return false;
+
+			Text = newText;
+			return true;
 		}
 
 		/// <inheritdoc />
