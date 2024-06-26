@@ -225,7 +225,8 @@ namespace Glader.Essentials
 				{
 					Text = originalText;
 
-					// This forces the caret to the start of the link text.
+					// This will make it so that the caret position is at the
+					// begining of the match meaning where the user basically expects/hopes it will be
 					UnityUIObject.caretPosition = start;
 					return true;
 				}
@@ -235,9 +236,6 @@ namespace Glader.Essentials
 				if (TryRemoveLinkAtPosition(ref originalText, UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition, out var start, out var end, replace, replaceChar))
 				{
 					Text = originalText;
-
-					// This forces the caret to the start of the link text.
-					UnityUIObject.caretPosition = start;
 					return true;
 				}
 			}
