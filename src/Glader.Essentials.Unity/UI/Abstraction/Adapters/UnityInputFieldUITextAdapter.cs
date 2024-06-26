@@ -29,6 +29,9 @@ namespace Glader.Essentials
 		public abstract bool IsTextHighlighted { get; }
 
 		/// <inheritdoc />
+		public abstract int CaretPosition { get; set; }
+
+		/// <inheritdoc />
 		public abstract void SetInputToEnd();
 
 		/// <inheritdoc />
@@ -175,6 +178,13 @@ namespace Glader.Essentials
 
 		/// <inheritdoc />
 		public override bool IsTextHighlighted => CheckIsTextSelected();
+
+		/// <inheritdoc />
+		public override int CaretPosition
+		{
+			get => UnityUIObject.caretPosition;
+			set => UnityUIObject.caretPosition = value;
+		}
 
 		private bool CheckIsTextSelected()
 		{

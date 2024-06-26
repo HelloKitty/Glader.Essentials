@@ -15,6 +15,11 @@ namespace Glader.Essentials
 		bool IsTextHighlighted { get; }
 
 		/// <summary>
+		/// The mutable position of the Caret.
+		/// </summary>
+		int CaretPosition { get; set; }
+
+		/// <summary>
 		/// Sets the input field, if it has a caret or enter position, to the end of the text.
 		/// </summary>
 		void SetInputToEnd();

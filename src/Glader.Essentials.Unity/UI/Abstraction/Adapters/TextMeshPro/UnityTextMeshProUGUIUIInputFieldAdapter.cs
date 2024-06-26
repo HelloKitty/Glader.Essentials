@@ -40,6 +40,13 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public override bool IsTextHighlighted => CheckIsTextSelected();
 
+		/// <inheritdoc />
+		public override int CaretPosition
+		{
+			get => UnityUIObject.stringPosition;
+			set => UnityUIObject.stringPosition = value;
+		}
+
 		private bool CheckIsTextSelected()
 		{
 			// From GPT https://chatgpt.com/c/991eb24b-86a8-443f-be6c-be5213d55b6e
