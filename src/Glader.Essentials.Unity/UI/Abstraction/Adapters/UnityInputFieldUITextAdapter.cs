@@ -113,28 +113,35 @@ namespace Glader.Essentials
 				endPosition = temp;
 			}
 
+			// m.Index = Start
+			// (m.Index + m.Length) = End
+			// From AI: m.Index < endPosition && (m.Index + m.Length) > startPosition
+			var matches = Regex.Matches(input, @"(<link[^>]*?>.*?<\/link>)")
+				.OrderByDescending(m => m.Index)
+				.Where(m => m.Index < endPosition && (m.Index + m.Length) > startPosition)
+				.ToArray();
+
+			if(!matches.Any())
+				return false;
+
+			Debug.LogError($"Match Count: {matches.Length} Start: {startPosition} End: {endPosition}");
+
 			// Iterate through the matches to find if the selection overlaps with a match
-			foreach(Match match in Regex.Matches(input, @"(<link[^>]*?>.*?<\/link>)"))
+			foreach(Match match in matches)
 			{
+				// startPosition <= matchEnd && endPosition >= matchStart
 				int matchStart = match.Index;
-				int matchEnd = match.Index + match.Length;
 
-				if (startPosition <= matchEnd && endPosition >= matchStart)
-				{
-					// If the selection overlaps with the match, remove it
-					input = input.Remove(matchStart, match.Length);
+				// If the selection overlaps with the match, remove it
+				input = input.Remove(matchStart, match.Length);
 
-					if (replace)
-						input = input.Insert(matchStart, new string(Enumerable.Repeat(replaceChar, match.Length).ToArray()));
-
-					editStartIndex = match.Index;
-					editEndIndex = match.Index + match.Length;
-					return true;
-				}
+				if(replace)
+					input = input.Insert(matchStart, new string(Enumerable.Repeat(replaceChar, match.Length).ToArray()));
 			}
 
-			// Return the original input if no match was found in the selection range
-			return false;
+			editStartIndex = matches.Min(match => match.Index);
+			editEndIndex = matches.Max(match => match.Index + match.Length);
+			return true;
 		}
 	}
 
