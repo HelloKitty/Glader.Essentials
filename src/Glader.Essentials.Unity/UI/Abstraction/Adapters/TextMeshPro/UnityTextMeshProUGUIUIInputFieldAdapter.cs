@@ -132,7 +132,7 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		public override bool TryRemoveRichTextBlock()
+		public override bool TryRemoveRichTextBlock(bool replace = false, char replaceChar = '-')
 		{
 			string currentText = Text;
 

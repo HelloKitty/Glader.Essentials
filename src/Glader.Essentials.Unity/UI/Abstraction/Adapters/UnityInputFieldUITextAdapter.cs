@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -37,7 +38,7 @@ namespace Glader.Essentials
 		public abstract void InsertText(string text);
 
 		/// <inheritdoc />
-		public abstract bool TryRemoveRichTextBlock();
+		public abstract bool TryRemoveRichTextBlock(bool replace = false, char replaceChar = '-');
 
 		/// <inheritdoc />
 		public abstract void ForceUpdate();
@@ -49,7 +50,7 @@ namespace Glader.Essentials
 		/// <param name="input"></param>
 		/// <param name="position"></param>
 		/// <returns></returns>
-		protected static string RemoveLinkAtPosition(string input, int position)
+		protected static string RemoveLinkAtPosition(string input, int position, bool replace = false, char replaceChar = '-')
 		{
 			if (string.IsNullOrWhiteSpace(input))
 				return input;
@@ -69,15 +70,18 @@ namespace Glader.Essentials
 				int matchStart = match.Index;
 				int matchEnd = match.Index + match.Length;
 
-				if (position >= matchStart && position <= matchEnd)
+				if (position >= matchStart && position <= matchEnd
+					|| position == matchEnd)
 				{
 					// If the position is within the match, remove it
-					return input.Remove(matchStart, match.Length);
-				}
-				else if(position == matchEnd)
-				{
+					// OR
 					// If the position is directly after the match, remove it
-					return input.Remove(matchStart, match.Length);
+					input = input.Remove(matchStart, match.Length);
+
+					if (replace)
+						input = input.Insert(matchStart, new string(Enumerable.Repeat(replaceChar, match.Length).ToArray()));
+
+					return input;
 				}
 			}
 
@@ -85,7 +89,7 @@ namespace Glader.Essentials
 			return input;
 		}
 
-		public static string RemoveLinkAtPosition(string input, int startPosition, int endPosition)
+		public static string RemoveLinkAtPosition(string input, int startPosition, int endPosition, bool replace = false, char replaceChar = '-')
 		{
 			// Safeguard against positions greater than the length of the input string
 			if (startPosition >= input.Length || endPosition >= input.Length)
@@ -108,7 +112,12 @@ namespace Glader.Essentials
 				if (startPosition <= matchEnd && endPosition >= matchStart)
 				{
 					// If the selection overlaps with the match, remove it
-					return input.Remove(matchStart, match.Length);
+					input = input.Remove(matchStart, match.Length);
+
+					if (replace)
+						input = input.Insert(matchStart, new string(Enumerable.Repeat(replaceChar, match.Length).ToArray()));
+
+					return input;
 				}
 			}
 
@@ -190,7 +199,7 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		public override bool TryRemoveRichTextBlock()
+		public override bool TryRemoveRichTextBlock(bool replace = false, char replaceChar = '-')
 		{
 			string currentText = Text;
 

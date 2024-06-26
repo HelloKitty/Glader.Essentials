@@ -34,8 +34,10 @@ namespace Glader.Essentials
 		/// Attempts to remove a rich text block if the cursor is within or right behind it.
 		/// It will do nothing if it doesn't find any RichText that matches that condition.
 		/// </summary>
+		/// <param name="replace">Indicates if the text should be replaced instead of removed.</param>
+		/// <param name="replaceChar">The character to use for replacement.</param>
 		/// <returns>True if a rich text block was removed.</returns>
-		bool TryRemoveRichTextBlock();
+		bool TryRemoveRichTextBlock(bool replace = false, char replaceChar = '-');
 
 		/// <summary>
 		/// Forces an update on the input field.
