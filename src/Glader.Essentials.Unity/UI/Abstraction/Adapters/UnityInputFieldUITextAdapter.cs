@@ -50,13 +50,17 @@ namespace Glader.Essentials
 		/// <param name="input"></param>
 		/// <param name="position"></param>
 		/// <returns></returns>
-		protected static string RemoveLinkAtPosition(string input, int position, bool replace = false, char replaceChar = '-')
+		protected static bool TryRemoveLinkAtPosition(ref string input, int position,
+			out int editStartIndex, out int editEndIndex, bool replace = false, char replaceChar = '-')
 		{
+			editStartIndex = 0;
+			editEndIndex = 0;
+
 			if (string.IsNullOrWhiteSpace(input))
-				return input;
+				return false;
 
 			if (position >= input.Length)
-				return input;
+				return false;
 
 			// Define the regex pattern to match the <link> tag (non-greedy)
 			Regex regex = new Regex(@"(<link[^>]*?>.*?<\/link>)");
@@ -81,19 +85,25 @@ namespace Glader.Essentials
 					if (replace)
 						input = input.Insert(matchStart, new string(Enumerable.Repeat(replaceChar, match.Length).ToArray()));
 
-					return input;
+					editStartIndex = match.Index;
+					editEndIndex = match.Index + match.Length;
+					return true;
 				}
 			}
 
 			// Return the original input if no match was found at the position
-			return input;
+			return false;
 		}
 
-		public static string RemoveLinkAtPosition(string input, int startPosition, int endPosition, bool replace = false, char replaceChar = '-')
+		public static bool TryRemoveLinkAtPosition(ref string input, int startPosition, int endPosition, 
+			out int editStartIndex, out int editEndIndex, bool replace = false, char replaceChar = '-')
 		{
+			editStartIndex = 0;
+			editEndIndex = 0;
+
 			// Safeguard against positions greater than the length of the input string
 			if (startPosition >= input.Length || endPosition >= input.Length)
-				return input;
+				return false;
 
 			// Ensure startPosition is less than or equal to endPosition
 			if (startPosition > endPosition)
@@ -117,12 +127,14 @@ namespace Glader.Essentials
 					if (replace)
 						input = input.Insert(matchStart, new string(Enumerable.Repeat(replaceChar, match.Length).ToArray()));
 
-					return input;
+					editStartIndex = match.Index;
+					editEndIndex = match.Index + match.Length;
+					return true;
 				}
 			}
 
 			// Return the original input if no match was found in the selection range
-			return input;
+			return false;
 		}
 	}
 
@@ -207,22 +219,30 @@ namespace Glader.Essentials
 				return false;
 
 			// Nothing selected??
-			// WARNING: I think it's possible the text property is not updated until the next frame??
-			string newText;
 			if (UnityUIObject.selectionAnchorPosition == UnityUIObject.selectionFocusPosition)
 			{
-				newText = RemoveLinkAtPosition(originalText, UnityUIObject.caretPosition, replace, replaceChar);
+				if (TryRemoveLinkAtPosition(ref originalText, UnityUIObject.caretPosition, out var start, out var end, replace, replaceChar))
+				{
+					Text = originalText;
+
+					// This forces the caret to the start of the link text.
+					UnityUIObject.caretPosition = start;
+					return true;
+				}
 			}
 			else
 			{
-				newText = RemoveLinkAtPosition(originalText, UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition, replace, replaceChar);
+				if (TryRemoveLinkAtPosition(ref originalText, UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition, out var start, out var end, replace, replaceChar))
+				{
+					Text = originalText;
+
+					// This forces the caret to the start of the link text.
+					UnityUIObject.caretPosition = start;
+					return true;
+				}
 			}
 
-			if (newText == originalText)
-				return false;
-
-			Text = newText;
-			return true;
+			return false;
 		}
 
 		/// <inheritdoc />

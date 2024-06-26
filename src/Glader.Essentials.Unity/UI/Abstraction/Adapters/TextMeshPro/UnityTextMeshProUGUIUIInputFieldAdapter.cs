@@ -140,23 +140,33 @@ namespace Glader.Essentials
 				return false;
 
 			// Nothing selected??
-			string newText;
 			if (UnityUIObject.selectionAnchorPosition == UnityUIObject.selectionFocusPosition)
 			{
-				newText = RemoveLinkAtPosition(originalText, UnityUIObject.stringPosition, replace, replaceChar);
+				if (TryRemoveLinkAtPosition(ref originalText, UnityUIObject.stringPosition, out var start, out var end, replace, replaceChar))
+				{
+					Text = originalText;
+
+					// This forces the caret to the start of the link text.
+					UnityUIObject.stringPosition = start;
+					return true;
+				}
 			}
 			else
 			{
 				// The reason we do this is because the position of the anchors is actually wrong and fucked (proven!)
 				int offset = UnityUIObject.stringPosition - UnityUIObject.caretPosition;
-				newText = RemoveLinkAtPosition(originalText, UnityUIObject.selectionAnchorPosition + offset, UnityUIObject.selectionFocusPosition + offset, replace, replaceChar);
+
+				if (TryRemoveLinkAtPosition(ref originalText, UnityUIObject.selectionAnchorPosition + offset, UnityUIObject.selectionFocusPosition + offset, out var start, out var end, replace, replaceChar))
+				{
+					Text = originalText;
+
+					// This forces the caret to the start of the link text.
+					UnityUIObject.stringPosition = start;
+					return true;
+				}
 			}
 
-			if (newText == originalText)
-				return false;
-
-			Text = newText;
-			return true;
+			return false;
 		}
 
 		/// <inheritdoc />
