@@ -23,7 +23,8 @@ namespace Glader.Essentials
 		public override char Validate(ref string text, ref int pos, char ch)
 		{
 			// Don't allow any typing when within a link
-			if (InputField.IsWithinLinkTagAtPosition(text, pos))
+			if (text.Contains('<') // Attempt to semi-optimize link checks
+				&& InputField.IsWithinLinkTagAtPosition(text, pos))
 				return '\0';
 
 			pos += 1;
