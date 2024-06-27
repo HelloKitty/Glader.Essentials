@@ -20,6 +20,11 @@ namespace Glader.Essentials
 		int CaretPosition { get; set; }
 
 		/// <summary>
+		/// Indicates if the current caret position is within a link.
+		/// </summary>
+		bool IsCaretWithinLink { get; }
+
+		/// <summary>
 		/// Sets the input field, if it has a caret or enter position, to the end of the text.
 		/// </summary>
 		void SetInputToEnd();

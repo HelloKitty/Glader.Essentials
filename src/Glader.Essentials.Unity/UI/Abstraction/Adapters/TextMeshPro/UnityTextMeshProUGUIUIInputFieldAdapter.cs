@@ -47,6 +47,12 @@ namespace Glader.Essentials
 			set => UnityUIObject.stringPosition = value;
 		}
 
+		// TryRemoveLinkAtPosition(ref originalText, UnityUIObject.selectionStringAnchorPosition, UnityUIObject.selectionStringFocusPosition, out var start, out var end, replace, replaceChar)
+		// For range, we just want to know if either end of the caret (highlighted selection) is within but not entirely covering an item link
+		/// <inheritdoc />
+		public override bool IsCaretWithinLink
+			=> IsTextHighlighted ? IsWithinLinkTagAtPosition(Text, UnityUIObject.selectionStringAnchorPosition) && IsWithinLinkTagAtPosition(Text, UnityUIObject.selectionStringFocusPosition) : IsWithinLinkTagAtPosition(Text, CaretPosition);
+
 		private bool CheckIsTextSelected()
 		{
 			// From GPT https://chatgpt.com/c/991eb24b-86a8-443f-be6c-be5213d55b6e
