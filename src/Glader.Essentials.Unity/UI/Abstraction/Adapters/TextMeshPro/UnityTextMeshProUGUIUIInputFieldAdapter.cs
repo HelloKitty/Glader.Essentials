@@ -57,8 +57,8 @@ namespace Glader.Essentials
 		{
 			// From GPT https://chatgpt.com/c/991eb24b-86a8-443f-be6c-be5213d55b6e
 			// Check if text is selected (highlighted)
-			int selectionStart = Mathf.Min(UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition);
-			int selectionEnd = Mathf.Max(UnityUIObject.selectionAnchorPosition, UnityUIObject.selectionFocusPosition);
+			int selectionStart = Mathf.Min(UnityUIObject.selectionStringAnchorPosition, UnityUIObject.selectionStringFocusPosition);
+			int selectionEnd = Mathf.Max(UnityUIObject.selectionStringAnchorPosition, UnityUIObject.selectionStringFocusPosition);
 
 			return selectionStart != selectionEnd;
 		}
@@ -188,7 +188,9 @@ namespace Glader.Essentials
 		/// </summary>
 		public void DisableLinkTagInternalTyping()
 		{
-			this.UnityUIObject.inputValidator = new TMP_LinkTagTextInputValidator(this);
+			UnityUIObject.inputValidator = new TMP_LinkTagTextInputValidator(this);
+			UnityUIObject.characterValidation = TMP_InputField.CharacterValidation.CustomValidator;
+			UnityUIObject.isRichTextEditingAllowed = false;
 		}
 	}
 }
