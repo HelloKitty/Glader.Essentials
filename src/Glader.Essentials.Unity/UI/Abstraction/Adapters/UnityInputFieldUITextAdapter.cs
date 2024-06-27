@@ -156,6 +156,22 @@ namespace Glader.Essentials
 				.FirstOrDefault(m => position >= (m.Index) && position <= (m.Index + m.Length)
 				                     || position == (m.Index + m.Length));
 		}
+
+		/// <summary>
+		/// Indicates if at the string position <see cref="position"/> it's within a link tag for the provided string
+		/// <see cref="input"/>.
+		/// </summary>
+		/// <param name="input">The string to check.</param>
+		/// <param name="position">The string position to check for.</param>
+		/// <returns>True if the position is within a link tag for the provided string.</returns>
+		protected static bool IsWithinLinkTagAtPosition(string input, int position)
+		{
+			if (string.IsNullOrWhiteSpace(input))
+				return false;
+
+			var match = ComputeLinkTagMatchesForPosition(input, position);
+			return match != null && match.Success;
+		}
 	}
 
 	/// <summary>
