@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
 using TMPro;
+using UnityEngine;
 
 namespace Glader.Essentials
 {
@@ -22,10 +23,22 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public override char Validate(ref string text, ref int pos, char ch)
 		{
-			// Don't allow any typing when within a link
-			if (text.Contains('<') // Attempt to semi-optimize link checks
-				&& InputField.IsWithinLinkTagAtPosition(text, pos))
+			//Debug.LogError($"Validate Pos: {pos} Ch: {ch} Text: {text}");
+
+			if (InputField.IsTextHighlighted
+				&& InputField.IsCaretWithinLink)
+			{
+				//Debug.LogError("Failed highlight validate");
 				return '\0';
+			}
+			else if (text.Contains('<') // Attempt to semi-optimize link checks
+				   && InputField.IsWithinLinkTagAtPosition(text, pos))
+			{
+				//Debug.LogError("Failed in link validate");
+				return '\0';
+			}
+
+			text = text.Insert(pos, ch.ToString());
 
 			pos += 1;
 			return ch;
