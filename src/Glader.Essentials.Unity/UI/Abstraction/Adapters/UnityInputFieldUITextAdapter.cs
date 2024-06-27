@@ -65,37 +65,38 @@ namespace Glader.Essentials
 			if (position >= input.Length)
 				return false;
 
-			// Define the regex pattern to match the <link> tag (non-greedy)
-			Regex regex = new Regex(@"(<link[^>]*?>.*?<\/link>)");
-
 			// Find all matches in the input string
-			var matches = regex.Matches(input);
+			var match = ComputeLinkTagMatchesForPosition(input);
 
-			// Iterate through the matches to find if the position is within or directly after a match
-			foreach(Match match in matches)
+			if (!match.Success)
+				return false;
+
+			int matchStart = match.Index;
+			int matchEnd = match.Index + match.Length;
+
+			if (position >= matchStart && position <= matchEnd
+			   || position == matchEnd)
 			{
-				int matchStart = match.Index;
-				int matchEnd = match.Index + match.Length;
+				// If the position is within the match, remove it
+				// OR
+				// If the position is directly after the match, remove it
+				input = input.Remove(matchStart, match.Length);
 
-				if (position >= matchStart && position <= matchEnd
-					|| position == matchEnd)
-				{
-					// If the position is within the match, remove it
-					// OR
-					// If the position is directly after the match, remove it
-					input = input.Remove(matchStart, match.Length);
+				if(replace)
+					input = input.Insert(matchStart, new string(Enumerable.Repeat(replaceChar, match.Length).ToArray()));
 
-					if (replace)
-						input = input.Insert(matchStart, new string(Enumerable.Repeat(replaceChar, match.Length).ToArray()));
-
-					editStartIndex = match.Index;
-					editEndIndex = match.Index + match.Length;
-					return true;
-				}
+				editStartIndex = match.Index;
+				editEndIndex = match.Index + match.Length;
+				return true;
 			}
 
 			// Return the original input if no match was found at the position
 			return false;
+		}
+
+		private static Match ComputeLinkTagMatchesForPosition(string input)
+		{
+			return Regex.Match(input, @"(<link[^>]*?>.*?<\/link>)");
 		}
 
 		public static bool TryRemoveLinkAtPosition(ref string input, int startPosition, int endPosition, 
@@ -119,9 +120,7 @@ namespace Glader.Essentials
 			// m.Index = Start
 			// (m.Index + m.Length) = End
 			// From AI: m.Index < endPosition && (m.Index + m.Length) > startPosition
-			var matches = Regex.Matches(input, @"(<link[^>]*?>.*?<\/link>)")
-				.OrderByDescending(m => m.Index)
-				.Where(m => m.Index < endPosition && (m.Index + m.Length) > startPosition)
+			var matches = ComputeLinkTagMatchesForRange(input, startPosition, endPosition)
 				.ToArray();
 
 			if(!matches.Any())
@@ -143,6 +142,13 @@ namespace Glader.Essentials
 			editStartIndex = matches.Min(match => match.Index);
 			editEndIndex = matches.Max(match => match.Index + match.Length);
 			return true;
+		}
+
+		private static IEnumerable<Match> ComputeLinkTagMatchesForRange(string input, int startPosition, int endPosition)
+		{
+			return Regex.Matches(input, @"(<link[^>]*?>.*?<\/link>)")
+				.OrderByDescending(m => m.Index)
+				.Where(m => m.Index < endPosition && (m.Index + m.Length) > startPosition);
 		}
 	}
 
