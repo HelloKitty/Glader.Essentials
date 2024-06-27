@@ -53,5 +53,14 @@ namespace Glader.Essentials
 		/// Forces an update on the input field.
 		/// </summary>
 		void ForceUpdate();
+
+		/// <summary>
+		/// Indicates if at the string position <see cref="position"/> it's within a link tag for the provided string
+		/// <see cref="input"/>.
+		/// </summary>
+		/// <param name="input">The string to check.</param>
+		/// <param name="position">The string position to check for.</param>
+		/// <returns>True if the position is within a link tag for the provided string.</returns>
+		public bool IsWithinLinkTagAtPosition(string input, int position);
 	}
 }

@@ -167,7 +167,7 @@ namespace Glader.Essentials
 		/// <param name="input">The string to check.</param>
 		/// <param name="position">The string position to check for.</param>
 		/// <returns>True if the position is within a link tag for the provided string.</returns>
-		protected static bool IsWithinLinkTagAtPosition(string input, int position)
+		public bool IsWithinLinkTagAtPosition(string input, int position)
 		{
 			if (string.IsNullOrWhiteSpace(input))
 				return false;
