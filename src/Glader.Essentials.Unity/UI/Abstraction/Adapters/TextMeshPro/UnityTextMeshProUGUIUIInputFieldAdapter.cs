@@ -182,5 +182,13 @@ namespace Glader.Essentials
 		{
 			UnityUIObject.ForceLabelUpdate();
 		}
+
+		/// <summary>
+		/// When enabled it prevents typing characters within links.
+		/// </summary>
+		public void DisableLinkTagInternalTyping()
+		{
+			this.UnityUIObject.inputValidator = new TMP_LinkTagTextInputValidator(this);
+		}
 	}
 }
