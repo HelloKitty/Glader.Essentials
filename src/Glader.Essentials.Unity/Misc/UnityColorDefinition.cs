@@ -11,6 +11,16 @@ namespace Glader.Essentials
 	public sealed record UnityColorDefinition(Color Color, string HexCode)
 	{
 		/// <summary>
+		/// Internal lazily computed ToLower version of <see cref="HexCode"/>
+		/// </summary>
+		private Lazy<string> HexCodeLowerLazy { get; } = new(HexCode.ToLowerInvariant);
+
+		/// <summary>
+		/// Cached lower-case <see cref="HexCode"/>.
+		/// </summary>
+		public string HexCodeLower => HexCodeLowerLazy.Value;
+
+		/// <summary>
 		/// Creates a new <see cref="UnityColorDefinition"/> with the provided <see cref="color"/>.
 		/// </summary>
 		/// <param name="color">The color.</param>
