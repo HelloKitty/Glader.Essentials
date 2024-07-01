@@ -156,8 +156,7 @@ namespace Glader.Essentials
 			   || position == matchEnd)*/
 
 			return Regex.Matches(input, @"(<link[^>]*?>.*?<\/link>)")
-				.FirstOrDefault(m => position >= (m.Index) && position <= (m.Index + m.Length)
-				                     || position == (m.Index + m.Length));
+				.FirstOrDefault(m => position > (m.Index) && position < (m.Index + m.Length));
 		}
 
 		/// <summary>
