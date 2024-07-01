@@ -228,7 +228,7 @@ namespace Glader.Essentials
 		// For range, we just want to know if either end of the caret (highlighted selection) is within but not entirely covering an item link
 		/// <inheritdoc />
 		public override bool IsCaretWithinLink
-			=> IsTextHighlighted ? IsWithinLinkTagAtPosition(Text, UnityUIObject.selectionAnchorPosition) && IsWithinLinkTagAtPosition(Text, UnityUIObject.selectionFocusPosition) : IsWithinLinkTagAtPosition(Text, CaretPosition);
+			=> IsTextHighlighted ? (IsWithinLinkTagAtPosition(Text, UnityUIObject.selectionAnchorPosition) || IsWithinLinkTagAtPosition(Text, UnityUIObject.selectionFocusPosition)) : IsWithinLinkTagAtPosition(Text, CaretPosition);
 
 		/// <inheritdoc />
 		public override void SetInputToEnd()
