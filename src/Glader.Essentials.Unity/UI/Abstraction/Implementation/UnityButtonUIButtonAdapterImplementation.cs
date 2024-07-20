@@ -14,7 +14,8 @@ namespace Glader.Essentials
 	/// <summary>
 	/// The implementation of adaptation between <see cref="Button"/> and <see cref="IUIButton"/>.
 	/// </summary>
-	public sealed class UnityButtonUIButtonAdapterImplementation : BaseUnityUIAdapterImplementation, IUIButton
+	public sealed class UnityButtonUIButtonAdapterImplementation 
+		: BaseUnityUIAdapterImplementation, IUIButton, IPointerDownHandler, IPointerUpHandler
 	{
 		private UnityEngine.UI.Button UnityButton { get; }
 
@@ -26,7 +27,6 @@ namespace Glader.Essentials
 			: base(unityButton)
 		{
 			UnityButton = unityButton ?? throw new ArgumentNullException(nameof(unityButton));
-			UnityButton.onClick.AddListener(() => Bus.PublishSimple<OnElementClickedEventArgs>(this));
 		}
 
 		/// <inheritdoc />
@@ -43,6 +43,20 @@ namespace Glader.Essentials
 				UnityButton.onClick?.Invoke();
 			else
 				ExecuteEvents.Execute(UnityButton.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
+		}
+
+		/// <inheritdoc />
+		public void OnPointerDown(PointerEventData eventData)
+		{
+			var button = eventData.button.ToMouseButtonType();
+			Bus.Publish(this, new OnElementClickedEventArgs(button, true));
+		}
+
+		/// <inheritdoc />
+		public void OnPointerUp(PointerEventData eventData)
+		{
+			var button = eventData.button.ToMouseButtonType();
+			Bus.Publish(this, new OnElementClickedEventArgs(button, false));
 		}
 	}
 }

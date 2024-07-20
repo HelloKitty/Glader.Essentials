@@ -11,7 +11,8 @@ using Unitysync.Async;
 
 namespace Glader.Essentials
 {
-	public class UnityButtonUIButtonAdapter : BaseUnityUIAdapter<Button, IUIButton>, IUIButton
+	public class UnityButtonUIButtonAdapter 
+		: BaseUnityUIAdapter<Button, IUIButton>, IUIButton, IPointerDownHandler, IPointerUpHandler
 	{
 		/// <inheritdoc />
 		protected override IUIElement Element => Adapter.Value;
@@ -40,6 +41,18 @@ namespace Glader.Essentials
 		public void SimulateClick(bool eventsOnly)
 		{
 			Adapter.Value.SimulateClick(eventsOnly);
+		}
+
+		/// <inheritdoc />
+		public void OnPointerDown(PointerEventData eventData)
+		{
+			Adapter.Value.OnPointerDown(eventData);
+		}
+
+		/// <inheritdoc />
+		public void OnPointerUp(PointerEventData eventData)
+		{
+			Adapter.Value.OnPointerUp(eventData);
 		}
 	}
 }
