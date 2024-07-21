@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace Glader.Essentials
 	/// The implementation of adaptation between <see cref="Button"/> and <see cref="IUIButton"/>.
 	/// </summary>
 	public sealed class UnityButtonUIButtonAdapterImplementation 
-		: BaseUnityUIAdapterImplementation, IUIButton, IPointerDownHandler, IPointerUpHandler
+		: BaseUnityUIAdapterImplementation, IUIButton, IPointerDownHandler, IPointerUpHandler, ISubmitHandler
 	{
 		private UnityEngine.UI.Button UnityButton { get; }
 
@@ -27,12 +28,15 @@ namespace Glader.Essentials
 		/// </summary>
 		private bool HandlingClick = false;
 
+		private Coroutine CurrentClickCoroutine = null;
+
 		/// <inheritdoc />
 		public UnityButtonUIButtonAdapterImplementation([NotNull] Button unityButton)
 			: base(unityButton)
 		{
 			UnityButton = unityButton ?? throw new ArgumentNullException(nameof(unityButton));
 
+			//AddSubmitEvent(unityButton);
 			UnityButton.onClick.AddListener(() =>
 			{
 				// Already clicking
@@ -55,8 +59,8 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public void SimulateClick(bool eventsOnly)
 		{
-			if(eventsOnly)
-				UnityButton.onClick?.Invoke();
+			if (eventsOnly)
+				OnSubmit(new BaseEventData(EventSystem.current));
 			else
 				ExecuteEvents.Execute(UnityButton.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
 		}
@@ -64,7 +68,6 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public void OnPointerDown(PointerEventData eventData)
 		{
-			HandlingClick = true;
 			try
 			{
 				var button = eventData.button.ToMouseButtonType();
@@ -72,14 +75,15 @@ namespace Glader.Essentials
 			}
 			finally
 			{
-				HandlingClick = false;
+				// Allow calling Down and Up same frame, so don't check or start multiple of these
+				if (CurrentClickCoroutine == null)
+					CurrentClickCoroutine = UnityButton.StartCoroutine(PreventMultipleClickCoroutine());
 			}
 		}
 
 		/// <inheritdoc />
 		public void OnPointerUp(PointerEventData eventData)
 		{
-			HandlingClick = true;
 			try
 			{
 				var button = eventData.button.ToMouseButtonType();
@@ -87,8 +91,29 @@ namespace Glader.Essentials
 			}
 			finally
 			{
-				HandlingClick = false;
+				// Allow calling Down and Up same frame, so don't check or start multiple of these
+				if (CurrentClickCoroutine == null)
+					CurrentClickCoroutine = UnityButton.StartCoroutine(PreventMultipleClickCoroutine());
 			}
+		}
+
+		/// <inheritdoc />
+		public void OnSubmit(BaseEventData eventData)
+		{
+			OnPointerDown(new PointerEventData(EventSystem.current));
+			OnPointerUp(new PointerEventData(EventSystem.current));
+		}
+
+		/// <summary>
+		/// Call this on the frame a click happens to prevent multiple clicks from happening the same frame.
+		/// </summary>
+		/// <returns></returns>
+		private IEnumerator PreventMultipleClickCoroutine()
+		{
+			HandlingClick = true;
+			yield return null;
+			HandlingClick = false;
+			CurrentClickCoroutine = null;
 		}
 	}
 }

@@ -12,7 +12,7 @@ using Unitysync.Async;
 namespace Glader.Essentials
 {
 	public class UnityButtonUIButtonAdapter 
-		: BaseUnityUIAdapter<Button, IUIButton>, IUIButton, IPointerDownHandler, IPointerUpHandler
+		: BaseUnityUIAdapter<Button, IUIButton>, IUIButton, IPointerDownHandler, IPointerUpHandler, ISubmitHandler
 	{
 		/// <inheritdoc />
 		protected override IUIElement Element => Adapter.Value;
@@ -53,6 +53,12 @@ namespace Glader.Essentials
 		public void OnPointerUp(PointerEventData eventData)
 		{
 			Adapter.Value.OnPointerUp(eventData);
+		}
+
+		/// <inheritdoc />
+		public void OnSubmit(BaseEventData eventData)
+		{
+			Adapter.Value.OnSubmit(eventData);
 		}
 	}
 }
