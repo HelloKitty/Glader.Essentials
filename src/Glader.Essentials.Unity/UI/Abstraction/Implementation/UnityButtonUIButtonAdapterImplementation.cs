@@ -75,9 +75,7 @@ namespace Glader.Essentials
 			}
 			finally
 			{
-				// Allow calling Down and Up same frame, so don't check or start multiple of these
-				if (CurrentClickCoroutine == null)
-					CurrentClickCoroutine = UnityButton.StartCoroutine(PreventMultipleClickCoroutine());
+				StartClickPreventionCoroutine();
 			}
 		}
 
@@ -91,10 +89,17 @@ namespace Glader.Essentials
 			}
 			finally
 			{
-				// Allow calling Down and Up same frame, so don't check or start multiple of these
+				StartClickPreventionCoroutine();
+			}
+		}
+
+		private void StartClickPreventionCoroutine()
+		{
+			// Allow calling Down and Up same frame, so don't check or start multiple of these
+			// Got errors happening because it wasn't activate.
+			if (UnityButton.gameObject.activeInHierarchy)
 				if (CurrentClickCoroutine == null)
 					CurrentClickCoroutine = UnityButton.StartCoroutine(PreventMultipleClickCoroutine());
-			}
 		}
 
 		/// <inheritdoc />
