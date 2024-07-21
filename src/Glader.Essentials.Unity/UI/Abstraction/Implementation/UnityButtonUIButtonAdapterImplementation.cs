@@ -22,11 +22,27 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		protected override string LoggableComponentName => UnityButton.gameObject.name;
 
+		/// <summary>
+		/// Keeps track of if a click is being handled
+		/// </summary>
+		private bool HandlingClick = false;
+
 		/// <inheritdoc />
 		public UnityButtonUIButtonAdapterImplementation([NotNull] Button unityButton)
 			: base(unityButton)
 		{
 			UnityButton = unityButton ?? throw new ArgumentNullException(nameof(unityButton));
+
+			UnityButton.onClick.AddListener(() =>
+			{
+				// Already clicking
+				if (HandlingClick)
+					return;
+
+				// Up down real quick
+				OnPointerDown(new PointerEventData(EventSystem.current));
+				OnPointerUp(new PointerEventData(EventSystem.current));
+			});
 		}
 
 		/// <inheritdoc />
@@ -48,15 +64,31 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public void OnPointerDown(PointerEventData eventData)
 		{
-			var button = eventData.button.ToMouseButtonType();
-			Bus.Publish(this, new OnElementClickedEventArgs(button, true));
+			HandlingClick = true;
+			try
+			{
+				var button = eventData.button.ToMouseButtonType();
+				Bus.Publish(this, new OnElementClickedEventArgs(button, true));
+			}
+			finally
+			{
+				HandlingClick = false;
+			}
 		}
 
 		/// <inheritdoc />
 		public void OnPointerUp(PointerEventData eventData)
 		{
-			var button = eventData.button.ToMouseButtonType();
-			Bus.Publish(this, new OnElementClickedEventArgs(button, false));
+			HandlingClick = true;
+			try
+			{
+				var button = eventData.button.ToMouseButtonType();
+				Bus.Publish(this, new OnElementClickedEventArgs(button, false));
+			}
+			finally
+			{
+				HandlingClick = false;
+			}
 		}
 	}
 }
