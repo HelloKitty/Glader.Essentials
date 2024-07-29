@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Glader.Essentials
 {
-	public interface IReadonlyEntityGuidMappable<in TKeyType, out TValueType>
+	public interface IReadonlyEntityGuidMappable<in TKeyType, TValueType>
 	{
 		/// <summary>
 		/// Gets the element that has the specified key in the read-only dictionary.
@@ -22,6 +22,15 @@ namespace Glader.Essentials
 		/// <returns>true if the read-only dictionary contains an element that has the specified key; otherwise, false.</returns>
 		/// <exception cref="ArgumentNullException">key is null.</exception>
 		bool ContainsKey(TKeyType key);
+
+		/// <summary>
+		/// Gets the value associated with the specified key.
+		/// </summary>
+		/// <param name="key">The key of the value to get.</param>
+		/// <param name="value">When this method returns, contains the value associated with the specified key, if the key is found; otherwise, the default value for the type of the value parameter.
+		/// This parameter is passed uninitialized.</param>
+		/// <returns>True if the it contains an element with the specified key; otherwise, false.</returns>
+		bool TryGetValue(TKeyType key, out TValueType value);
 
 		/*/// <summary>
 		/// Retrieves the entry similar to the indexer but
