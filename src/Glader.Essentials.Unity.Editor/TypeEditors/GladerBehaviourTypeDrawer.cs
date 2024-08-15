@@ -23,6 +23,7 @@ namespace Glader.Essentials
 				{
 					//TODO: Is it faster to invoke from the MethodInfo or from Fasterflects CallMethod extension?
 					mi.Invoke(target, new object[0]);
+					EditorUtility.SetDirty(target); // Useful since we're in editor land here and can set dirty
 				}
 			}
 		}
