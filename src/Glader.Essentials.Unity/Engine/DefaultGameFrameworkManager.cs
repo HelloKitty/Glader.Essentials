@@ -28,6 +28,9 @@ namespace Glader.Essentials.Unity
 		private IEnumerable<IGameTickable> Tickables { get; set; }
 
 		[Inject]
+		private IEnumerable<IGameLateTickable> LateTickables { get; set; }
+
+		[Inject]
 		private IEnumerable<IGameStartable> Startables { get; set; }
 
 		[Inject]
@@ -141,6 +144,17 @@ namespace Glader.Essentials.Unity
 				{
 					if(Logger.IsErrorEnabled)
 						Logger.Error($"Encountered Exception in {nameof(IGameTickable.Tick)} for Type: {tickable.GetType().Name}. Reason: {e.Message}\n\nStack: {e.StackTrace}");
+				}
+
+			foreach(IGameLateTickable lateTickable in LateTickables)
+				try
+				{
+					lateTickable.LateTick();
+				}
+				catch (Exception e)
+				{
+					if(Logger.IsErrorEnabled)
+						Logger.Error($"Encountered Exception in {nameof(IGameLateTickable.LateTick)} for Type: {lateTickable.GetType().Name}. Reason: {e.Message}\n\nStack: {e.StackTrace}");
 				}
 
 			//After a tickable is finished, we should set tickable compeltion
