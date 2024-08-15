@@ -18,7 +18,8 @@ namespace Glader.Essentials
 			typeof(IGameStartable), 
 			typeof(IGameFixedTickable),
 			typeof(IGameVariableRateTickable),
-			typeof(IGamePreTickable)
+			typeof(IGamePreTickable),
+			typeof(IGameLateTickable)
 		};
 
 		//TODO: When we have specific floors or special scenes that don't fit type we may want to supply zone id or additional metadata.
