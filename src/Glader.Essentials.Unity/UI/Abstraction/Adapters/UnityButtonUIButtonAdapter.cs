@@ -60,5 +60,13 @@ namespace Glader.Essentials
 		{
 			Adapter.Value.OnSubmit(eventData);
 		}
+
+		public override void Dispose()
+		{
+			base.Dispose();
+
+			if (Adapter.IsValueCreated)
+				Adapter.Value.Dispose();
+		}
 	}
 }

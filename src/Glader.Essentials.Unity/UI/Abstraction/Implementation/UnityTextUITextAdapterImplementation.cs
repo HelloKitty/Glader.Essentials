@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace Glader.Essentials
 {
-	public sealed class UnityTextUITextAdapterImplementation : IUIText
+	public sealed class UnityTextUITextAdapterImplementation : IUIText, IDisposable
 	{
 		private UnityEngine.UI.Text UnityText { get; }
 
@@ -51,6 +51,11 @@ namespace Glader.Essentials
 		public void SetColor(byte r, byte g, byte b, byte a)
 		{
 			UnityText.color = new Color32(r, g, b, a);
+		}
+
+		public void Dispose()
+		{
+			Bus?.Dispose();
 		}
 	}
 }

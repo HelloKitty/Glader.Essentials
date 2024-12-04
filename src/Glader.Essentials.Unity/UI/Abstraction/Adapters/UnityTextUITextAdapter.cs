@@ -35,5 +35,13 @@ namespace Glader.Essentials
 		{
 			Adapter.Value.SetColor(r, g, b, a);
 		}
+
+		public override void Dispose()
+		{
+			base.Dispose();
+
+			if (Adapter.IsValueCreated)
+				Adapter.Value.Dispose();
+		}
 	}
 }

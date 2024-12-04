@@ -8,14 +8,14 @@ using Unitysync.Async;
 
 namespace Glader.Essentials
 {
-	public abstract class BaseUnityUIAdapter<TAdaptedUnityEngineType, TAdaptedToType> : BaseUnityUI, IUIElement
+	public abstract class BaseUnityUIAdapter<TAdaptedUnityEngineType, TAdaptedToType> : BaseUnityUI, IUIElement, IDisposable
 		where TAdaptedToType : IUIElement
 		where TAdaptedUnityEngineType : UnityEngine.Component
 	{
 		/// <inheritdoc />
 		public IEventBus Bus => Element.Bus;
 
-		private Lazy<IUIElement> _Element;
+		private Lazy<BaseUnityUIAdapterImplementation> _Element;
 
 		/// <summary>
 		/// The implementer will expose access to the element implementation 
@@ -38,7 +38,7 @@ namespace Glader.Essentials
 
 		protected BaseUnityUIAdapter()
 		{
-			_Element = new Lazy<IUIElement>(() => new BaseUnityUIAdapterImplementation(UnityUIObject));
+			_Element = new Lazy<BaseUnityUIAdapterImplementation>(() => new BaseUnityUIAdapterImplementation(UnityUIObject));
 		}
 
 		static BaseUnityUIAdapter()
@@ -85,6 +85,23 @@ namespace Glader.Essentials
 		public void SetComponentActive(bool state)
 		{
 			Element.SetComponentActive(state);
+		}
+
+		/// <summary>
+		/// Disposes the resources (mostly event buses).
+		/// </summary>
+		public virtual void Dispose()
+		{
+			if (_Element.IsValueCreated)
+				_Element.Value.Dispose();
+		}
+
+		/// <summary>
+		/// Called by Unity3D when the component is destroyed.
+		/// </summary>
+		public virtual void OnDestroy()
+		{
+			Dispose();
 		}
 	}
 }

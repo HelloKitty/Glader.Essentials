@@ -54,5 +54,11 @@ namespace Glader.Essentials
 		{
 			AdaptedObject = adaptedObject ?? throw new ArgumentNullException(nameof(adaptedObject));
 		}
+
+		/// <inheritdoc />
+		public void Dispose()
+		{
+			Bus?.Dispose();
+		}
 	}
 }

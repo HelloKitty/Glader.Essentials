@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Glader.Essentials
 {
-	public class BaseUIFrameAdapter<TFrameType> : BaseUnityUI, IUIFrame, IUIAdapterRegisterable
+	public class BaseUIFrameAdapter<TFrameType> : BaseUnityUI, IUIFrame, IUIAdapterRegisterable, IDisposable
 		where TFrameType : IUIFrame, IUIEventListenable
 	{
 		//Assigned by Unity3D.
@@ -50,6 +50,20 @@ namespace Glader.Essentials
 		{
 			// Frames don't have a single component.
 			SetObjectActive(state);
+		}
+
+		/// <inheritdoc />
+		public virtual void Dispose()
+		{
+			Bus?.Dispose();
+		}
+
+		/// <summary>
+		/// Called by Unity on the component destruction.
+		/// </summary>
+		public virtual void OnDestroy()
+		{
+			Dispose();
 		}
 	}
 }
