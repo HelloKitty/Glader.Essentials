@@ -56,7 +56,7 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
+		public virtual void Dispose()
 		{
 			Bus?.Dispose();
 		}

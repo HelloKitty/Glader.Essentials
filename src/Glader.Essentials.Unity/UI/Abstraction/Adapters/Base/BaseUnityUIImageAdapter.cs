@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Unitysync.Async;
+using Object = System.Object;
 
 namespace Glader.Essentials
 {
@@ -13,6 +14,8 @@ namespace Glader.Essentials
 		where TAdaptedToType : IUIImage, IUIElement //just make sure it's a IUIImage
 	{
 		private int SpriteTextureSetCounter = 1;
+
+		private Sprite LastSetSprite = null;
 
 		/// <inheritdoc />
 		public virtual void SetSpriteTexture(Texture2D texture)
@@ -29,8 +32,11 @@ namespace Glader.Essentials
 					return;
 			}
 
+			if (LastSetSprite != null)
+				UnityEngine.Object.Destroy(LastSetSprite);
+
 			//Sprites complain if we don't have proper size, so we need size based on the texture2D
-			UnityUIObject.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+			LastSetSprite = UnityUIObject.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
 		}
 
 		private string RetrieveCurrentSpriteName()
@@ -70,6 +76,23 @@ namespace Glader.Essentials
 		{
 			ElementColor = new Color32(r, g, b, a);
 		}
+
+		/// <inheritdoc />
+		public override void Dispose()
+		{
+			try
+			{
+				base.Dispose();
+			}
+			finally
+			{
+				if (LastSetSprite != null)
+				{
+					UnityEngine.Object.Destroy(LastSetSprite);
+					LastSetSprite = null;
+				}
+			}
+		}
 	}
 
 	/// <summary>
@@ -81,12 +104,22 @@ namespace Glader.Essentials
 	{
 		private int SpriteTextureSetCounter = 1;
 
+		private Texture2D LastSetTexture = null;
+
 		/// <inheritdoc />
 		public virtual void SetSpriteTexture(Texture2D texture)
 		{
 			Interlocked.Increment(ref SpriteTextureSetCounter);
+
+			if (LastSetTexture != null)
+			{
+				UnityEngine.Object.Destroy(LastSetTexture);
+				LastSetTexture = null;
+			}
+
 			//Sprites complain if we don't have proper size, so we need size based on the texture2D
 			UnityUIObject.texture = texture;
+			LastSetTexture = texture;
 		}
 
 		/// <inheritdoc />
@@ -111,6 +144,23 @@ namespace Glader.Essentials
 		public void SetColor(byte r, byte g, byte b, byte a)
 		{
 			ElementColor = new Color32(r, g, b, a);
+		}
+
+		/// <inheritdoc />
+		public override void Dispose()
+		{
+			try
+			{
+				base.Dispose();
+			}
+			finally
+			{
+				if (LastSetTexture != null)
+				{
+					UnityEngine.Object.Destroy(LastSetTexture);
+					LastSetTexture = null;
+				}
+			}
 		}
 	}
 }

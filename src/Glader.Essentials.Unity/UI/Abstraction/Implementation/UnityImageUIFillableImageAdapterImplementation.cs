@@ -9,7 +9,8 @@ using UnityEngine.UI;
 
 namespace Glader.Essentials
 {
-	public sealed class UnityImageUIFillableImageAdapterImplementation : BaseUnityUIAdapterImplementation, IUIFillableImage
+	public sealed class UnityImageUIFillableImageAdapterImplementation 
+		: BaseUnityUIAdapterImplementation, IUIFillableImage, IDisposable
 	{
 		private int SpriteTextureSetCounter = 1;
 
@@ -17,6 +18,8 @@ namespace Glader.Essentials
 		protected override string LoggableComponentName => UnityImageObject.name;
 
 		private UnityEngine.UI.Image UnityImageObject { get; }
+
+		private Sprite LastUsedSprite = null;
 
 		/// <inheritdoc />
 		public UnityImageUIFillableImageAdapterImplementation([NotNull] Image unityImageObject)
@@ -47,12 +50,15 @@ namespace Glader.Essentials
 					return;
 			}
 
-			if(UnityImageObject.sprite == null)
-				UnityImageObject.sprite = Sprite.Create(texture, Rect.zero, Vector2.zero); //TODO: What should defaults be?
+			if (LastUsedSprite != null)
+				UnityEngine.Object.Destroy(LastUsedSprite);
+
+			if (UnityImageObject.sprite == null)
+				LastUsedSprite = UnityImageObject.sprite = Sprite.Create(texture, Rect.zero, Vector2.zero); //TODO: What should defaults be?
 			else
 			{
 				//Sprites complain if we don't have proper size, so we need size based on the texture2D
-				UnityImageObject.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+				LastUsedSprite = UnityImageObject.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
 			}
 		}
 
@@ -91,6 +97,23 @@ namespace Glader.Essentials
 		public void SetColor(byte r, byte g, byte b, byte a)
 		{
 			ElementColor = new Color32(r, g, b, a);
+		}
+
+		/// <inheritdoc />
+		public override void Dispose()
+		{
+			try
+			{
+				base.Dispose();
+			}
+			finally
+			{
+				if(LastUsedSprite != null)
+				{
+					UnityEngine.Object.Destroy(LastUsedSprite);
+					LastUsedSprite = null;
+				}
+			}
 		}
 	}
 }
