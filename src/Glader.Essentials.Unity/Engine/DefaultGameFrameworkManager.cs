@@ -60,6 +60,10 @@ namespace Glader.Essentials.Unity
 				{
 					await init.OnGameInitialized()
 						.ConfigureAwait(true);
+
+					// @HelloKitty: Hack to reduce same frame allocation in WebGL which increases memory usage.
+					if (Application.platform == RuntimePlatform.WebGLPlayer)
+						await new UnityYieldAwaitable();
 				}
 				catch(Exception e)
 				{
@@ -74,6 +78,10 @@ namespace Glader.Essentials.Unity
 				{
 					await startable.OnGameStart()
 						.ConfigureAwait(true);
+
+					// @HelloKitty: Hack to reduce same frame allocation in WebGL which increases memory usage.
+					if(Application.platform == RuntimePlatform.WebGLPlayer)
+						await new UnityYieldAwaitable();
 				}
 				catch(Exception e)
 				{
@@ -83,7 +91,6 @@ namespace Glader.Essentials.Unity
 				}
 
 			Tickables = OrderTickables(Tickables);
-			isInitializationFinished = true;
 
 			try
 			{
@@ -98,6 +105,12 @@ namespace Glader.Essentials.Unity
 			}
 
 			StartAllVariableRateTickables();
+
+			// @HelloKitty: Hack to reduce same frame allocation in WebGL which increases memory usage.
+			if(Application.platform == RuntimePlatform.WebGLPlayer)
+				await new UnityYieldAwaitable();
+
+			isInitializationFinished = true;
 		}
 
 		protected virtual IEnumerable<IGameTickable> OrderTickables(IEnumerable<IGameTickable> tickables)
@@ -175,6 +188,9 @@ namespace Glader.Essentials.Unity
 			if (tickable == null) throw new ArgumentNullException(nameof(tickable));
 
 			var waitForSeconds = new WaitForSeconds((float) tickable.TickFrequency.TotalSeconds);
+
+			// Wait until the next frame to start.
+			yield return null;
 
 			while (true)
 			{
