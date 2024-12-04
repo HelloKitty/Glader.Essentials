@@ -73,5 +73,14 @@ namespace Glader.Essentials
 			else
 				EnqueuedEvents.Enqueue(new EventBusEventForwardable<TEventType>(sender, eventData));
 		}
+
+		/// <inheritdoc />
+		public void Dispose()
+		{
+			DecoratedEventBus?.Dispose();
+
+			// TODO: More might be enqueued, so this could leak.
+			EnqueuedEvents.Clear();
+		}
 	}
 }

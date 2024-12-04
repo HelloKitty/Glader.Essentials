@@ -355,5 +355,13 @@ namespace Glader.Essentials
 					SharedUncaughtExceptionEvent?.Invoke(sender, new ExceptionEventBusEventArgs(e, sub?.Token, sender, eventData));
 			}
 		}
+
+		/// <inheritdoc />
+		public void Dispose()
+		{
+			// TODO: Still a leak if something subs to it after dispose. We have no good way to lock to check this though.
+			// Dispose just means unsub all.
+			UnsubscribeAll();
+		}
 	}
 }
