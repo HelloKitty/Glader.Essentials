@@ -245,10 +245,17 @@ namespace Glader.Essentials
 					continue;
 
 				// Apparently these can be null, I forgot? Or something
-				foreach (var sub in subs)
+				for (var index = 0; index < subs.Length; index++)
+				{
+					var sub = subs[index];
 					if (sub != null)
 						sub.Token.Dispose();
+
+					subs[index] = null;
+				}
 			}
+
+			container.Clear();
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
