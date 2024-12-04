@@ -240,8 +240,14 @@ namespace Glader.Essentials
 		{
 			foreach (var subs in container.Values)
 			{
+				// Apparently these can be null, I forgot? Or something
+				if (subs == null)
+					continue;
+
+				// Apparently these can be null, I forgot? Or something
 				foreach (var sub in subs)
-					sub.Token.Dispose();
+					if (sub != null)
+						sub.Token.Dispose();
 			}
 		}
 
