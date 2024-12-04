@@ -225,6 +225,26 @@ namespace Glader.Essentials
 			}
 		}
 
+		/// <inheritdoc />
+		public void UnsubscribeAll()
+		{
+			// TODO: Warning, things may still subscribe after this or even during this.
+			// So that could be a problem I suppose.
+			UnSubscribeAll(DefaultSubscriptionMap);
+			UnSubscribeAll(ForwardedSubscriptionMap);
+			UnSubscribeAll(AllSubscriptionMap);
+			UnSubscribeAll(ExceptionSubscriptionMap);
+		}
+
+		private void UnSubscribeAll(IDictionary<Type, IEventBusSubscription[]> container)
+		{
+			foreach (var subs in container.Values)
+			{
+				foreach (var sub in subs)
+					sub.Token.Dispose();
+			}
+		}
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private bool Unsubscribe<TEventType>(EventBusSubscriptionToken token, IDictionary<Type, IEventBusSubscription[]> subscriptionMap) 
 			where TEventType : IEventBusEventArgs

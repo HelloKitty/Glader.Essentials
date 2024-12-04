@@ -24,5 +24,11 @@ namespace Glader.Essentials
 		/// <returns>Indicates if a subscription was removed (if token actually was registered)</returns>
 		bool Unsubscribe<TEventType>(EventBusSubscriptionToken token)
 			where TEventType : IEventBusEventArgs;
+
+		/// <summary>
+		/// Unsubscriptions all event subscriptions registered on the <see cref="IEventBusSubscribable"/>
+		/// Similar conceptually to a Reset/Dispose.
+		/// </summary>
+		void UnsubscribeAll();
 	}
 }

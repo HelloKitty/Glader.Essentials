@@ -60,6 +60,12 @@ namespace Glader.Essentials
 		}
 
 		/// <inheritdoc />
+		public void UnsubscribeAll()
+		{
+			DecoratedEventBus.UnsubscribeAll();
+		}
+
+		/// <inheritdoc />
 		public void Publish<TEventType>(object sender, TEventType eventData) where TEventType : IEventBusEventArgs
 		{
 			if (ThreadStrategy.IsMainThread)
