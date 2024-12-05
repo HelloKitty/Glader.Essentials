@@ -20,6 +20,9 @@ namespace Glader.Essentials
 		protected IEventBus Bus { get; set; }
 
 		// To detect redundant calls
+		/// <summary>
+		/// Indicates if the token has been disposed.
+		/// </summary>
 		public bool Disposed { get; protected set; } = false;
 
 		/// <summary>
@@ -57,9 +60,24 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public override bool Unsubscribe()
 		{
-			if(Disposed)
+			if (Disposed)
 				return true;
 
+			try
+			{
+				// We do this to still return accurate unsub result.
+				// But then it runs twice, should be ok though?
+				var result = UnsubscribeInternal();
+				return result;
+			}
+			finally
+			{
+				Dispose();
+			}
+		}
+
+		private bool UnsubscribeInternal()
+		{
 			return Bus.Unsubscribe<TEventType>(this);
 		}
 
@@ -80,9 +98,15 @@ namespace Glader.Essentials
 			if (Disposed)
 				return;
 
-			Unsubscribe();
-			Bus = null; // important for if anyone is holding a ref to this token still the Bus can de allocate.
-			Disposed = true;
+			try
+			{
+				UnsubscribeInternal();
+			}
+			finally
+			{
+				Bus = null; // important for if anyone is holding a ref to this token still the Bus can de allocate.
+				Disposed = true;
+			}
 		}
 	}
 }
