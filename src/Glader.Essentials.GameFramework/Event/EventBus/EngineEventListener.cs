@@ -11,6 +11,7 @@ namespace Glader.Essentials
 	/// </summary>
 	/// <typeparam name="TEventArgsType">The args type.</typeparam>
 	/// <typeparam name="TSourceType">The source type.</typeparam>
+	[SceneDisposable] // We force this and updated register code because we want to dispose everything to hopefully avoid leaks.
 	public abstract class EngineEventBusListener<TEventArgsType, TSourceType> : EventBusListener<TEventArgsType, TSourceType>, IGameInitializable 
 		where TEventArgsType : IEventBusEventArgs
 	{

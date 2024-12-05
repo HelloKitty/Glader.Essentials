@@ -71,7 +71,7 @@ namespace Glader.Essentials
 				registrationBuilder = registrationBuilder
 					.InstancePerLifetimeScope();
 
-				if(creatable.GetCustomAttribute<SceneDisposableAttribute>() != null)
+				if(creatable.GetCustomAttribute<SceneDisposableAttribute>(true) != null)
 					if (typeof(IDisposable).IsAssignableFrom(creatable))
 						registrationBuilder = registrationBuilder.As<IDisposable>()
 							.OwnedByLifetimeScope();
