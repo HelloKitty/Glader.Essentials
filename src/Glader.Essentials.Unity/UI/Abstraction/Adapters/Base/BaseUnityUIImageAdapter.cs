@@ -32,11 +32,25 @@ namespace Glader.Essentials
 					return;
 			}
 
-			if (LastSetSprite != null)
-				UnityEngine.Object.Destroy(LastSetSprite);
-
 			//Sprites complain if we don't have proper size, so we need size based on the texture2D
-			LastSetSprite = UnityUIObject.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+			UnityUIObject.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+
+			try
+			{
+				var spriteToDestroy = LastSetSprite;
+				LastSetSprite = null;
+
+				if (spriteToDestroy != null)
+					UnityEngine.Object.Destroy(spriteToDestroy);
+			}
+			catch (Exception e)
+			{
+				Debug.LogError($"Failed to destroy created sprite. Reason: {e}");
+			}
+			finally
+			{
+				LastSetSprite = UnityUIObject.sprite;
+			}
 		}
 
 		private string RetrieveCurrentSpriteName()
@@ -111,15 +125,25 @@ namespace Glader.Essentials
 		{
 			Interlocked.Increment(ref SpriteTextureSetCounter);
 
-			if (LastSetTexture != null)
-			{
-				UnityEngine.Object.Destroy(LastSetTexture);
-				LastSetTexture = null;
-			}
-
 			//Sprites complain if we don't have proper size, so we need size based on the texture2D
 			UnityUIObject.texture = texture;
-			LastSetTexture = texture;
+
+			try
+			{
+				var textureToDestroy = LastSetTexture;
+				LastSetTexture = null;
+
+				if (textureToDestroy != null)
+					UnityEngine.Object.Destroy(textureToDestroy);
+			}
+			catch (Exception e)
+			{
+				Debug.LogError($"Failed to destroy the texture. Reason: {e}");
+			}
+			finally
+			{
+				LastSetTexture = texture;
+			}
 		}
 
 		/// <inheritdoc />

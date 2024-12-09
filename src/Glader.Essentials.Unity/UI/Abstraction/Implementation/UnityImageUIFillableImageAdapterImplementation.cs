@@ -50,15 +50,31 @@ namespace Glader.Essentials
 					return;
 			}
 
-			if (LastUsedSprite != null)
-				UnityEngine.Object.Destroy(LastUsedSprite);
-
 			if (UnityImageObject.sprite == null)
-				LastUsedSprite = UnityImageObject.sprite = Sprite.Create(texture, Rect.zero, Vector2.zero); //TODO: What should defaults be?
+			{
+				UnityImageObject.sprite = Sprite.Create(texture, Rect.zero, Vector2.zero); //TODO: What should defaults be?
+			}
 			else
 			{
 				//Sprites complain if we don't have proper size, so we need size based on the texture2D
-				LastUsedSprite = UnityImageObject.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+				UnityImageObject.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+			}
+
+			try
+			{
+				var lastUsedSprite = LastUsedSprite;
+				LastUsedSprite = null;
+
+				if (lastUsedSprite != null)
+					UnityEngine.Object.Destroy(lastUsedSprite);
+			}
+			catch(Exception e)
+			{
+				Debug.LogError($"Failed to destroy last used sprite. Reason: {e}");
+			}
+			finally
+			{
+				LastUsedSprite = UnityImageObject.sprite;
 			}
 		}
 
