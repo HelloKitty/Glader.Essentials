@@ -35,6 +35,9 @@ namespace Glader.Essentials
 		public abstract bool IsCaretWithinLink { get; }
 
 		/// <inheritdoc />
+		public abstract int CharacterLimit { get; set; }
+
+		/// <inheritdoc />
 		public abstract void SetInputToEnd();
 
 		/// <inheritdoc />
@@ -229,6 +232,13 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public override bool IsCaretWithinLink
 			=> IsTextHighlighted ? (IsWithinLinkTagAtPosition(Text, UnityUIObject.selectionAnchorPosition) || IsWithinLinkTagAtPosition(Text, UnityUIObject.selectionFocusPosition)) : IsWithinLinkTagAtPosition(Text, CaretPosition);
+
+		/// <inheritdoc />
+		public override int CharacterLimit
+		{
+			get => UnityUIObject.characterLimit;
+			set => UnityUIObject.characterLimit = value;
+		}
 
 		/// <inheritdoc />
 		public override void SetInputToEnd()

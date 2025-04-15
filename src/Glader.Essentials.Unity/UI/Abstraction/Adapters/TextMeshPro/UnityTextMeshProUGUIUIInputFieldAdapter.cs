@@ -53,6 +53,13 @@ namespace Glader.Essentials
 		public override bool IsCaretWithinLink
 			=> IsTextHighlighted ? (IsWithinLinkTagAtPosition(Text, UnityUIObject.selectionStringAnchorPosition) || IsWithinLinkTagAtPosition(Text, UnityUIObject.selectionStringFocusPosition)) : IsWithinLinkTagAtPosition(Text, CaretPosition);
 
+		/// <inheritdoc />
+		public override int CharacterLimit
+		{
+			get => UnityUIObject.characterLimit;
+			set => UnityUIObject.characterLimit = value;
+		}
+
 		private bool CheckIsTextSelected()
 		{
 			// From GPT https://chatgpt.com/c/991eb24b-86a8-443f-be6c-be5213d55b6e
