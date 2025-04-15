@@ -23,7 +23,9 @@ namespace Glader.Essentials
 		/// <inheritdoc />
 		public override char Validate(ref string text, ref int pos, char ch)
 		{
-			//Debug.LogError($"Validate Pos: {pos} Ch: {ch} Text: {text}");
+			// TODO: We should use a decorator but character limit checks are disabled if you have a custom validator so we need this
+			if (InputField.CharacterLimit > 0 && text.Length >= InputField.CharacterLimit)
+				return '\0';
 
 			if (InputField.IsTextHighlighted
 				&& InputField.IsCaretWithinLink)
