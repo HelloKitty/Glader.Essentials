@@ -52,43 +52,33 @@ namespace Glader.Essentials.Unity
 
 		private async Task Start()
 		{
-			//The default way to handle this is to just await all initializables.
-			//Preferably you'd want this to always run on the main thread, or continue to the main thread
-			//but called code could avoid caputring the sync context, so it's out of our control
-			foreach(var init in Initializables)
-				try
+			if (GladerEssentialsGameFrameworkUnityConstants.GAME_FRAMEWORK_TIMING_ENABLED)
+			{
+				await GladerTimingUtils.PerformTimedActionAsync(async () =>
 				{
-					await init.OnGameInitialized()
-						.ConfigureAwait(true);
+					await ExecuteIntializablesAsync();
+				}, nameof(ExecuteIntializablesAsync), (time, s) =>
+				{
+					if (time.TotalSeconds > 0.001f)
+						if (Logger.IsErrorEnabled)
+							Logger.Error(s);
+				});
 
-					// @HelloKitty: Hack to reduce same frame allocation in WebGL which increases memory usage.
-					if (Application.platform == RuntimePlatform.WebGLPlayer)
-						await new UnityYieldAwaitable();
-				}
-				catch(Exception e)
+				await GladerTimingUtils.PerformTimedActionAsync(async () =>
 				{
-					if(Logger.IsErrorEnabled)
-						Logger.Error($"Encountered Exception in {nameof(IGameInitializable.OnGameInitialized)} for Type: {init.GetType().Name}. Reason: {e.Message}\n\nStack: {e.StackTrace}");
-					throw;
-				}
-
-			//After Init has been called we should call all starts
-			foreach(var startable in Startables)
-				try
+					await ExecuteStartablesAsync();
+				}, nameof(ExecuteStartablesAsync), (time, s) =>
 				{
-					await startable.OnGameStart()
-						.ConfigureAwait(true);
-
-					// @HelloKitty: Hack to reduce same frame allocation in WebGL which increases memory usage.
-					if(Application.platform == RuntimePlatform.WebGLPlayer)
-						await new UnityYieldAwaitable();
-				}
-				catch(Exception e)
-				{
-					if(Logger.IsErrorEnabled)
-						Logger.Error($"Encountered Exception in {nameof(IGameStartable.OnGameStart)} for Type: {startable.GetType().Name}. Reason: {e.Message}\n\nStack: {e.StackTrace}");
-					throw;
-				}
+					if(time.TotalSeconds > 0.001f)
+						if(Logger.IsErrorEnabled)
+							Logger.Error(s);
+				});
+			}
+			else
+			{
+				await ExecuteIntializablesAsync();
+				await ExecuteStartablesAsync();
+			}
 
 			Tickables = OrderTickables(Tickables);
 
@@ -111,6 +101,92 @@ namespace Glader.Essentials.Unity
 				await new UnityYieldAwaitable();
 
 			isInitializationFinished = true;
+		}
+
+		private async Task ExecuteIntializablesAsync()
+		{
+			//The default way to handle this is to just await all initializables.
+			//Preferably you'd want this to always run on the main thread, or continue to the main thread
+			//but called code could avoid caputring the sync context, so it's out of our control
+			foreach (var init in Initializables)
+				try
+				{
+					if (GladerEssentialsGameFrameworkUnityConstants.GAME_FRAMEWORK_TIMING_ENABLED)
+					{
+						await GladerTimingUtils.PerformTimedActionAsync(async () =>
+						{
+							await init.OnGameInitialized()
+								.ConfigureAwait(true);
+
+							// @HelloKitty: Hack to reduce same frame allocation in WebGL which increases memory usage.
+							if (Application.platform == RuntimePlatform.WebGLPlayer)
+								await new UnityYieldAwaitable();
+
+						}, init.GetType().Name, (time, s) =>
+						{
+							if(time.TotalSeconds > 0.001f)
+								if(Logger.IsErrorEnabled)
+									Logger.Error(s);
+						});
+					}
+					else
+					{
+						await init.OnGameInitialized()
+							.ConfigureAwait(true);
+
+						// @HelloKitty: Hack to reduce same frame allocation in WebGL which increases memory usage.
+						if(Application.platform == RuntimePlatform.WebGLPlayer)
+							await new UnityYieldAwaitable();
+					}
+				}
+				catch (Exception e)
+				{
+					if (Logger.IsErrorEnabled)
+						Logger.Error($"Encountered Exception in {nameof(IGameInitializable.OnGameInitialized)} for Type: {init.GetType().Name}. Reason: {e.Message}\n\nStack: {e.StackTrace}");
+					throw;
+				}
+		}
+
+		private async Task ExecuteStartablesAsync()
+		{
+			//After Init has been called we should call all starts
+			foreach (var startable in Startables)
+				try
+				{
+					if (GladerEssentialsGameFrameworkUnityConstants.GAME_FRAMEWORK_TIMING_ENABLED)
+					{
+						await GladerTimingUtils.PerformTimedActionAsync(async () =>
+						{
+							await startable.OnGameStart()
+								.ConfigureAwait(true);
+
+							// @HelloKitty: Hack to reduce same frame allocation in WebGL which increases memory usage.
+							if (Application.platform == RuntimePlatform.WebGLPlayer)
+								await new UnityYieldAwaitable();
+
+						}, startable.GetType().Name, (time, s) =>
+						{
+							if(time.TotalSeconds > 0.001f)
+								if(Logger.IsErrorEnabled)
+									Logger.Error(s);
+						});
+					}
+					else
+					{
+						await startable.OnGameStart()
+							.ConfigureAwait(true);
+
+						// @HelloKitty: Hack to reduce same frame allocation in WebGL which increases memory usage.
+						if (Application.platform == RuntimePlatform.WebGLPlayer)
+							await new UnityYieldAwaitable();
+					}
+				}
+				catch (Exception e)
+				{
+					if (Logger.IsErrorEnabled)
+						Logger.Error($"Encountered Exception in {nameof(IGameStartable.OnGameStart)} for Type: {startable.GetType().Name}. Reason: {e.Message}\n\nStack: {e.StackTrace}");
+					throw;
+				}
 		}
 
 		protected virtual IEnumerable<IGameTickable> OrderTickables(IEnumerable<IGameTickable> tickables)
