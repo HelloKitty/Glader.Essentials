@@ -9,6 +9,6 @@ namespace Glader.Essentials
 		/// <summary>
 		/// If enabled the game framework will report timing diagnostics.
 		/// </summary>
-		public static bool GAME_FRAMEWORK_TIMING_ENABLED { get; set; } = true;
+		public static bool GAME_FRAMEWORK_TIMING_ENABLED { get; set; } = false;
 	}
 }
