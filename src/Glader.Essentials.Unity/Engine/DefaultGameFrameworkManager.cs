@@ -64,6 +64,10 @@ namespace Glader.Essentials.Unity
 							Logger.Error(s);
 				});
 
+				// Slight chance at GC for Web inbetween Init/Startables (we used to do each one but it added up to seconds for big projects)
+				if (Application.platform == RuntimePlatform.WebGLPlayer)
+					await new UnityYieldAwaitable();
+
 				await GladerTimingUtils.PerformTimedActionAsync(async () =>
 				{
 					await ExecuteStartablesAsync();
@@ -77,6 +81,11 @@ namespace Glader.Essentials.Unity
 			else
 			{
 				await ExecuteIntializablesAsync();
+
+				// Slight chance at GC for Web inbetween Init/Startables (we used to do each one but it added up to seconds for big projects)
+				if (Application.platform == RuntimePlatform.WebGLPlayer)
+					await new UnityYieldAwaitable();
+
 				await ExecuteStartablesAsync();
 			}
 
