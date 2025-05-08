@@ -44,7 +44,7 @@ namespace Glader.Essentials
 		/// <param name="timerName">The name of the timer.</param>
 		/// <param name="logFunc">The logging function.</param>
 		/// <returns></returns>
-		public static async Task PerformTimedActionAsync(Func<Task> asyncTask, string timerName, Action<string> logFunc)
+		public static async Task PerformTimedActionAsync(Func<Task> asyncTask, string timerName, Action<TimeSpan, string> logFunc)
 		{
 			Stopwatch watch = new();
 			watch.Start();
@@ -54,7 +54,7 @@ namespace Glader.Essentials
 				await asyncTask();
 
 				watch.Stop();
-				logFunc($"Timed {timerName}: {watch.Elapsed.TotalSeconds}");
+				logFunc(watch.Elapsed, $"Timed {timerName}: {watch.Elapsed.TotalSeconds}");
 			}
 			catch(InvalidOperationException e)
 			{
