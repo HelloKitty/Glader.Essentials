@@ -118,9 +118,10 @@ namespace Glader.Essentials.Unity
 							await init.OnGameInitialized()
 								.ConfigureAwait(true);
 
+							// This increased loading time too much tbh, it's like 1.5 seconds just because of damn EventListeners registering at that point.
 							// @HelloKitty: Hack to reduce same frame allocation in WebGL which increases memory usage.
-							if (Application.platform == RuntimePlatform.WebGLPlayer)
-								await new UnityYieldAwaitable();
+							/*if (Application.platform == RuntimePlatform.WebGLPlayer)
+								await new UnityYieldAwaitable();*/
 
 						}, init.GetType().Name, (time, s) =>
 						{
@@ -134,9 +135,10 @@ namespace Glader.Essentials.Unity
 						await init.OnGameInitialized()
 							.ConfigureAwait(true);
 
+						// This increased loading time too much tbh, it's like 1.5 seconds just because of damn EventListeners registering at that point.
 						// @HelloKitty: Hack to reduce same frame allocation in WebGL which increases memory usage.
-						if(Application.platform == RuntimePlatform.WebGLPlayer)
-							await new UnityYieldAwaitable();
+						/*if(Application.platform == RuntimePlatform.WebGLPlayer)
+							await new UnityYieldAwaitable();*/
 					}
 				}
 				catch (Exception e)
@@ -160,9 +162,10 @@ namespace Glader.Essentials.Unity
 							await startable.OnGameStart()
 								.ConfigureAwait(true);
 
+							// This increased loading time too much tbh, it's like 1.5 seconds just because of damn EventListeners registering at that point.
 							// @HelloKitty: Hack to reduce same frame allocation in WebGL which increases memory usage.
-							if (Application.platform == RuntimePlatform.WebGLPlayer)
-								await new UnityYieldAwaitable();
+							/*if (Application.platform == RuntimePlatform.WebGLPlayer)
+								await new UnityYieldAwaitable();*/
 
 						}, startable.GetType().Name, (time, s) =>
 						{
@@ -176,9 +179,10 @@ namespace Glader.Essentials.Unity
 						await startable.OnGameStart()
 							.ConfigureAwait(true);
 
+						// This increased loading time too much tbh, it's like 1.5 seconds just because of damn EventListeners registering at that point.
 						// @HelloKitty: Hack to reduce same frame allocation in WebGL which increases memory usage.
-						if (Application.platform == RuntimePlatform.WebGLPlayer)
-							await new UnityYieldAwaitable();
+						/*if (Application.platform == RuntimePlatform.WebGLPlayer)
+							await new UnityYieldAwaitable();*/
 					}
 				}
 				catch (Exception e)
